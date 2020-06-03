@@ -4,7 +4,7 @@
 
       <div class="navbar-nav mr-auto mx-auto">
         <li class="nav-item">
-          <router-link class="nav-link" to="/admin/oversikt">søk</router-link>
+          <router-link class="nav-link" to="/oversikt">søk</router-link>
         </li>
         <li class="nav-item">
           <div
@@ -37,7 +37,7 @@ export default {
     logout () {
       console.log("logging out front")
       localStorage.clear();
-      router.push("/admin/login")
+      router.push("/login")
     },
     isLoggedIn () {
       if (localStorage.getItem('jwt') != null) {

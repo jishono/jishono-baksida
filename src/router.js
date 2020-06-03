@@ -7,8 +7,8 @@ let router = new Router({
   mode: "history",
   routes: [
     {
-      path: "/admin/oversikt",
-      alias: "/admin",
+      path: "/oversikt",
+      alias: "/",
       name: "oversikt",
       meta: {
         requiresAuth: true
@@ -16,7 +16,7 @@ let router = new Router({
       component: () => import("./components/Oversikt")
     },
     {
-      path: "/admin/endre/:id",
+      path: "/endre/:id",
       name: "endre",
       meta: {
         requiresAuth: true
@@ -24,7 +24,7 @@ let router = new Router({
       component: () => import("./components/Endre")
     },
     {
-      path: "/admin/login",
+      path: "/login",
       name: "Login",
       meta: {
         guest: true
@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('jwt') == null) {
       next({
-        path: '/admin/login',
+        path: '/login',
         params: { nextUrl: to.fullPath }
       })
     } else {

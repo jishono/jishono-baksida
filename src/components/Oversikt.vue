@@ -188,7 +188,7 @@
             <a
               class="btn btn-warning"
               style="margin:5px;margin-top:30px"
-              :href="'/admin/endre/' + currentOppslag.lemma_id"
+              :href="'/endre/' + currentOppslag.lemma_id"
             >
               Endre
             </a>
