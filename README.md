@@ -1,3 +1,5 @@
+[![Codeship Status for jishono/jishono-adminclient](https://app.codeship.com/projects/0bb24e00-87f8-0138-5cc4-2676f800871b/status?branch=master)](https://app.codeship.com/projects/398828)
+
 # client
 
 ## Project setup
