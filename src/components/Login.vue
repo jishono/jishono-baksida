@@ -1,79 +1,99 @@
 <template>
-  <div class="row">
-    <div class="col-md-3 mx-auto">
-      <h2>Login</h2>
-      <form
-        class="form-signin"
-        v-on:submit="handleSubmit"
-      >
-        <input
-          type="text"
-          id="username"
-          class="form-control mt-4"
-          placeholder="Brukernavn"
-          v-model="username"
-          required
-          autofocus
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-card
+          max-width="400px"
+          class="mt-10 mx-auto"
         >
-        <input
-          type="password"
-          id="password"
-          placeholder="Passord"
-          v-model="password"
-          class="form-control mt-1"
-          required
-        >
-        <input
-          class="btn btn-primary btn-block mt-2"
-          type="submit"
-          value="Logg inn"
-        />
-      </form>
-      {{ this.message}}
-    </div>
-  </div>
+          <v-card-title class="pb-3">
+            <h2>Logg inn</h2>
+          </v-card-title>
+          <v-card-text>
+            <v-form
+              ref="form"
+              v-model="valid"
+            >
+              <v-text-field
+                label="Brukernavn"
+                prepend-icon="mdi-account-circle"
+                v-model="username"
+                :rules="username_rules"
+                required
+                autofocus
+              />
+              <v-text-field
+                :type="showPassword ? 'text' : 'password'"
+                label="Passord"
+                v-model="password"
+                :rules="password_rules"
+                prepend-icon="mdi-lock"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
+                @keyup.enter="login"
+                required
+              />
+            </v-form>
+          </v-card-text>
+          <v-alert
+            v-if="errormessage"
+            dense
+            outlined
+            type="error"
+          >
+            {{ this.errormessage}}
+          </v-alert>
+          <v-card-actions class="justify-center pb-6">
+            <v-btn
+              color="primary"
+              @click="login"
+              :disabled="!valid"
+            >Logg inn</v-btn>
+          </v-card-actions>
+
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import JishoDataService from '../services/JishoDataService'
-import http from "../http-common";
-
 
 export default {
   data () {
     return {
-      username: "",
-      password: "",
-      message: ""
+      message: '',
+      valid: false,
+      showPassword: false,
+      username: '',
+      username_rules: [
+        v => !!v || 'Skriv brukernavnet ditt'
+      ],
+      password: '',
+      password_rules: [
+        v => !!v || 'Skriv passordet ditt'
+      ],
+      errormessage: ''
     }
   },
   methods: {
-    handleSubmit (e) {
-      e.preventDefault()
-      if (this.password.length > 0) {
-        JishoDataService.login({
-          username: this.username,
-          password: this.password
-        })
-          .then(response => {
-            localStorage.setItem('jwt', response.data.token)
-            localStorage.setItem('user', response.data.user)    
-            if (localStorage.getItem('jwt') != null) {
-            http.defaults.headers['Authorization'] = response.data.token
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl)
-              }
-              else {
-                  this.$router.push('oversikt')
-                }
-              } 
-            })
-          .catch(error => {
-            this.message = "Feil brukernavn eller passord"
-            console.log(error)
-          });
+    async login () {
+      if (this.$refs.form.validate()) {
+        try {
+          const username = this.username
+          const password = this.password
+          await this.$store.dispatch('login', { username, password })
+          console.log(this.$route.params.nextUrl)
+          this.$router.push('/oversikt')
+        } catch (error) {
+          this.message = "Feil brukernavn eller passord"
+          console.log(error)
+        }
       }
-    }
+    },
+    validate () {
+      this.$refs.form.validate()
+    },
   }
 }
 </script>

@@ -1,202 +1,166 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-      </div>
-      <div class="col-6">
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Søk etter ord/oppslag"
-            v-model="q"
-            @keyup.enter="sokOppslag()"
-          />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              @click="sokOppslag()"
-            >
-              Søk
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-      </div>
-    </div>
-    <div class="row pt-3">
-      <div class="col text-right">
-
-        <div class="form group">
-          <h4>filter</h4>
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input align-self-end"
-              value=""
-              id="yesdefcheck"
-              @click="setmeduten('meddef');sokOppslag();"
-            >
-            <label
-              class="custom-control-label"
-              for="yesdefcheck"
-            > med definisjoner
-            </label>
-          </div>
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input align-self-end"
-              value=""
-              id="nodefcheck"
-              @click="setmeduten('utendef');sokOppslag();"
-            >
-            <label
-              class="custom-control-label"
-              for="nodefcheck"
-            > uten definisjoner
-            </label>
-          </div>
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input align-self-end"
-              value=""
-              id="yesutcheck"
-              @click="setmeduten('medut');sokOppslag();"
-            >
-            <label
-              class="custom-control-label"
-              for="yesutcheck"
-            > med uttale
-            </label>
-          </div>
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input align-self-end"
-              value=""
-              id="noutcheck"
-              @click="setmeduten('utenut');sokOppslag();"
-            >
-            <label
-              class="custom-control-label"
-              for="noutcheck"
-            > uten uttale
-            </label>
-          </div>
-          <h5 style="margin-top: 1em;">ordklasse</h5>
-          <div
-            class="custom-control custom-checkbox"
-            v-for="(value,ordklasse) in pos"
-            :key="ordklasse"
-          >
-            <input
-              type="checkbox"
-              class="custom-control-input align-self-end"
-              :id="ordklasse"
-              v-model="pos[ordklasse]"
-              @change="sokOppslag();"
-            >
-            <label
-              class="custom-control-label"
-              :for="ordklasse"
-            > {{ ordklasse }}
-            </label>
-
-          </div>
-        </div>
-      </div>
-      <div
-        class="col-6 text-left"
-        style="z-index:1;"
+  <v-container>
+    <v-row
+      align="center"
+      justify="center"
+    >
+      <v-col
+        sm=6
+        xs=12
       >
-        <div v-if="oppslagsliste.length > 0">
-          <h4>treff: {{ this.treff}} </h4>
-          <ul class="list-group">
-            <li
-              class="list-group-item"
-              :class="{ active: index == currentIndex }"
-              v-for="(oppslag, index) in oppslagsliste.slice(0, 1000)"
+        <v-text-field
+          v-model="q"
+          rounded
+          solo
+          hide-details
+          label="Søk etter ord/oppslag"
+          @keypress.enter="sokOppslag()"
+        >
+          <template v-slot:append>
+            <v-icon
+              v-if="q"
+              v-on:click="q=''"
+            >mdi-close</v-icon>
+            <v-icon v-on:click="sokOppslag()">mdi-magnify</v-icon>
+          </template>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="hidden-xs-only">
+      </v-col>
+      <v-col
+        sm=6
+        xs=12
+      >
+        <h4 v-if="oppslagsliste.length > 0">treff: {{ this.treff}} </h4>
+        <v-card
+          class="mx-auto"
+          max-width="900"
+          tile
+        >
+          <v-expansion-panels
+            accordion
+            v-model="showExpansion"
+          >
+            <v-expansion-panel
+              v-for="(oppslag, index) in slicedResults"
               :key="index"
               @click="setActiveOppslag(oppslag, index)"
             >
-              {{ oppslag.oppslag }}
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col text-left">
-        <div
-          class="position-fixed"
-          style="z-index:2;"
+              <v-expansion-panel-header v-slot="{ open }">
+                <div v-if="open">
+                  <span class="title font-weight-black">{{ oppslag.oppslag }}</span>
+                  <span class="float-right"> {{ oppslag.boy_tabell }} </span>
+                </div>
+                <div v-else>
+                  <span class="font-weight-bold">{{ oppslag.oppslag }}</span>
+                  <span class="float-right"> {{ oppslag.boy_tabell }} </span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content v-if="currentOppslag">
+                <div class="text--primary body-1">
+                  <span class="font-weight-bold"> Lemma ID: </span> {{ currentOppslag.lemma_id }} <br>
+                  <span class="font-weight-bold"> Ledd: </span> {{ currentOppslag.ledd }} <br>
+                  <span class="font-weight-bold"> Uttale: </span>
+                  <span
+                    v-for="(ut) in currentOppslag.uttale"
+                    v-bind:key="ut.transkripsjon"
+                  >
+                    / {{ ut.transkripsjon }} /
+                  </span>
+                  <br>
+                  <span class="font-weight-bold"> Definisjoner: </span><br>
+                  <div
+                    v-for="(definisjon) in currentOppslag.definisjon"
+                    v-bind:key="definisjon.definisjon"
+                    class="body-1"
+                  >
+                    {{ definisjon.prioritet }}:
+                    {{ definisjon.definisjon }}
+                  </div>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <Boyningstabell
+                      v-bind:lemma_id="currentOppslag.lemma_id"
+                      :boyningsDialog.sync="boyningsDialog"
+                      @outside_click="boyningsDialog = false"
+                    />
+                    <v-btn
+                      small
+                      color="primary"
+                      @click="boyningsDialog = true"
+                    >
+                      Vis bøyning
+                    </v-btn>
+                    <v-btn
+                      small
+                      color="accent"
+                      :to="'/endre/' + currentOppslag.lemma_id"
+                    >Endre</v-btn>
+                  </v-card-actions>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card>
+      </v-col>
+      <v-col
+        cols=3
+        class="hidden-xs-only"
+      >
+        <h4>filter</h4>
+        <v-checkbox
+          class="pa-0 ma-0"
+          label="med definisjoner"
+          hide-details
+          v-model="meduten.meddef"
+          @click.native="sokOppslag()"
         >
-          <div v-if="currentOppslag">
-            <h4>Oppslagsord</h4>
-            <div>
-              <label><strong>Lemma ID:</strong></label> {{ currentOppslag.lemma_id }}
-            </div>
-            <div>
-              <label><strong>Oppslagsord:</strong></label> {{ currentOppslag.oppslag }}
-            </div>
-            <div>
-              <label><strong>Ledd:</strong></label> {{ currentOppslag.ledd }}
-            </div>
-            <div>
-              <label><strong>Hovedordklasse:</strong></label> {{ currentOppslag.boy_tabell  }}
-            </div>
-            <div>
-              <label><strong>Notis:</strong></label> {{ currentOppslag.notis }}
-            </div>
-            <div>
-              <label><strong>Uttale:</strong></label>
-            </div>
-            <div
-              v-for="(ut) in currentOppslag.uttale"
-              v-bind:key="ut.transkripsjon"
-            >
-              {{ ut.transkripsjon }}
-            </div>
-            <div>
-              <label><strong>Definisjoner:</strong></label>
-            </div>
-            <div
-              v-for="(definisjon) in currentOppslag.definisjon"
-              v-bind:key="definisjon.definisjon"
-            >
-              {{ definisjon.prioritet }})
-              {{ definisjon.definisjon }}
-            </div>
-
-            <Boyningstabell
-              v-if="tabellSynlig"
-              v-bind:lemma_id="currentOppslag.lemma_id"
-              @close="closeModal"
-            />
-
-            <button
-              type="button"
-              class="btn btn-primary"
-              style="margin:5px;margin-top:30px"
-              @click="showModal"
-            >
-              Vis bøyninger
-            </button>
-
-            <a
-              class="btn btn-warning"
-              style="margin:5px;margin-top:30px"
-              :href="'/endre/' + currentOppslag.lemma_id"
-            >
-              Endre
-            </a>
-          </div>
+        </v-checkbox>
+        <v-checkbox
+          class="pa-0 ma-0"
+          hide-details
+          label="uten definisjoner"
+          v-model="meduten.utendef"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
+          class="pa-0 ma-0"
+          hide-details
+          label="med uttale"
+          v-model="meduten.medut"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
+          class="pa-0 ma-0"
+          hide-details
+          label="uten uttale"
+          v-model="meduten.utenut"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
+        <h5 class="mt-3">ordklasse</h5>
+        <div
+          class="custom-control custom-checkbox"
+          v-for="(value,ordklasse) in pos"
+          :key="ordklasse"
+        >
+          <v-checkbox
+            class="pa-0 ma-0"
+            hide-details
+            :label="ordklasse"
+            v-model="pos[ordklasse]"
+            @click.native="sokOppslag()"
+          >
+          </v-checkbox>
         </div>
-      </div>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -212,11 +176,13 @@ export default {
   data () {
     return {
       oppslagsliste: [],
+      showExpansion: false,
       currentOppslag: null,
       currentIndex: -1,
       tabellSynlig: false,
       q: "",
       treff: null,
+      boyningsDialog: false,
       meduten: {
         meddef: false,
         utendef: false,
@@ -241,14 +207,13 @@ export default {
     };
   },
   watch: {
-    q: _.debounce(function() {
-      if (this.q != '' && this.q != '%') {
+    q: _.debounce(function () {
+      if (this.q != '' && this.q != '%' && this.q.length > 1) {
         this.sokOppslag()
       }
-    }, 100)
+    }, 200)
   },
   methods: {
-
     setActiveOppslag (oppslag, index) {
       if (this.currentIndex == index) {
         this.currentIndex = -1
@@ -264,30 +229,27 @@ export default {
         this.currentIndex = index;
       }
     },
-    sokOppslag () {
-      let string = ""
-      Object.keys(this.pos).forEach(ordklasse => {
-        string += "&" + ordklasse + "=" + this.pos[ordklasse]
-      });
-
-      JishoDataService.findByOppslag(this.q, this.meduten.meddef,
-        this.meduten.utendef, this.meduten.medut, this.meduten.utenut,
-        string)
-        .then(response => {
-          this.oppslagsliste = response.data;
-          this.currentIndex = -1;
-          this.currentOppslag = null;
-          this.treff = this.oppslagsliste.length
+    async sokOppslag () {
+      this.showExpansion = false
+      try {
+        let string = ""
+        Object.keys(this.pos).forEach(ordklasse => {
+          string += "&" + ordklasse + "=" + this.pos[ordklasse]
         })
-        .catch(e => {
-          console.log(e);
-        });
+        const response = await JishoDataService.findByOppslag(this.q, this.meduten.meddef,
+          this.meduten.utendef, this.meduten.medut, this.meduten.utenut,
+          string)
+        this.oppslagsliste = response.data;
+        this.currentIndex = -1;
+        this.currentOppslag = null;
+        this.treff = this.oppslagsliste.length
+      } catch (error) {
+        console.log(error);
+      }
     },
-    showModal () {
-      this.tabellSynlig = true;
-    },
-    closeModal () {
-      this.tabellSynlig = false;
+    clearSearch () {
+      console.log("resfa")
+      this.q = 'fsdafas'
     },
     setmeddef () {
       this.meddef = this.meddef ? false : true;
@@ -308,31 +270,13 @@ export default {
       this.pos[pos] = this.pos[pos] ? false : true;
     },
   },
+  computed: {
+    slicedResults () {
+      return this.oppslagsliste.slice(0, 100)
+    }
+  },
   mounted () {
 
   }
 };
 </script>
-
-<style>
-.list {
-  text-align: left;
-  max-width: 750px;
-  margin: auto;
-}
-
-.custom-control.custom-checkbox {
-  padding-left: 0;
-}
-
-label.custom-control-label {
-  position: relative;
-  padding-right: 1.5rem;
-}
-
-label.custom-control-label::before,
-label.custom-control-label::after {
-  right: 0;
-  left: auto;
-}
-</style>

@@ -1,61 +1,22 @@
 <template>
-  <div id="app">
-    <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark">
-
-      <div class="navbar-nav mr-auto mx-auto">
-        <li class="nav-item">
-          <router-link class="nav-link" to="/oversikt">søk</router-link>
-        </li>
-        <li class="nav-item">
-          <div
-            href="#"
-            class="navbar-text font-weight-bold text-white px-4"
-          >jishoadmin</div>
-        <li class="nav-item">
-          <a
-            href="#"
-            class="nav-link"
-            v-on:click="logout"
-          > {{ isLoggedIn() }}
-          </a>
-        </li>
-      </div>
-    </nav>
-
-    <div class="container mt-3">
+  <v-app>
+    <Navbar></Navbar>
+    <v-content>
       <router-view />
-    </div>
-  </div>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import router from './router'
+import Navbar from './components/Navbar'
 
 export default {
   name: 'app',
-  methods: {
-    logout () {
-      console.log("logging out front")
-      localStorage.clear();
-      router.push("/login")
-    },
-    isLoggedIn () {
-      if (localStorage.getItem('jwt') != null) {
-        return "logg ut"
-      } else {return "logg inn"}
-    }
+  components: {
+    Navbar
   },
+  methods: {
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  padding-top: 5px;
-}
-</style>

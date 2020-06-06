@@ -1,183 +1,171 @@
 <template>
-  <div
-    class="container"
-    v-if="this.currentOppslag"
-  >
-    <div class="row">
-      <div
-        class="col"
-        style="text-align: center"
-      >
-        <Boyningstabell
+  <v-container v-if="this.currentOppslag">
+    <v-row>
+      <v-col align="center">
+        <!-- <Boyningstabell
           v-if="tabellSynlig"
           v-bind:lemma_id="currentOppslag.lemma_id"
           @close="closeModal"
-        />
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          style="margin:5px;"
-          @click="showModal"
+        /> -->
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          color="success"
+          top
         >
-          Vis bøyninger
-        </button>
-
-        <button
-          type="submit"
-          class="btn btn-warning"
-          style="margin:5px;"
+          Oppdatert!
+        </v-snackbar>
+        <Boyningstabell
+          v-bind:lemma_id="currentOppslag.lemma_id"
+          :boyningsDialog.sync="boyningsDialog"
+          @outside_click="boyningsDialog = false"
+        />
+        <v-btn
+          color="primary"
+          @click="boyningsDialog = true"
+        >
+          Vis bøyning
+        </v-btn>
+        <v-btn
+          dark
+          color="accent"
           @click="updateOppslag"
+          class="mx-2"
         >
           Oppdater
-        </button>
-        <div class="hidden">
-          <p>{{ message }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="edit-form">
-          <h4>Oppslag</h4>
-          <form style="text-align: left;">
-            <div class="form-group">
-              <label for="lemma_id">Lemma ID</label>
-              <input
-                type="text"
-                class="form-control"
-                id="lemma_id"
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        md=6
+        sm=6
+      >
+        <h1>Endre</h1>
+        <v-card>
+          <v-card-title class="pb-3">
+
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form">
+              <v-text-field
                 v-model="currentOppslag.lemma_id"
-                readonly
+                label="Lemma ID"
+                outlined
+                disabled
               />
-            </div>
-            <div class="form-group">
-              <label for="oppslag">Oppslagsord</label>
-              <input
-                type="text"
-                class="form-control"
-                id="oppslag"
+              <v-text-field
                 v-model="currentOppslag.oppslag"
-                readonly
+                label="Oppslag"
+                outlined
+                disabled
               />
-            </div>
-            <div class="form-group">
-              <label for="ordklasse">Hovedordklasse</label>
-              <input
-                type="text"
-                class="form-control"
-                id="ordklasse"
+              <v-text-field
                 v-model="currentOppslag.boy_tabell"
-                readonly
+                label="Hovedordklasse"
+                outlined
+                disabled
               />
-            </div>
-            <div class="form-group">
-              <label for="ledd">Ledd</label>
-              <input
-                type="text"
-                class="form-control"
-                id="ledd"
+              <v-text-field
                 v-model="currentOppslag.ledd"
+                label="Ledd"
+                outlined
               />
-            </div>
-            <div class="form-group">
-              <label for="notis">Notis</label>
-              <input
-                type="text"
-                class="form-control"
-                id="notis"
-                v-model="currentOppslag.notis"
-              />
-            </div>
-            <div class="form-group">
-              <label for="uttale">Uttale</label>
               <div
                 v-for="(ut,index) in currentOppslag.uttale"
-                v-bind:key="index"
+                v-bind:key="ut.index"
               >
-                <input
-                  type="text"
-                  class="form-control"
+
+                <v-text-field
                   v-model="ut.transkripsjon"
-                />
+                  outlined
+                >
+                  <template v-slot:label>
+                    Uttale {{index+1}}
+                  </template>
+                  <template v-slot:append>
+                    <div v-if="index == currentOppslag.uttale.length-1">
+                      <v-icon
+                        color="green lighten-1"
+                        v-on:click="addUttale"
+                      >mdi-plus-circle </v-icon>
+                      <v-icon
+                        color="red lighten-1"
+                        v-on:click="removeUttale"
+                      >mdi-minus-circle </v-icon>
+                    </div>
+                  </template>
+                </v-text-field>
               </div>
-            </div>
-            <div style="text-align:center;">
-              <button
-                type="button"
-                class="btn btn-success btn-sm mr-1"
-                @click="addUttale"
-              ><i class="fa-plus fa"></i> </button>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm mr-1"
-                @click="removeUttale"
-              ><i class="fa fa-minus-circle"></i></button>
-            </div>
-            <div class="form-group">
-              <label for="Definisjoner">Definisjoner</label>
+
               <div
                 v-for="(def,index) in currentOppslag.definisjon"
                 v-bind:key="index"
-                class="input-group"
               >
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="def.definisjon"
-                />
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <button
-                type="button"
-                class="btn btn-success btn-sm mr-1"
-                @click="addDef"
-              ><i class="fa fa-plus"></i> </button>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm mr-1"
-                @click="removeDef"
-              ><i class="fa fa-minus-circle"></i></button>
-            </div>
-          </form>
 
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h4>Kommentarer</h4>
-        <div
-          class="form-group"
-          style="text-align: left"
-        >
-          <label for="comment">Ny kommentar:</label>
-          <textarea
-            class="form-control "
-            style="width: 100%;"
-            rows="5"
-            id="comment"
-            v-model="nyKommentar"
-          ></textarea>
-        </div>
-        <div class="card-deck">
+                <v-text-field
+                  v-model="def.definisjon"
+                  outlined
+                >
+                  <template v-slot:label>
+                    Definisjon {{index+1}}
+                  </template>
+                  <template v-slot:append>
+                    <div v-if="index == currentOppslag.definisjon.length-1">
+                      <v-icon
+                        color="green lighten-1"
+                        v-on:click="addDef"
+                      >mdi-plus-circle </v-icon>
+                      <v-icon
+                        color="red lighten-1"
+                        v-on:click="removeDef"
+                      >mdi-minus-circle </v-icon>
+                    </div>
+                  </template>
+                </v-text-field>
+              </div>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        md=6
+        sm=6
+        cols=12
+      >
+        <h1>Kommentarer</h1>
+        <v-textarea
+          outlined
+          label="Ny kommentar"
+          v-model="nyKommentar"
+        ></v-textarea>
+        <div v-if="currentOppslag.kommentar">
           <div
-            class="card mb-3"
-            style="text-align: left"
             v-for="(kom) in currentOppslag.kommentar"
             v-bind:key="kom.kom_id"
           >
-            <div class="card-header">
-              <span style="text-align: left"> {{ kom.bruker}} </span><span style="float: right">{{ new Date(kom.opprettet).toLocaleString("da-DK")}}</span>
-            </div>
-            <div class="card-body">
-              <p class="card-text">{{ kom.kommentar}}</p>
-            </div>
+            <v-card class="mb-4">
+              <v-card-title
+                class="headline grey lighten-3 body-2 pa-0"
+                primary-title
+              >
+                <v-col cols=5>
+                  <span class="font-weight-black"> {{ kom.bruker}} </span>
+                </v-col>
+                <v-col align="end">
+                  {{ new Date(kom.opprettet).toLocaleString("da-DK")}}
+                </v-col>
+              </v-card-title>
+              <v-card-text class="pa-3">
+                <div class="text--primary">{{ kom.kommentar}}</div>
+              </v-card-text>
+            </v-card>
           </div>
         </div>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
 
-  </div>
+  </v-container>
 
 </template>
 
@@ -198,8 +186,9 @@ export default {
         def: [],
         uttale: []
       },
-      tabellSynlig: false,
-      message: '',
+      snackbar: false,
+      timeout: 2000,
+      boyningsDialog: false
     };
   },
   methods: {
@@ -207,6 +196,13 @@ export default {
       JishoDataService.get(id)
         .then(response => {
           this.currentOppslag = response.data;
+          if (this.currentOppslag.uttale.length == 0) {
+            this.addUttale()
+          }
+          if (this.currentOppslag.definisjon.length == 0) {
+            this.addDef()
+          }
+          this.getKommentarer(id)
         })
         .catch(e => {
           console.log(e);
@@ -228,28 +224,18 @@ export default {
       }
       JishoDataService.update(this.currentOppslag.lemma_id, { oppslag: this.currentOppslag, deldata: this.deleteData })
         .then(() => {
-          this.message = 'Oppslag oppdatert!'
           this.nyKommentar = ''
           this.deleteData.def = []
           this.deleteData.uttale = []
           this.getOppslag(this.currentOppslag.lemma_id)
-          this.getKommentarer(this.currentOppslag.lemma_id)
+          this.snackbar = true
         })
         .catch(e => {
           console.log(e);
         });
 
     },
-    showModal () {
-      this.tabellSynlig = true;
-      this.message = '';
-    },
-    closeModal () {
-      this.tabellSynlig = false;
-    },
     addDef () {
-      this.message = '';
-
       this.currentOppslag.definisjon.push(
         {
           "def_id": null,
@@ -260,19 +246,16 @@ export default {
       );
     },
     addKommentar () {
-      this.message = '';
       this.currentOppslag.kommentar.unshift(
         {
           "kom_id": null,
           "lemma_id": this.currentOppslag.lemma_id,
           "kommentar": this.nyKommentar,
-          "bruker": localStorage.getItem("user")
+          "bruker": this.$store.getters.user
         }
       );
     },
     addUttale () {
-      this.message = '';
-
       this.currentOppslag.uttale.push(
         {
           "uttale_id": null,
@@ -282,14 +265,12 @@ export default {
       );
     },
     removeDef () {
-      this.message = '';
       let delDefArray = this.currentOppslag.definisjon.pop()
       if (delDefArray.def_id) {
         this.deleteData.def.push(delDefArray.def_id)
       }
     },
     removeUttale () {
-      this.message = '';
       let delUttaleArray = this.currentOppslag.uttale.pop()
       if (delUttaleArray.uttale_id) {
         this.deleteData.uttale.push(delUttaleArray.uttale_id)
@@ -309,24 +290,8 @@ export default {
     },
   },
   mounted () {
-    this.message = '';
     this.getOppslag(this.$route.params.id);
-    this.getKommentarer(this.$route.params.id);
 
   }
 };
 </script>
-
-<style>
-.edit-form {
-  max-width: 100%;
-  margin: auto;
-}
-.card-deck {
-  display: inline-block;
-  width: 100%;
-}
-form label {
-  font-weight: bold;
-}
-</style>

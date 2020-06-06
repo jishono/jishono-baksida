@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store"
 
 Vue.use(Router);
 
@@ -37,13 +38,12 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('jwt') == null) {
+    if (!store.getters.isLoggedIn) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }
       })
     } else {
-      
       next()
     }
   } else if (to.matched.some(record => record.meta.guest)) {
