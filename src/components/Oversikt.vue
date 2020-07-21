@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row
       align="center"
       justify="center"
@@ -82,23 +82,33 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <Boyningstabell
-                      v-bind:lemma_id="currentOppslag.lemma_id"
-                      :boyningsDialog.sync="boyningsDialog"
-                      @outside_click="boyningsDialog = false"
-                    />
+                    <div v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)">
+                      <Boyningstabell
+                        v-bind:lemma_id="currentOppslag.lemma_id"
+                        :boyningsDialog.sync="boyningsDialog"
+                        @outside_click="boyningsDialog = false"
+                      />
+                      <v-btn
+                        small
+                        color="primary"
+                        @click="boyningsDialog = true"
+                      >
+                        Vis bøyning
+                      </v-btn>
+                    </div>
                     <v-btn
-                      small
-                      color="primary"
-                      @click="boyningsDialog = true"
-                    >
-                      Vis bøyning
-                    </v-btn>
-                    <v-btn
+                      v-if="$store.getters.isAdmin"
                       small
                       color="accent"
                       :to="'/endre/' + currentOppslag.lemma_id"
                     >Endre</v-btn>
+                    <v-btn
+                      v-if="!$store.getters.isAdmin"
+                      class="ml-2"
+                      small
+                      color="accent"
+                      :to="'/endre/' + currentOppslag.lemma_id"
+                    >Foreslå</v-btn>
                   </v-card-actions>
                 </div>
               </v-expansion-panel-content>
@@ -206,6 +216,9 @@ export default {
       }
     };
   },
+  props: {
+    adminView: Boolean
+  },
   watch: {
     q: _.debounce(function () {
       if (this.q != '' && this.q != '%' && this.q.length > 1) {
@@ -276,7 +289,9 @@ export default {
     }
   },
   mounted () {
-
+    if (this.adminView) {
+      this.meduten.utendef = true
+    }
   }
 };
 </script>

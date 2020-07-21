@@ -72,11 +72,13 @@ export default {
       closeOnClick: true,
       logged_in: false,
       nav_items: [
-        { title: 'Oversikt', icon: 'mdi-clipboard-text', route: '/oversikt', showLoggedIn: true },
-        { title: 'Forslag', icon: 'mdi-account-group', route: '/trust', showLoggedIn: true },
-        { title: 'Statistikk', icon: 'mdi-chart-bar', route: '/signup', showLoggedIn: true },
-        { title: 'Logg ut', icon: 'mdi-logout', action: 'logout', route: '/login', showLoggedIn: true },
-        { title: 'Logg inn', icon: 'mdi-login', route: '/login', showLoggedIn: false },
+        { title: 'Oversett', icon: 'mdi-translate', route: '/oversett', showLoggedIn: true, adminOnly: false },
+        { title: 'Forslag', icon: 'mdi-account-group', route: '/forslag', showLoggedIn: true, adminOnly: false },
+        { title: 'Statistikk', icon: 'mdi-chart-bar', route: '/statistikk', showLoggedIn: true, adminOnly: false },
+        { title: 'Oversikt', icon: 'mdi-clipboard-text', route: '/oversikt', showLoggedIn: true, adminOnly: true },
+        { title: 'Logg ut', icon: 'mdi-logout', action: 'logout', route: '/logginn', showLoggedIn: true, adminOnly: false },
+        { title: 'Registrer', icon: 'mdi-account-plus', route: '/registrer', showLoggedIn: false, adminOnly: false },
+        { title: 'Logg inn', icon: 'mdi-login', route: '/logginn', showLoggedIn: false, adminOnly: false },
 
       ],
     }
@@ -86,9 +88,14 @@ export default {
       this[function_name]()
     },
     activeMenuItems () {
-      if (this.$store.getters.isLoggedIn) {
+      if (this.$store.getters.isAdmin) {
         return this.nav_items.filter(item => {
           return item.showLoggedIn
+        })
+      }
+      if (this.$store.getters.isLoggedIn) {
+        return this.nav_items.filter(item => {
+          return item.showLoggedIn && !item.adminOnly
         })
       } else {
         return this.nav_items.filter(item => {
@@ -99,9 +106,6 @@ export default {
     logout () {
       this.$store.dispatch('logout')
     },
-    isLoggedIn () {
-      return this.$root.$data.isLoggedIn()
-    }
   },
 }
 

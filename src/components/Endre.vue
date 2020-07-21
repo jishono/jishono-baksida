@@ -2,11 +2,6 @@
   <v-container v-if="this.currentOppslag">
     <v-row>
       <v-col align="center">
-        <!-- <Boyningstabell
-          v-if="tabellSynlig"
-          v-bind:lemma_id="currentOppslag.lemma_id"
-          @close="closeModal"
-        /> -->
         <v-snackbar
           v-model="snackbar"
           :timeout="timeout"
@@ -15,24 +10,37 @@
         >
           Oppdatert!
         </v-snackbar>
+
         <Boyningstabell
+          v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
           v-bind:lemma_id="currentOppslag.lemma_id"
           :boyningsDialog.sync="boyningsDialog"
           @outside_click="boyningsDialog = false"
         />
         <v-btn
+          v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
           color="primary"
           @click="boyningsDialog = true"
         >
           Vis bøyning
         </v-btn>
         <v-btn
+          v-if="$store.getters.isAdmin"
           dark
           color="accent"
           @click="updateOppslag"
           class="mx-2"
         >
           Oppdater
+        </v-btn>
+        <v-btn
+          v-if="!$store.getters.isAdmin"
+          dark
+          color="accent"
+          @click="addForslag"
+          class="mx-2"
+        >
+          Foreslå
         </v-btn>
       </v-col>
     </v-row>
@@ -41,7 +49,8 @@
         md=6
         sm=6
       >
-        <h1>Endre</h1>
+        <h1 v-if="$store.getters.isAdmin">Endre</h1>
+        <h1 v-if="!$store.getters.isAdmin">Forslag</h1>
         <v-card>
           <v-card-title class="pb-3">
 
@@ -70,6 +79,7 @@
                 v-model="currentOppslag.ledd"
                 label="Ledd"
                 outlined
+                :disabled="!$store.getters.isAdmin"
               />
               <div
                 v-for="(ut,index) in currentOppslag.uttale"
@@ -79,12 +89,13 @@
                 <v-text-field
                   v-model="ut.transkripsjon"
                   outlined
+                  :disabled="!$store.getters.isAdmin"
                 >
                   <template v-slot:label>
                     Uttale {{index+1}}
                   </template>
                   <template v-slot:append>
-                    <div v-if="index == currentOppslag.uttale.length-1">
+                    <div v-if="index == currentOppslag.uttale.length-1 && $store.getters.isAdmin">
                       <v-icon
                         color="green lighten-1"
                         v-on:click="addUttale"
@@ -107,8 +118,17 @@
                   v-model="def.definisjon"
                   outlined
                 >
-                  <template v-slot:label>
+                  <template
+                    v-slot:label
+                    v-if="$store.getters.isAdmin"
+                  >
                     Definisjon {{index+1}}
+                  </template>
+                  <template
+                    v-slot:label
+                    v-else
+                  >
+                    Forslag til definisjon {{index+1}}
                   </template>
                   <template v-slot:append>
                     <div v-if="index == currentOppslag.definisjon.length-1">
@@ -174,7 +194,7 @@ import JishoDataService from "../services/JishoDataService";
 import Boyningstabell from '../components/Boyningstabell.vue';
 
 export default {
-  name: "endre_oppslag",
+  name: "Endre",
   components: {
     Boyningstabell,
   },
@@ -234,6 +254,21 @@ export default {
           console.log(e);
         });
 
+    },
+    addForslag () {
+      this.checkEmpty()
+      if (this.nyKommentar != '') {
+        this.addKommentar()
+      }
+      JishoDataService.forslag(this.currentOppslag.lemma_id, { oppslag: this.currentOppslag })
+        .then(() => {
+          console.log("ok")
+          this.snackbar = true
+          setTimeout(() => this.$router.push('/forslag'), 2000)
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     addDef () {
       this.currentOppslag.definisjon.push(

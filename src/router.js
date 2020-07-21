@@ -25,12 +25,36 @@ let router = new Router({
       component: () => import("./components/Endre")
     },
     {
-      path: "/login",
-      name: "Login",
+      path: "/logginn",
+      name: "LoggInn",
       meta: {
         guest: true
       },
-      component: () => import("./components/Login")
+      component: () => import("./components/LoggInn")
+    },
+    {
+      path: "/registrer",
+      name: "Registrer",
+      meta: {
+        guest: true
+      },
+      component: () => import("./components/Registrer")
+    },
+    {
+      path: "/oversett",
+      name: "Oversett",
+      meta: {
+        requiresAuth: true
+      },
+      component: () => import("./components/Oversett")
+    },
+    {
+      path: "/forslag",
+      name: "Forslagg",
+      meta: {
+        requiresAuth: true
+      },
+      component: () => import("./components/Forslag")
     },
   ]
 
@@ -40,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLoggedIn) {
       next({
-        path: '/login',
+        path: '/logginn',
         params: { nextUrl: to.fullPath }
       })
     } else {

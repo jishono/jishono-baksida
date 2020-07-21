@@ -26,6 +26,13 @@ class JishoDataService {
     return api.put(`/update/${id}`, data);
   }
 
+  forslag (id, data) {
+    return api.post(`/forslag/${id}`, data);
+  }
+  stemForslag (id, data) {
+    return api.post(`/forslag/${id}/stem`, data);
+  }
+
   deleteDefUttale (data) {
     console.log(data)
     return api.post(`/jisho/del`, data);
@@ -37,6 +44,9 @@ class JishoDataService {
 
   findByOppslag (q, meddef, utendef, medut, utenut, string) {
     return api.get(`/search?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}${string}`);
+  }
+  getAllForslag () {
+    return api.get(`/forslag`);
   }
 }
 
