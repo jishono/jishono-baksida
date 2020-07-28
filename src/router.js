@@ -93,7 +93,7 @@ let router = new Router({
       path: "/om",
       name: "Om",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'Om baksida'
       },
       component: () => import("./views/Om")

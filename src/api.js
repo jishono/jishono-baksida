@@ -21,4 +21,15 @@ api.interceptors.request.use(
   }
 );
 
+api.interceptors.response.use(
+  res => { return res },
+  error => {
+    if (!error.response) {
+      store.dispatch('show_snackbar', { message: 'Får ikke kontakt med API. Serveren kan være nede.', color: 'error' })
+  }
+
+    return Promise.reject(error);
+  }
+);
+
 export default api;

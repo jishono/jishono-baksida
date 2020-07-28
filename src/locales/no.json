@@ -1,0 +1,109 @@
+{
+  "navbar": {
+    "oversett": "Oversett",
+    "forslag": "Forslag",
+    "oversikt": "Oversikt",
+    "statistikk": "Statistikk",
+    "instruks": "Instruks",
+    "om": "Om baksida",
+    "profil": "Profil",
+    "loggut": "Logg ut",
+    "registrer": "Registrer",
+    "logginn": "Logg inn",
+    "sprak": "Språk"
+  },
+  "ord": {
+    "lemma_id": "Lemma-ID",
+    "oppslagsord": "Oppslagsord",
+    "ordklasse": "Ordklasse",
+    "ledd": "Ledd",
+    "uttale": "Uttale",
+    "definisjon": "Definisjon",
+    "definisjoner": "Definisjoner",
+    "kommentarer": "Lemma-ID"
+  },
+  "knapper": {
+    "vis_boyning": "vis bøyning",
+    "boyning": "bøyning",
+    "endre": "endre",
+    "foreslå": "foreslå",
+    "instruks": "instruks",
+    "avbryt": "avbryt",
+    "oppdater": "oppdater"
+  },
+  "kommentar": {
+    "nykommentar": "Ny kommentar",
+    "kommentarer": "Kommentarer",
+    "postkommentar": "Post kommentar"
+  },
+  "bruker": {
+    "brukernavn": "Brukernavn",
+    "epost": "E-post",
+    "passord": "Passord",
+    "registrering": {
+      "registrer_deg": "Registrer deg",
+      "registrer_undertittel": "Lage en bruker for å kunne oversette nye ord.",
+      "bekreft_passord": "Bekreft passord",
+      "sjekk": "Hva er fem pluss seks? Bruk bokstaver",
+      "registrer_knapp": "Registrer ny bruker",
+      "error_brukernavn": "Du må skrive et brukernavn",
+      "error_brukernavn_lengde": "Brukernavnet må være mellom 6 og 12 tegn",
+      "error_epost": "Du må skrive e-posten din.",
+      "error_epost_gyldig": "Adressen må være gyldig",
+      "error_passord": "Passordet må være 6 tegn eller lengre",
+      "error_bekreft_passord": "Gjenta passordet over",
+      "error_bekreft_ulikt": "Begge passordfeltene må være helt like",
+      "error_sjekk": "Du må svare riktig på dette"
+    },
+    "logg_inn": {
+      "error_brukernavn": "Skriv brukernavnet ditt",
+      "error_passord": "Skriv passordet ditt"
+    },
+    "profil": {
+      "gammelt_passord": "Gammelt passord",
+      "nytt_passord": "Nytt passord"
+    }
+  },
+  "oversett": {
+    "anbefalinger": "anbefalinger",
+    "sok": "søk",
+    "anbefalinger_title": "10 ord som trenger oversettelse",
+    "hent_flere": "Hent flere",
+    "oversett": "Oversett"
+  },
+  "forslag": {
+    "nytt_forslag": "Nytt forslag",
+    "forslag_definisjon": "Forslag til definisjon",
+    "alle": "alle",
+    "mine": "mine",
+    "oversatt_av": "Oversatt av",
+    "stemmer": "Stemmer",
+    "dato": "Dato",
+    "status": "Status",
+    "avvist_avsteming": "Avvist ved avsteming",
+    "endret_godkjent": "Endret og godkjent av admin",
+    "godkjent_admin": "Godkjent av admin",
+    "godkjent_avstemning": "Godkjent ved avstemning",
+    "under_avsteming": "Til avstemning" 
+  },
+  "sok": {
+    "sokefelt": "Søk etter ord/oppslag",
+    "filter": "filter",
+    "med_def": "med definisjoner",
+    "uten_def": "uten definisjoner",
+    "med_uttale": "med uttale",
+    "uten_uttale": "uten_uttale",
+    "treff": "Treff"
+    
+  },
+  "statistikk": {
+    "diverse": "Diverse statistikk",
+    "brukere": "Brukere",
+    "oversettelser": "Oversettelser",
+    "oversatte_ord": "Oversatte ord",
+    "ord_uten": "Ord uten oversettelse",
+    "siste_30": "Siste 30 dager",
+    "nye_aksepterte": "Nye aksepterte oversettelser",
+    "nye_forslag": "Nye forslag"
+  }
+}

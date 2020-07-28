@@ -1,31 +1,9 @@
 <template>
   <v-card>
     <v-card-title>
-      <span v-if="language == 'no'">Instruks for oversetting</span>
-      <span v-if="language == 'jap'">日本語</span>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-img
-          @click="setSprak('no')"
-          class="mx-1"
-          aspect-ratio="1"
-          max-height="25px"
-          max-width="25px"
-          src="@/assets/norge.svg"
-        ></v-img>
-      </v-btn>
-      <v-btn icon>
-        <v-img
-          @click="setSprak('jap')"
-          class="mx-1"
-          aspect-ratio="1"
-          max-height="25px"
-          max-width="25px"
-          src="@/assets/japan.svg"
-        ></v-img>
-      </v-btn>
+      Instruks for oversetting
     </v-card-title>
-    <v-card-text v-if="language == 'no'">
+    <v-card-text>
       <div class="text-subtitle-2 font-weight-bold">Hvor mange forskjellige definisjoner skal ordet ha?</div>
       <p>Grunnregel: Hver unike betydning/konsept i det norske ordet skal ha en egen
         definisjon (eget felt) på japansk. Hvert felt kan også ha (og har veldig ofte) flere japanske ord som tilsammen
@@ -229,10 +207,6 @@
       </p>
 
     </v-card-text>
-    <v-card-text v-if="language == 'jap'">
-      日本語
-
-    </v-card-text>
   </v-card>
 
 </template>
@@ -243,13 +217,10 @@ export default {
   name: 'instruks-boks',
   data () {
     return {
-      language: 'no',
     }
   },
   methods: {
-    setSprak (sprak) {
-      this.language = sprak
-    }
+
   },
   mounted () {
 
