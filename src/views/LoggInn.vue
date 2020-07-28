@@ -54,6 +54,7 @@
 <script>
 
 export default {
+  name: 'logg-inn',
   data () {
     return {
       message: '',
@@ -77,9 +78,9 @@ export default {
           const username = this.username
           const password = this.password
           await this.$store.dispatch('login', { username, password })
-          this.$router.push('/oversikt')
+          this.$router.push('/oversett')
         } catch (error) {
-          this.errormessage = "Feil brukernavn eller passord"
+          this.errormessage = error.response.data
           console.log(error)
         }
       }

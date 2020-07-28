@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import api from '../api.js'
+import JishoDataService from '../services/JishoDataService'
 
 export default {
   name: 'Registrer',
@@ -103,7 +103,7 @@ export default {
       username: '',
       username_rules: [
         v => !!v || 'Du må skrive et brukernavn',
-        v => (v && v.length > 5) || 'Brukernavnet må være 6 tegn eller lengre'
+        v => (v && v.length > 5 && v.length < 13) || 'Brukernavnet må mellom 6 og 12 tegn eller lengre'
       ],
 
       password: '',
@@ -117,7 +117,7 @@ export default {
       ],
       check: '',
       check_rules: [
-        v => (!!v && v === 'elleve') || 'Du må svare riktig på dette',
+        v => (!!v) || 'Du må svare riktig på dette',
       ],
       error_message: '',
       success_message: '',
@@ -132,14 +132,17 @@ export default {
           password: this.password,
           check: this.check
         }
-        api.post('/registrer', user_data)
-          .then(() => {
+        JishoDataService.registrer(user_data)
+          .then((response) => {
             this.error_message = ''
-
+            this.success_message = response.data
+            setTimeout(() => {
+              this.$router.push('logginn')
+            }, 2000)
           })
-          .catch(err => {
-            console.log(err)
-            this.error_message = "Noe gikk galt. Prøv igjen."
+          .catch(error => {
+            console.log(error)
+            this.error_message = error.response.data
           })
       }
     },

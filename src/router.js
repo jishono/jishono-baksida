@@ -9,52 +9,103 @@ let router = new Router({
   routes: [
     {
       path: "/oversikt",
-      alias: "/",
-      name: "oversikt",
+      name: "Oversikt",
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Oversikt'
       },
-      component: () => import("./components/Oversikt")
+      component: () => import("./views/Oversikt")
     },
     {
       path: "/endre/:id",
-      name: "endre",
+      name: "Endre",
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Oversikt'
       },
-      component: () => import("./components/Endre")
+      component: () => import("./views/Endre")
     },
     {
       path: "/logginn",
-      name: "LoggInn",
+      name: "Logg Inn",
       meta: {
-        guest: true
+        guest: true,
+        title: 'Logg inn'
       },
-      component: () => import("./components/LoggInn")
+      component: () => import("./views/LoggInn")
     },
     {
       path: "/registrer",
       name: "Registrer",
       meta: {
-        guest: true
+        guest: true,
+        title: 'Registrer ny bruker'
       },
-      component: () => import("./components/Registrer")
+      component: () => import("./views/Registrer")
     },
     {
       path: "/oversett",
       name: "Oversett",
+      alias: "/",
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Oversett'
       },
-      component: () => import("./components/Oversett")
+      component: () => import("./views/Oversett")
     },
     {
       path: "/forslag",
-      name: "Forslagg",
+      name: "Forslag",
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Forslagsoversikt'
       },
-      component: () => import("./components/Forslag")
+      component: () => import("./views/Forslag")
+    },
+    {
+      path: "/nytt_forslag/:id",
+      name: "Nytt forslag",
+      meta: {
+        requiresAuth: true,
+        title: 'Nytt forslag'
+      },
+      component: () => import("./views/NyttForslag")
+    },
+    {
+      path: "/statistikk",
+      name: "Statistikk",
+      meta: {
+        requiresAuth: true,
+        title: 'Statistikk'
+      },
+      component: () => import("./views/Statistikk")
+    },
+    {
+      path: "/instruks",
+      name: "Instruks",
+      meta: {
+        requiresAuth: true,
+        title: 'Instruks'
+      },
+      component: () => import("./views/Instruks")
+    },
+    {
+      path: "/om",
+      name: "Om",
+      meta: {
+        requiresAuth: true,
+        title: 'Om baksida'
+      },
+      component: () => import("./views/Om")
+    },
+    {
+      path: "/profil",
+      name: "Profil",
+      meta: {
+        requiresAuth: true,
+        title: 'Profil'
+      },
+      component: () => import("./views/Profil")
     },
   ]
 
@@ -81,5 +132,11 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+router.afterEach((to) => {
+  if (to.meta && to.meta.title) {
+    document.title = to.meta.title + ' | jisho.no - Baksida';
+  }
+});
 
 export default router

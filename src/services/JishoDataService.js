@@ -26,20 +26,34 @@ class JishoDataService {
     return api.put(`/update/${id}`, data);
   }
 
-  forslag (id, data) {
-    return api.post(`/forslag/${id}`, data);
+  addForslag (id, data) {
+    return api.post(`/oppslag/${id}/nytt_forslag`, data);
   }
   stemForslag (id, data) {
     return api.post(`/forslag/${id}/stem`, data);
   }
+  godkjennForslag (id, data) {
+    return api.post(`/forslag/${id}/godkjenn`, data);
+  }
+  redigerForslag (id, data) {
+    return api.post(`/forslag/${id}/rediger`, data);
+  }
+  fjernForslag (id) {
+    return api.post(`/forslag/${id}/fjern`);
+  }
+  avvisForslag (id) {
+    return api.post(`/forslag/${id}/avvis`);
+  }
 
   deleteDefUttale (data) {
-    console.log(data)
     return api.post(`/jisho/del`, data);
   }
 
   login (data) {
-    return api.post(`/login`, data);
+    return api.post(`/logg_inn`, data);
+  }
+  registrer (data) {
+    return api.post(`/registrer`, data);
   }
 
   findByOppslag (q, meddef, utendef, medut, utenut, string) {
@@ -47,6 +61,27 @@ class JishoDataService {
   }
   getAllForslag () {
     return api.get(`/forslag`);
+  }
+  getForslagKommentarer (id) {
+    return api.get(`/forslag/${id}/kommentarer`);
+  }
+  postForslagKommentar (id, data) {
+    return api.post(`/forslag/${id}/ny_kommentar`, data);
+  }
+  getAnbefalinger () {
+    return api.get(`/anbefalinger`);
+  }
+  getStatistikk () {
+    return api.get(`/statistikk`);
+  }
+  getBruker(id) {
+    return api.get(`/bruker/${id}`)
+  }
+  getBrukerforslag(id) {
+    return api.get(`/bruker/${id}/forslag`)
+  }
+  updateBrukerdata(id, data) {
+    return api.post(`/bruker/${id}/oppdater`, data)
   }
 }
 

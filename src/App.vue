@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <Navbar></Navbar>
+    <Snackbar></Snackbar>
     <v-container
       fluid
       class="pa-0 ma-0"
@@ -17,9 +18,9 @@
           xl=6
           class="ma-0 px-0"
         >
-          <v-content>
+          <v-main>
             <router-view />
-          </v-content>
+          </v-main>
         </v-col>
       </v-row>
     </v-container>
@@ -28,11 +29,13 @@
 
 <script>
 import Navbar from './components/Navbar'
+import Snackbar from './components/Snackbar'
 
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Snackbar
   },
   methods: {
   }
