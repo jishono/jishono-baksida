@@ -1,14 +1,14 @@
 {
   "navbar": {
-    "oversikt": "一覧",
+    "sok": "検索",
     "oversett": "翻訳",
     "forslag": "提案",
     "statistikk": "統計",
     "instruks": "指針",
     "om": "Baksidaとは",
     "profil": "プロフィール",
-    "loggut": "ログアウト",
+    "logg_ut": "ログアウト",
     "registrer": "登録",
-    "logginn": "ログイン",
+    "logg_inn": "ログイン",
     "sprak": "言語"}
 }

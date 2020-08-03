@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '../api'
+import i18n from '@/i18n'
 
 Vue.use(Vuex);
 
@@ -78,10 +79,12 @@ export default new Vuex.Store({
         const username = res.data.username
         const user_id = res.data.user_id
         const admin = res.data.admin
+        const locale = res.data.locale
         localStorage.setItem('token', token)
         localStorage.setItem('username', username)
         localStorage.setItem('user_id', user_id)
         localStorage.setItem('admin', admin)
+        i18n.locale = locale    
         commit('auth_success', { token: token, user_id: user_id, username: username, admin: admin })
       } catch (error) {
         commit('auth_error')

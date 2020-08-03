@@ -1,6 +1,8 @@
 <template>
-  <v-container fluid
-      class="pa-2 ma-0">
+  <v-container
+    fluid
+    class="pa-2 ma-0"
+  >
     <v-dialog
       v-model="endre_dialog"
       width="500"
@@ -80,12 +82,17 @@
                       'items-per-page-options': [5, 10, 20, 30, 40, 50]
                        }"
       :items-per-page="20"
+      sort-by="opprettet"
+      :sort-desc="true"
       class="elevation-1"
     >
-     <template v-slot:item.lemma_id="{ item }">
-      
-      <router-link v-if="$store.getters.isAdmin" :to="{path: 'endre/' + item.lemma_id}" >{{ item.lemma_id}}</router-link>
-      <span v-else>{{ item.lemma_id }}</span>
+      <template v-slot:item.lemma_id="{ item }">
+
+        <router-link
+          v-if="$store.getters.isAdmin"
+          :to="{path: 'endre/' + item.lemma_id}"
+        >{{ item.lemma_id}}</router-link>
+        <span v-else>{{ item.lemma_id }}</span>
       </template>
       <template v-slot:item.forslag_definisjon="{ item }">
         {{item.forslag_definisjon}}
@@ -104,42 +111,40 @@
         </v-btn>
         <div class="float-right">
 
-      
-         <v-btn
-          icon
-          x-small
-          color="green"
-          v-if="$store.getters.isAdmin && item.status == 0"
-          @click="openEndreDialog(item)"
-        >
-          <v-icon>
-            mdi-check-circle-outline
-          </v-icon>
-         </v-btn>
           <v-btn
-          icon
-          x-small
-          color="red"
-          v-if="$store.getters.isAdmin && item.status == 0"
-          @click="avvisForslag(item)"
-        >
-          <v-icon>
-            mdi-close-box
-          </v-icon>
+            icon
+            x-small
+            color="green"
+            v-if="$store.getters.isAdmin && item.status == 0"
+            @click="openEndreDialog(item)"
+          >
+            <v-icon>
+              mdi-check-circle-outline
+            </v-icon>
           </v-btn>
-        <v-btn
-          
-          icon
-          x-small
-          color="red lighten-1"
-          v-if="item.user_id == $store.getters.user_id && item.status == 0"
-          @click="openEndreDialog(item)"
-        >
-          <v-icon>
-            mdi-pencil-outline
-          </v-icon>
-        </v-btn>
-          </div>
+          <v-btn
+            icon
+            x-small
+            color="red"
+            v-if="$store.getters.isAdmin && item.status == 0"
+            @click="avvisForslag(item)"
+          >
+            <v-icon>
+              mdi-close-box
+            </v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            x-small
+            color="red lighten-1"
+            v-if="item.user_id == $store.getters.user_id && item.status == 0"
+            @click="openEndreDialog(item)"
+          >
+            <v-icon>
+              mdi-pencil-outline
+            </v-icon>
+          </v-btn>
+        </div>
       </template>
       <template v-slot:item.stemmer="{ item }">
         <v-chip
@@ -183,7 +188,7 @@
           small
           @click="openKommentarDialog(item)"
         >
-        <span class="mr-2">
+          <span class="mr-2">
             {{ item.antall_kommentarer}}
           </span>
           <v-icon
@@ -191,7 +196,6 @@
             dark
           >
             mdi-comment-text-outline
-            
           </v-icon>
         </v-chip>
       </template>
@@ -227,14 +231,14 @@ export default {
       search: '',
       headers: [],
       alle_headers: [
-        
+
         {
           text: 'Lemma-ID',
           align: 'start',
           value: 'lemma_id',
           width: '1%'
         },
-        { text: 'Oppslagsord',value: 'oppslag',width: '1%'},
+        { text: 'Oppslagsord', value: 'oppslag', width: '1%' },
         { text: 'Ordklasse', value: 'boy_tabell', width: '1%' },
         { text: 'Forslag til definisjon', value: 'forslag_definisjon', width: '30%' },
         { text: 'Oversatt av', value: 'brukernavn', width: '1%' },
@@ -248,7 +252,7 @@ export default {
           value: 'lemma_id',
           width: '1%'
         },
-        { text: 'Oppslagsord',value: 'oppslag',width: '1%'},
+        { text: 'Oppslagsord', value: 'oppslag', width: '1%' },
         { text: 'Ordklasse', value: 'boy_tabell', width: '1%' },
         { text: 'Forslag til definisjon', value: 'forslag_definisjon', width: '30%' },
         { text: 'Stemmer', value: 'stemmer', width: '20%' },
@@ -294,7 +298,7 @@ export default {
           this.refresh()
         })
         .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
     openEndreDialog (item) {
@@ -307,7 +311,7 @@ export default {
       this.current_forslag = item
     },
     redigerForslag (item) {
-      
+
       if (this.redigert_forslag !== this.current_forslag.forslag_definisjon) {
         JishoDataService.redigerForslag(item.forslag_id, { redigert_forslag: this.redigert_forslag })
           .then((response) => {
@@ -316,7 +320,7 @@ export default {
             this.refresh()
           })
           .catch(error => {
-              this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
           })
       }
       this.current_forslag = null
@@ -332,7 +336,7 @@ export default {
           this.refresh()
         })
         .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
     avvisForslag (item) {
@@ -342,7 +346,7 @@ export default {
           this.refresh()
         })
         .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
     fjernForslag (item) {
@@ -352,7 +356,7 @@ export default {
           this.refresh()
         })
         .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
     getColorUp (item) {

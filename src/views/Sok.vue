@@ -15,7 +15,9 @@
       no-gutters
     >
       <v-col
-        cols=11
+        sm=8
+        cols=12
+        class="px-2"
       >
         <v-text-field
           v-model="q"
@@ -35,13 +37,16 @@
         </v-text-field>
       </v-col>
     </v-row>
-    <v-row no-gutters class="mt-5">
+    <v-row
+      no-gutters
+      class="mt-5"
+    >
       <v-col
         class="hidden-xs-only"
-        cols=1
+        cols=2
       ></v-col>
       <v-col
-        sm=8
+        sm=6
         cols=12
         align="left"
       >
@@ -68,7 +73,6 @@
                 mdi-chevron-right
               </v-icon>
             </v-btn>
-
           </span>
         </div>
         <v-expansion-panels
@@ -111,11 +115,9 @@
                   {{ definisjon.prioritet }}:
                   {{ definisjon.definisjon }}
                 </div>
-
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <div v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)">
-
                     <v-btn
                       small
                       color="primary"
@@ -157,7 +159,6 @@
           label="med definisjoner"
           hide-details
           v-model="meduten.meddef"
-          :disabled="!$store.getters.isAdmin"
           @click.native="sokOppslag()"
         >
         </v-checkbox>
@@ -166,7 +167,6 @@
           hide-details
           label="uten definisjoner"
           v-model="meduten.utendef"
-          :disabled="!$store.getters.isAdmin"
           @click.native="sokOppslag()"
         >
         </v-checkbox>
@@ -296,10 +296,6 @@ export default {
         console.log(error);
       }
     },
-    clearSearch () {
-      console.log("resfa")
-      this.q = 'fsdafas'
-    },
     setmeddef () {
       this.meddef = this.meddef ? false : true;
     },
@@ -346,7 +342,7 @@ export default {
     }
   },
   mounted () {
-    if (this.adminView) {
+    if (!this.$store.getters.isAdmin) {
       this.meduten.utendef = true
     }
   }

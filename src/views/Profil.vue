@@ -22,12 +22,20 @@
                 disabled
               />
               <v-text-field
-                type="email"
+                type="email"   
                 label="E-post"
                 v-model="brukerdata.epost"
                 :rules="epostRules"
                 outlined
               />
+              <v-select
+                v-model="brukerdata.locale"
+                :items="sprakvalg"
+                item-value='value'
+                item-text='text'
+                outlined
+                label="Foretrukket språk"
+              ></v-select>
               <v-text-field
                 type="password"
                 label="Gammelt passord"
@@ -77,6 +85,10 @@ export default {
       valid: false,
       brukerdata: {},
       brukerforslag: [],
+      sprakvalg: [
+        { value: 'no', text: 'Norsk' },
+        { value: 'ja', text: '日本語' }
+      ],
       passord: {
         gammelt: '',
         nytt: '',
@@ -143,12 +155,14 @@ export default {
       JishoDataService.updateBrukerdata(user_id, {
         epost: this.brukerdata.epost,
         gammelt_passord: this.passord.gammelt,
-        nytt_passord: this.passord.nytt
+        nytt_passord: this.passord.nytt,
+        locale: this.brukerdata.locale
       })
         .then((response) => {
           this.getBrukerdata()
           const message = response.data
           this.$store.dispatch('show_snackbar', { message: message, color: 'success' })
+          this.$refs.form.reset()
           this.passord.nytt = ''
           this.passord.nyttBekreft = ''
         })

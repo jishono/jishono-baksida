@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "./store"
+import i18n from '@/i18n'
 
 Vue.use(Router);
 
@@ -8,104 +9,97 @@ let router = new Router({
   mode: "history",
   routes: [
     {
-      path: "/oversikt",
-      name: "Oversikt",
+      path: "/sok",
       meta: {
         requiresAuth: true,
-        title: 'Oversikt'
+        title: 'sok'
       },
-      component: () => import("./views/Oversikt")
+      component: () => import("./views/Sok")
     },
     {
       path: "/endre/:id",
-      name: "Endre",
       meta: {
         requiresAuth: true,
-        title: 'Oversikt'
+        title: 'endre'
       },
       component: () => import("./views/Endre")
     },
     {
       path: "/logginn",
-      name: "Logg Inn",
       meta: {
         guest: true,
-        title: 'Logg inn'
+        title: 'logg_inn'
       },
       component: () => import("./views/LoggInn")
     },
     {
       path: "/registrer",
-      name: "Registrer",
       meta: {
         guest: true,
-        title: 'Registrer ny bruker'
+        title: 'registrer'
       },
       component: () => import("./views/Registrer")
     },
     {
       path: "/oversett",
-      name: "Oversett",
       alias: "/",
       meta: {
         requiresAuth: true,
-        title: 'Oversett'
+        title: 'oversett'
       },
       component: () => import("./views/Oversett")
     },
     {
       path: "/forslag",
-      name: "Forslag",
       meta: {
         requiresAuth: true,
-        title: 'Forslagsoversikt'
+        title: 'forslag'
       },
       component: () => import("./views/Forslag")
     },
     {
       path: "/nytt_forslag/:id",
-      name: "Nytt forslag",
       meta: {
         requiresAuth: true,
-        title: 'Nytt forslag'
+        title: 'nytt_forslag'
       },
       component: () => import("./views/NyttForslag")
     },
     {
       path: "/statistikk",
-      name: "Statistikk",
       meta: {
         requiresAuth: true,
-        title: 'Statistikk'
+        title: 'statistikk'
       },
       component: () => import("./views/Statistikk")
     },
     {
       path: "/instruks",
-      name: "Instruks",
       meta: {
         requiresAuth: true,
-        title: 'Instruks'
+        title: 'instruks'
       },
       component: () => import("./views/Instruks")
     },
     {
       path: "/om",
-      name: "Om",
       meta: {
         requiresAuth: false,
-        title: 'Om baksida'
+        title: 'om'
       },
       component: () => import("./views/Om")
     },
     {
       path: "/profil",
-      name: "Profil",
       meta: {
         requiresAuth: true,
-        title: 'Profil'
+        title: 'profil'
       },
       component: () => import("./views/Profil")
+    },
+    {
+      path: "/*",
+      redirect: '/'
     },
   ]
 
@@ -135,7 +129,9 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
   if (to.meta && to.meta.title) {
-    document.title = to.meta.title + ' | jisho.no - Baksida';
+    Vue.nextTick(() => {
+      document.title = i18n.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
+    })
   }
 });
 

@@ -20,6 +20,11 @@
         <div class="text-h3">{{currentOppslag.oppslag}}</div>
         <div>Lemma ID: {{currentOppslag.lemma_id}}</div>
         <div>Ordklasse: {{currentOppslag.boy_tabell}}</div>
+        <a
+          :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
+          target="_blank"
+        >Se oppslag i Bokmålsordboka</a>
+
         <v-form
           ref="form"
           class="mt-4"
@@ -62,10 +67,9 @@
           <template v-slot:activator="{ on }">
             <v-btn
               class="mr-2"
-              color="green"
+              color="primary"
               dark
               v-on="on"
-              :small="$vuetify.breakpoint.xsOnly"
             >
               Instruks
             </v-btn>
@@ -77,28 +81,52 @@
         <v-btn
           color="primary"
           @click="boyningsDialog = true"
-          :small="$vuetify.breakpoint.xsOnly"
         >
           Bøyning
         </v-btn>
         <v-spacer></v-spacer>
 
         <v-btn
+          class="hidden-xs-only"
           dark
           color="red"
           @click="$router.go(-1)"
-          :small="$vuetify.breakpoint.xsOnly"
         >
           Avbryt
         </v-btn>
         <v-btn
+          class="hidden-xs-only"
           dark
           color="green"
           @click="addForslag"
-          :small="$vuetify.breakpoint.xsOnly"
         >
           Foreslå
         </v-btn>
+        <v-btn
+          class="hidden-sm-and-up"
+          dark
+          color="red"
+          fab
+          @click="$router.go(-1)"
+          small
+        >
+          <v-icon>
+            mdi-close
+          </v-icon>
+        </v-btn>
+        <v-btn
+          class="hidden-sm-and-up"
+          dark
+          color="green"
+          fab
+          @click="addForslag"
+          small
+        >
+          <v-icon>
+            mdi-check
+          </v-icon>
+        </v-btn>
+
       </v-card-actions>
     </v-card>
 

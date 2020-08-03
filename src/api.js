@@ -9,12 +9,12 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(
-  config => {
+  res => {
     const token = store.getters.token;
     if (token) {
-      config.headers.common["Authorization"] = token;
+      res.headers.common["Authorization"] = token;
     }
-    return config;
+    return res;
   },
   error => {
     return Promise.reject(error);

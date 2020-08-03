@@ -2,15 +2,17 @@
   "navbar": {
     "oversett": "Oversett",
     "forslag": "Forslag",
-    "oversikt": "Oversikt",
+    "sok": "Søk",
     "statistikk": "Statistikk",
     "instruks": "Instruks",
-    "om": "Om baksida",
+    "om": "Om Baksida",
     "profil": "Profil",
-    "loggut": "Logg ut",
+    "logg_ut": "Logg ut",
     "registrer": "Registrer",
-    "logginn": "Logg inn",
-    "sprak": "Språk"
+    "logg_inn": "Logg inn",
+    "sprak": "Språk",
+    "endre": "Endre",
+    "nytt_forslag": "Nytt forslag"
   },
   "ord": {
     "lemma_id": "Lemma-ID",
