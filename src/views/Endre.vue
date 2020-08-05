@@ -9,11 +9,27 @@
           @outside_click="boyningsDialog = false"
         />
         <v-btn
+          color="primary"
+          :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
+          target="_blank"
+          class="mx-2"
+        >
+          Bokmålsordboka
+        </v-btn>
+        <v-btn
           v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
           color="primary"
           @click="boyningsDialog = true"
+          class="mx-2"
         >
-          Vis bøyning
+          {{ $t("knapper.vis_boyning") }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          :to="'/nytt_forslag/' + currentOppslag.lemma_id"
+          class="mx-2"
+        >
+          Nytt forslag
         </v-btn>
         <v-btn
           dark
@@ -21,7 +37,7 @@
           @click="updateOppslag"
           class="mx-2"
         >
-          Oppdater
+          {{ $t("knapper.oppdater") }}
         </v-btn>
       </v-col>
     </v-row>
@@ -30,7 +46,7 @@
         md=6
         sm=6
       >
-        <h1>Endre</h1>
+        <h1>{{ $t("navbar.endre") }}</h1>
         <v-card>
           <v-card-title class="pb-3">
 
@@ -39,30 +55,31 @@
             <v-form ref="form">
               <v-text-field
                 v-model="currentOppslag.lemma_id"
-                label="Lemma ID"
+                :label="$t('ord.lemma_id')"
                 outlined
                 disabled
               />
+
               <v-text-field
                 v-model="currentOppslag.oppslag"
-                label="Oppslag"
+                :label="$t('ord.oppslagsord')"
                 outlined
                 disabled
               />
               <v-text-field
                 v-model="currentOppslag.boy_tabell"
-                label="Hovedordklasse"
+                :label="$t('ord.ordklasse')"
                 outlined
                 disabled
               />
               <v-text-field
                 v-model="currentOppslag.ledd"
-                label="Ledd"
+                :label="$t('ord.ledd')"
                 outlined
               />
               <div
-                v-for="(ut,index) in currentOppslag.uttale"
-                v-bind:key="ut.index"
+                v-for="(ut,index_ut) in currentOppslag.uttale"
+                v-bind:key="ut.index_ut"
               >
 
                 <v-text-field
@@ -70,16 +87,16 @@
                   outlined
                 >
                   <template v-slot:label>
-                    Uttale {{index+1}}
+                    {{ $t('ord.uttale') }} {{index_ut+1}}
                   </template>
                   <template v-slot:append>
-                    <div v-if="index == currentOppslag.uttale.length-1 && $store.getters.isAdmin">
+                    <div v-if="index_ut == currentOppslag.uttale.length-1 && $store.getters.isAdmin">
                       <v-icon
                         color="green lighten-1"
                         v-on:click="addUttale"
                       >mdi-plus-circle </v-icon>
                       <v-icon
-                        v-if="currentOppslag.definisjon.length > 1"
+                        v-if="currentOppslag.uttale.length > 1"
                         color="red lighten-1"
                         v-on:click="removeUttale"
                       >mdi-minus-circle </v-icon>
@@ -100,7 +117,7 @@
                   outlined
                 >
                   <template v-slot:label>
-                    Definisjon {{index+1}}
+                    {{ $t('ord.definisjon') }} {{index+1}}
                   </template>
                   <template v-slot:append>
                     <div v-if="index == currentOppslag.definisjon.length-1">
@@ -125,10 +142,10 @@
         sm=6
         cols=12
       >
-        <h1>Kommentarer</h1>
+        <h1>{{ $t('ord.kommentarer') }}</h1>
         <v-textarea
           outlined
-          label="Ny kommentar"
+          :label="$t('kommentar.ny_kommentar')"
           v-model="ny_kommentar"
         ></v-textarea>
         <div v-if="currentOppslag.kommentarer">

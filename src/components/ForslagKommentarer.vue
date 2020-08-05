@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Forslag fra {{ forslag.brukernavn }}
+    <v-card-title>{{ $t('kommentar.forslag_fra') }} {{ forslag.brukernavn }}
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -15,7 +15,7 @@
     <v-card-text>
       {{forslag.oppslag}} ({{forslag.boy_tabell}})
       <p class="text-h5">{{forslag.forslag_definisjon}}</p>
-      <span class="text-h6">Kommentarer</span>
+      <span class="text-h6"> {{ $t('kommentar.kommentarer') }}</span>
       <v-btn
         class="float-right"
         dark
@@ -23,11 +23,11 @@
         small
         @click="postKommentar"
       >
-        Post kommentar
+        {{ $t('kommentar.post_kommentar') }}
       </v-btn>
       <v-textarea
         outlined
-        label="Ny kommentar"
+        :label="$t('kommentar.ny_kommentar')"
         v-model="ny_kommentar"
         rows="4"
       ></v-textarea>

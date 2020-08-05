@@ -4,70 +4,37 @@
       Instruks for oversetting
     </v-card-title>
     <v-card-text>
-      <div class="text-subtitle-2 font-weight-bold">Hvor mange forskjellige definisjoner skal ordet ha?</div>
-      <p>Grunnregel: Hver unike betydning/konsept i det norske ordet skal ha en egen
-        definisjon (eget felt) på japansk. Hvert felt kan også ha (og har veldig ofte) flere japanske ord som tilsammen
-        representerer en god oversettelse. Skill hvert ord med et japansk komma 、</p>
-      <p>Eksempel: "bilde"<br>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.p1.tittel')}}</div>
+      <p>{{ $t('instruks.p1.tekst1') }}</p>
+      <p>{{ $t('instruks.p1.eksempel') }} "bilde" -><br>
         1: 画、絵、写真、映像<br>
         2: 象徴、典型<br>
         3: 描写<br>
         4: たとえ、直喩<br>
         5: 活動状況、情勢<br>
       </p>
-      <p>
-        Fremgangsmåte: Slå først opp ordet i Bokmålsordboka (<a
-          href="http://ordbok.uib.no"
-          target="_blank"
-        >ordbok.uib.no</a>)
-        og se hvor mange betydninger de mener det norske ordet har. I de fleste tilfeller
-        vil antallet definisjoner være det samme for oss. Dette gjelder dog ikke alltid,
-        og det er lov å slå sammen definisjoner hvis man mener Bokmålsordboka bommer, eller
-        hvis det ikke gir mening å skille mellom definisjonene på japansk, f.eks. om hver definisjon gir
-        samme oversettelse. Det tyder på at flere konsepter i den norske betydningen er representert
-        av ett og samme konsept på japansk.
-      </p>
-      <div class="text-subtitle-2 font-weight-bold">Forklaringer</div>
-      <p>
-        Noen ganger har et ord nyanser som ikke kommer godt frem i en oversettelse.
-        Dette kan f.eks. være at det kun brukes i spesielle kontekster. I slike tilfeller
-        kan man legge til en parantes med en forklaring.
-      </p>
+      <p v-html="$t('instruks.p1.tekst2')"></p>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.p2.tittel')}}</div>
+      <p>{{ $t('instruks.p2.tekst1') }}</p>
       <p> anmeldelse -><br>
         1: （警察などへの）届け出、報告<br>
         2: （映画などの）評価、レビュー
       </p>
-      <p>
-        Marker også slang eller svært uformelle ord med（俗語）og
-        vulgære ord/banneord med（卑語）. Eks: kuk -> <v-icon
+      <p>{{ $t('instruks.p2.tekst2') }} {{ $t('instruks.p2.eksempel') }} kuk -> <v-icon
           small
           color="green"
         >
           mdi-checkbox-marked-circle
         </v-icon>（卑語）ちんぽ
       </p>
-      <div class="text-subtitle-2 font-weight-bold">Regler for ordklasser</div>
-      <p>
-        Prøv så langt det er mulig å la de japanske oversettelsene ha samme ordklasse som på norsk.
-        Et adjektiv på norsk bør være et adjektiv på japansk. Dette er selvsagt ikke alltid mulig,
-        f.eks. hvis et adjektiv på norsk uttrykkes med et verb på japansk. I slike tilfeller bør man
-        likevel verbet i oversettelsen gjenspeile "adjektiviteten" på norsk. Se eksempler for hver
-        ordklasse under.
-      </p>
-      <p>
-        Det finnes også oppslag (lemma) som er helt like, men som har forskjellige ordklasser.
-        Vær veldig obs på at du oversetter ordet med korrekt ordklasse.
-      </p>
-      <p>
-        I tillegg finnes det noen ord på norsk som skrives helt likt og som i tillegg har SAMME ordklasse.
-        Et eksempel er de to substantive som heter "rot" (ei rot vs. et rot). I slike tilfeller bør du sjekke bøyningstabellen
-        for å sjekke at du oversetter riktig ord.
-
-      </p>
-      <div class="text-subtitle-2 font-weight-bold">Adjektiv</div>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.p3.tittel')}}</div>
+      <p>{{ $t('instruks.p3.tekst1') }}</p>
+      <p>{{ $t('instruks.p3.tekst2') }}</p>
+      <p>{{ $t('instruks.p3.tekst3') }}</p>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.adjektiv.tittel') }}</div>
       <p>
         <ul>
-          <li>Na-adjektiv skal slutte med な.
+          <li>{{ $t('instruks.adjektiv.punkt1') }}
             <p> behagelig ->
               <v-icon
                 small
@@ -84,8 +51,7 @@
             </p>
           </li>
 
-          <li>Verb på japansk som oversetter et adjektiv skal i utgangspunktet slutte med fortidsform ～た.
-            Det finnes unntak hvor det blir unaturlig og ～ている passer bedre. Vurder selv.
+          <li>{{ $t('instruks.adjektiv.punkt2') }}
             <p> lei ->
               <v-icon
                 small
@@ -101,8 +67,7 @@
               </v-icon> 飽きる
             </p>
           </li>
-          <li>Substantiv på japansk som oversetter et adjektiv skal slutte med ～の, ～のある, ～のない, ～となる
-            avhengig av hva som er naturlig på japansk. De to første er de mest frekvente.
+          <li>{{ $t('instruks.adjektiv.punkt3') }}
             <p> aktuell ->
               <v-icon
                 small
@@ -120,10 +85,10 @@
           </li>
         </ul>
       </p>
-      <div class="text-subtitle-2 font-weight-bold">Adverb</div>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.adverb.tittel') }}</div>
       <p>
         <ul>
-          <li>Adverb oversettes slik at det japanske ordet også er et naturlig adverb
+          <li>{{ $t('instruks.adverb.punkt1') }}
             <p> likevel ->
               <v-icon
                 small
@@ -134,7 +99,7 @@
             </p>
           </li>
 
-          <li>Hvis et japansk adverb både kan ha に og で som partikkel kan du legge til に・で på slutten av ordet
+          <li>{{ $t('instruks.adverb.punkt2') }}
             <p> framme ->
               <v-icon
                 small
@@ -153,10 +118,10 @@
         </ul>
       </p>
 
-      <div class="text-subtitle-2 font-weight-bold">Substantiv</div>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.substantiv.tittel') }}</div>
       <p>
         <ul>
-          <li>Substantiv skal oversettes til den vanlige grunnformen i japansk.
+          <li>{{ $t('instruks.substantiv.punkt1') }}
             <p> billett ->
               <v-icon
                 small
@@ -166,7 +131,7 @@
               </v-icon> 切符、チケット、入場券
             </p>
           </li>
-          <li>Planter og dyr med kanji som ikke er 常用漢字 skal skrives med katakana
+          <li>{{ $t('instruks.substantiv.punkt2') }}
             <p> einstape ->
               <v-icon
                 small
@@ -184,10 +149,10 @@
           </li>
         </ul>
       </p>
-      <div class="text-subtitle-2 font-weight-bold">Verb</div>
+      <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.verb.tittel') }}</div>
       <p>
         <ul>
-          <li>Verb skal oversettes til ru-form, IKKE teiru-form eller andre former.
+          <li>{{ $t('instruks.verb.punkt1') }}
             <p> spise ->
               <v-icon
                 small

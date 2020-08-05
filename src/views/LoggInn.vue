@@ -4,7 +4,7 @@
     class="mt-10 mx-auto"
   >
     <v-card-title class="font-weight-bold">
-      Logg inn
+      {{ $t('navbar.logg_inn')}}
     </v-card-title>
     <v-card-text>
       <v-form
@@ -12,7 +12,7 @@
         v-model="valid"
       >
         <v-text-field
-          label="Brukernavn"
+          :label="$t('bruker.brukernavn')"
           prepend-icon="mdi-account-circle"
           v-model="username"
           :rules="username_rules"
@@ -21,7 +21,7 @@
         />
         <v-text-field
           :type="showPassword ? 'text' : 'password'"
-          label="Passord"
+          :label="$t('bruker.passord')"
           v-model="password"
           :rules="password_rules"
           prepend-icon="mdi-lock"
@@ -33,19 +33,19 @@
       </v-form>
     </v-card-text>
     <v-alert
-      v-if="errormessage"
+      v-if="error_message"
       dense
       outlined
       type="error"
     >
-      {{ this.errormessage}}
+        {{ this.error_message }}
     </v-alert>
     <v-card-actions class="justify-center pb-6">
       <v-btn
         color="primary"
         @click="login"
         :disabled="!valid"
-      >Logg inn</v-btn>
+      >  {{ $t('navbar.logg_inn')}}</v-btn>
     </v-card-actions>
 
   </v-card>
@@ -62,13 +62,13 @@ export default {
       showPassword: false,
       username: '',
       username_rules: [
-        v => !!v || 'Skriv brukernavnet ditt'
+        v => !!v || this.$t('bruker.logg_inn.error_brukernavn')
       ],
       password: '',
       password_rules: [
-        v => !!v || 'Skriv passordet ditt'
+        v => !!v || this.$t('bruker.logg_inn.error_passord')
       ],
-      errormessage: ''
+      error_message: ''
     }
   },
   methods: {
@@ -80,7 +80,8 @@ export default {
           await this.$store.dispatch('login', { username, password })
           this.$router.push('/oversett')
         } catch (error) {
-          this.errormessage = error.response.data
+          console.log(error.response.data)
+          this.error_message = error.response.data[this.$i18n.locale]
           console.log(error)
         }
       }

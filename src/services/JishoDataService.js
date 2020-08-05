@@ -83,6 +83,12 @@ class JishoDataService {
   updateBrukerdata(id, data) {
     return api.post(`/bruker/${id}/oppdater`, data)
   }
+  getAlleVegginnlegg() {
+    return api.get(`/veggen/alle_innlegg`)
+  }
+  postVegginnlegg(data) {
+    return api.post(`/veggen/nytt_innlegg`, data)
+  }
 }
 
 export default new JishoDataService();

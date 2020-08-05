@@ -24,7 +24,7 @@
           rounded
           solo
           hide-details
-          label="Søk etter ord/oppslag"
+          :label="$t('sok.sokefelt')"
           @keypress.enter="sokOppslag()"
         >
           <template v-slot:append>
@@ -51,7 +51,7 @@
         align="left"
       >
         <div v-if="oppslagsliste.length > 0">
-          <span class="font-weight-bold py-2 float-left ml-3">Treff: {{ this.treff}}</span>
+          <span class="font-weight-bold py-2 float-left ml-3">{{ $t('sok.treff') }}: {{ this.treff}}</span>
           <span class="float-right text-caption">
             <v-btn
               icon
@@ -96,9 +96,9 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content v-if="currentOppslag">
               <div class="text--primary body-1">
-                <span class="font-weight-bold"> Lemma ID: </span> {{ currentOppslag.lemma_id }} <br>
-                <span class="font-weight-bold"> Ledd: </span> {{ currentOppslag.ledd }} <br>
-                <span class="font-weight-bold"> Uttale: </span>
+                <span class="font-weight-bold"> {{ $t('ord.lemma_id') }}: </span> {{ currentOppslag.lemma_id }} <br>
+                <span class="font-weight-bold"> {{ $t('ord.ledd') }}: </span> {{ currentOppslag.ledd }} <br>
+                <span class="font-weight-bold"> {{ $t('ord.uttale') }}: </span>
                 <span
                   v-for="(ut) in currentOppslag.uttale"
                   v-bind:key="ut.transkripsjon"
@@ -106,7 +106,7 @@
                   / {{ ut.transkripsjon }} /
                 </span>
                 <br>
-                <span class="font-weight-bold"> Definisjoner: </span><br>
+                <span class="font-weight-bold"> {{ $t('ord.definisjoner') }}: </span><br>
                 <div
                   v-for="(definisjon) in currentOppslag.definisjon"
                   v-bind:key="definisjon.definisjon"
@@ -123,7 +123,7 @@
                       color="primary"
                       @click="boyningsDialog = true"
                     >
-                      Vis bøyning
+                      {{ $t('knapper.vis_boyning') }}
                     </v-btn>
                   </div>
                   <v-btn
@@ -133,7 +133,7 @@
                     dark
                     color="accent"
                     :to="'/endre/' + currentOppslag.lemma_id"
-                  >Endre</v-btn>
+                  >{{ $t('knapper.endre') }}</v-btn>
                   <v-btn
                     v-if="currentOppslag.definisjon.length == 0"
                     class="ml-2"
@@ -141,7 +141,7 @@
                     dark
                     color="green"
                     :to="'/nytt_forslag/' + currentOppslag.lemma_id"
-                  >Foreslå</v-btn>
+                  >{{ $t('knapper.foreslå') }}</v-btn>
                 </v-card-actions>
               </div>
             </v-expansion-panel-content>
@@ -153,10 +153,10 @@
         class="hidden-xs-only pl-4"
         align="left"
       >
-        <h4>filter</h4>
+        <h4>{{ $t('sok.filter') }}</h4>
         <v-checkbox
           class="pa-0 ma-0"
-          label="med definisjoner"
+          :label="$t('sok.med_def')"
           hide-details
           v-model="meduten.meddef"
           @click.native="sokOppslag()"
@@ -165,7 +165,7 @@
         <v-checkbox
           class="pa-0 ma-0"
           hide-details
-          label="uten definisjoner"
+          :label="$t('sok.uten_def')"
           v-model="meduten.utendef"
           @click.native="sokOppslag()"
         >
@@ -173,7 +173,7 @@
         <v-checkbox
           class="pa-0 ma-0"
           hide-details
-          label="med uttale"
+          :label="$t('sok.med_uttale')"
           v-model="meduten.medut"
           @click.native="sokOppslag()"
         >
@@ -181,12 +181,12 @@
         <v-checkbox
           class="pa-0 ma-0"
           hide-details
-          label="uten uttale"
+          :label="$t('sok.uten_uttale')"
           v-model="meduten.utenut"
           @click.native="sokOppslag()"
         >
         </v-checkbox>
-        <h5 class="mt-3">ordklasse</h5>
+        <h5 class="mt-3">{{ $t('ord.ordklasse') }}</h5>
         <div
           class="custom-control custom-checkbox"
           v-for="(value,ordklasse) in pos"

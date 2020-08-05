@@ -2,6 +2,7 @@
   "navbar": {
     "oversett": "Oversett",
     "forslag": "Forslag",
+    "nytt_forslag": "Nytt forslag",
     "sok": "Søk",
     "statistikk": "Statistikk",
     "instruks": "Instruks",
@@ -12,7 +13,7 @@
     "logg_inn": "Logg inn",
     "sprak": "Språk",
     "endre": "Endre",
-    "nytt_forslag": "Nytt forslag"
+    "veggen": "Veggen"
   },
   "ord": {
     "lemma_id": "Lemma-ID",
@@ -31,12 +32,14 @@
     "foreslå": "foreslå",
     "instruks": "instruks",
     "avbryt": "avbryt",
-    "oppdater": "oppdater"
+    "oppdater": "oppdater",
+    "godkjenn": "godkjenn"
   },
   "kommentar": {
-    "nykommentar": "Ny kommentar",
+    "forslag_fra": "Forslag fra: ",
+    "ny_kommentar": "Ny kommentar",
     "kommentarer": "Kommentarer",
-    "postkommentar": "Post kommentar"
+    "post_kommentar": "Post kommentar"
   },
   "bruker": {
     "brukernavn": "Brukernavn",
@@ -50,6 +53,7 @@
       "registrer_knapp": "Registrer ny bruker",
       "error_brukernavn": "Du må skrive et brukernavn",
       "error_brukernavn_lengde": "Brukernavnet må være mellom 6 og 12 tegn",
+      "error_brukernavn_gyldig": "Bruk kun små bokstaver fra det norske alfabetet",
       "error_epost": "Du må skrive e-posten din.",
       "error_epost_gyldig": "Adressen må være gyldig",
       "error_passord": "Passordet må være 6 tegn eller lengre",
@@ -62,31 +66,35 @@
       "error_passord": "Skriv passordet ditt"
     },
     "profil": {
+      "visningsspråk": "Visningsspråk",
       "gammelt_passord": "Gammelt passord",
       "nytt_passord": "Nytt passord"
     }
   },
   "oversett": {
-    "anbefalinger": "anbefalinger",
+    "anbefalinger": "Anbefalinger",
     "sok": "søk",
     "anbefalinger_title": "10 ord som trenger oversettelse",
-    "hent_flere": "Hent flere",
+    "hent_flere": "Last på ny",
     "oversett": "Oversett"
   },
   "forslag": {
-    "nytt_forslag": "Nytt forslag",
     "forslag_definisjon": "Forslag til definisjon",
+    "rediger_forslag": "Rediger forslag",
+    "rediger_godkjenn": "Rediger og godkjenn forslag",
+    "rediger_forslag_advarsel": "OBS. Hvis du endrer forslaget blir alle stemmer nullstilt.",
+    "bokmålsordboka": "Se oppslag i Bokmålsordboka",
     "alle": "alle",
     "mine": "mine",
     "oversatt_av": "Oversatt av",
     "stemmer": "Stemmer",
     "dato": "Dato",
     "status": "Status",
-    "avvist_avsteming": "Avvist ved avsteming",
+    "avvist_avstemning": "Avvist ved avsteming",
     "endret_godkjent": "Endret og godkjent av admin",
     "godkjent_admin": "Godkjent av admin",
     "godkjent_avstemning": "Godkjent ved avstemning",
-    "under_avsteming": "Til avstemning" 
+    "under_avstemning": "Til avstemning"
   },
   "sok": {
     "sokefelt": "Søk etter ord/oppslag",
@@ -96,16 +104,105 @@
     "med_uttale": "med uttale",
     "uten_uttale": "uten_uttale",
     "treff": "Treff"
-    
+  },
+  "veggen": {
+    "subtitle": "Still spørsmål, kom med med tilbakemeldinger, rapporter bugs osv. på norsk/japansk",
+    "nytt_innlegg": "Nytt innlegg",
+    "innlegg_knapp": "Post",
+    "svar": "Ditt svar",
+    "svar_knapp": "Post"
   },
   "statistikk": {
     "diverse": "Diverse statistikk",
+    "type": "Type",
+    "antall": "Antall",
     "brukere": "Brukere",
     "oversettelser": "Oversettelser",
-    "oversatte_ord": "Oversatte ord",
-    "ord_uten": "Ord uten oversettelse",
+    "ord_med": "Ord med oversettelser",
+    "ord_uten": "Ord uten oversettelser",
     "siste_30": "Siste 30 dager",
     "nye_aksepterte": "Nye aksepterte oversettelser",
     "nye_forslag": "Nye forslag"
+  },
+  "om": {
+    "hovedtittel": "Om 'Baksida' til jisho.no",
+    "p1": {
+      "tittel": "Hva slags side er dette?",
+      "tekst": "På Baksida skjer alt arbeidet med å lage oversettelsene som vises på jisho.no. Her finnes også statistikk og informasjon om de som oversetter."
+    },
+    "p2": {
+      "tittel": "Hvem kan bruke Baksida?",
+      "tekst": "Alle! jisho.no er laget av frivillige, og det kan du også bli! Hvis du registrerer deg kan du også komme med forslag til nye oversettelser, og stemme på andres oversettelser. Det er åpent for alle og du trenger ikke spørre om lov for å bidra."
+    },
+    "p3": {
+      "tittel": "Hvordan kan jeg bidra?",
+      "tekst": "Det vi trenger aller mest er flere oversettelser fra norsk til japansk, så den beste måten å bidra på er med oversetting. For å komme i gang med det må du gjøre følgende:",
+      "liste": {
+        "1": "Registrer deg som ny bruker",
+        "2": "Logg inn",
+        "31": "Sett deg godt inn i ",
+        "32": "instruksen",
+        "33": " for hvordan oversette ord på en god måte",
+        "4": "Besøk fanen 'Oversett' og oversett enten ord som anbefales eller søk opp ord du selv vil oversette.",
+        "5": "Nye forslag til definisjoner (oversettelser) kan ses av alle og stemmes på under fanen 'Forslag'. Kommenter også gjerne på andres oversettelser for å gi innspill.",
+        "6": "Hvis et forslag får 5 positive stemmer, eller hvis en admin godkjenner det direkte, legges det til i ordboka. Ved 5 negative stemmer blir forslaget avvist."
+      }
+    },
+    "p4": {
+      "tittel": "Tar dere imot donasjoner?",
+      "tekst1": "Det gjør vi gjerne! Siden jisho.no er et 100% frivillig non-profit prosjekt er vi avhengige av av brukernes hjelp for å betale servere og domener. Alle donasjoner, store og små, er velkomne og vil i sin helhet bli brukt til prosjektet. Skulle vi få inn mer enn vi trenger i overskuelig fremtid kommer vi til å stoppe å ta imot flere donasjoner.",
+      "tekst2": "Vi tar kun imot på Vipps. Søk etter jisho.no eller nummer 616524."
+    },
+    "p5": {
+      "tittel": "Trenger dere hjelp med programmering o.l.?",
+      "tekst": "Det kan godt være! Ta kontakt (se kontaktinfo nederst) og fortell hva du kunne tenke deg å bidra med. All kode er <a href='https://github.com/jishono/' target='_blank'>open source på Github</a> men det er best om vi har pratet sammen først før du bidrar med kode."
+    },
+    "p6": {
+      "tittel": "Hvem er ansvarlig for jisho.no/Baksida?",
+      "tekst": "Vi er et kjerneteam av følgende personer som har overordnet redaksjonelt ansvar og som jobber med kode og server.",
+      "liste": "<ul> <li> Per Gunnar Paulsen (hovedansvarlig, redaktør/admin på baksida, kode) </li> <li>Petter Mæhlum (redaktør/admin på baksida)</li> <li> Patrick Auri (kode, design) </li> <li> Stian Frøystein (server) </li> <li> Takaaki Yoshikawa (kode, japansk innhold) </li> </ul>",
+      "kontakt": "Alle spørsmål om prosjektet kan rettes til admin (alfakrøll) jisho.no"
+    }
+  },
+  "instruks": {
+    "tittel": "Instruks for oversetting",
+    "p1": {
+      "tittel": "Hvor mange forskjellige definisjoner skal ordet ha?",
+      "tekst1": "Grunnregel: Hver unike betydning/konsept i det norske ordet skal ha en egen definisjon (eget felt) på japansk. Hvert felt kan også ha (og har veldig ofte) flere japanske ord som tilsammen representerer en god oversettelse. Skill hvert ord med et japansk komma 、",
+      "eksempel": "Eksempel:",
+      "tekst2": "Fremgangsmåte: Slå først opp ordet i Bokmålsordboka (<a href='http://ordbok.uib.no' target='_blank'>ordbok.uib.no</a>) og se hvor mange betydninger de mener det norske ordet har. I de fleste tilfeller vil antallet definisjoner være det samme for oss. Dette gjelder dog ikke alltid, og det er lov å slå sammen definisjoner hvis man mener Bokmålsordboka bommer, eller hvis det ikke gir mening å skille mellom definisjonene på japansk, f.eks. om hver definisjon gir samme oversettelse. Det tyder på at flere konsepter i den norske betydningen er representert av ett og samme konsept på japansk."
+    },
+    "p2": {
+      "tittel": "Forklaringer",
+      "tekst1": "Noen ganger har et ord nyanser som ikke kommer godt frem i en oversettelse. Dette kan f.eks. være at det kun brukes i spesielle kontekster. I slike tilfeller kan man legge til en parantes med en forklaring.",
+      "tekst2": "Marker også slang eller svært uformelle ord med（俗語）og vulgære ord/banneord med（卑語）",
+      "eksempel": "Eksempel:"
+    },
+    "p3": {
+      "tittel": "Regler for ordklasser",
+      "tekst1": "Prøv så langt det er mulig å la de japanske oversettelsene ha samme ordklasse som på norsk. Et adjektiv på norsk bør være et adjektiv på japansk. Dette er selvsagt ikke alltid mulig, f.eks. hvis et adjektiv på norsk uttrykkes med et verb på japansk. I slike tilfeller bør man likevel verbet i oversettelsen gjenspeile 'adjektiviteten' på norsk. Se eksempler for hver ordklasse under.",
+      "tekst2": "Det finnes også oppslag (lemma) som er helt like, men som har forskjellige ordklasser. Vær veldig obs på at du oversetter ordet med korrekt ordklasse.",
+      "tekst3": "I tillegg finnes det noen ord på norsk som skrives helt likt og som i tillegg har SAMME ordklasse. Et eksempel er de to substantive som heter 'rot' (ei rot vs. et rot). I slike tilfeller bør du sjekke bøyningstabellen for å sjekke at du oversetter riktig ord."
+    },
+    "adjektiv": {
+      "tittel": "Adjektiv",
+      "punkt1": "Na-adjektiv skal slutte med な.",
+      "punkt2": "Verb på japansk som oversetter et adjektiv skal i utgangspunktet slutte med fortidsform ～た. Det finnes unntak hvor det blir unaturlig og ～ている passer bedre. Vurder selv.",
+      "punkt3": "Substantiv på japansk som oversetter et adjektiv skal slutte med ～の, ～のある, ～のない, ～となる avhengig av hva som er naturlig på japansk."
+    },
+    "adverb": {
+      "tittel": "Adverb",
+      "punkt1": "Adverb oversettes slik at det japanske ordet også er et naturlig adverb",
+      "punkt2": "Hvis et japansk adverb både kan ha に og で som partikkel kan du legge til に・で på slutten av ordet"
+    },
+    "substantiv": {
+      "tittel": "Substantiv",
+      "punkt1": "Substantiv skal oversettes til den vanlige grunnformen i japansk.",
+      "punkt2": "Planter og dyr med kanji som ikke er 常用漢字 skal skrives med katakana."
+    },
+    "verb": {
+      "tittel": "Verb",
+      "punkt1": "Verb skal oversettes til ru-form, IKKE teiru-form eller andre former."
+    }
   }
 }

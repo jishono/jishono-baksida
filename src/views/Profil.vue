@@ -8,7 +8,7 @@
       >
         <v-card max-width='600px'>
           <v-card-title class="font-weight-bold">
-            Profil
+           {{ $t('navbar.profil') }}
           </v-card-title>
           <v-card-text>
             <v-form
@@ -16,42 +16,42 @@
               v-model="valid"
             >
               <v-text-field
-                label="Brukernavn"
+                :label="$t('bruker.brukernavn')"
                 v-model="brukerdata.brukernavn"
                 outlined
                 disabled
               />
               <v-text-field
                 type="email"   
-                label="E-post"
+                :label="$t('bruker.epost')"
                 v-model="brukerdata.epost"
                 :rules="epostRules"
                 outlined
               />
               <v-select
                 v-model="brukerdata.locale"
+                :label="$t('bruker.profil.visningsspråk')"
                 :items="sprakvalg"
                 item-value='value'
                 item-text='text'
                 outlined
-                label="Foretrukket språk"
               ></v-select>
               <v-text-field
                 type="password"
-                label="Gammelt passord"
+                :label="$t('bruker.profil.gammelt_passord')"
                 v-model="passord.gammelt"
                 :rules="oldPasswordRules"
                 outlined
               />
               <v-text-field
                 type="password"
-                label="Nytt passord"
+                :label="$t('bruker.profil.nytt_passord')"
                 v-model="passord.nytt"
                 outlined
               />
               <v-text-field
                 type="password"
-                label="Bekreft passord"
+                :label="$t('bruker.registrering.bekreft_passord')"
                 v-model="passord.nyttBekreft"
                 outlined
               />
@@ -64,7 +64,7 @@
               @click="sjekkSkjema"
               :disabled="!valid"
             >
-              Oppdater
+              {{ $t('knapper.oppdater') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -162,6 +162,7 @@ export default {
           this.getBrukerdata()
           const message = response.data
           this.$store.dispatch('show_snackbar', { message: message, color: 'success' })
+          this.$store.dispatch('set_locale', this.brukerdata.locale)
           this.$refs.form.reset()
           this.passord.nytt = ''
           this.passord.nyttBekreft = ''

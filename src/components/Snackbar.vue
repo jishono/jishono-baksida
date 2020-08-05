@@ -5,7 +5,7 @@
     :color="color"
     top
   >
-    {{ message }}
+    {{ message[$i18n.locale] }}
   </v-snackbar>
 </template>
 

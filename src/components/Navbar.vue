@@ -119,6 +119,7 @@ export default {
         { title: 'sok', icon: 'mdi-magnify', route: '/sok', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'forslag', icon: 'mdi-account-group', route: '/forslag', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'statistikk', icon: 'mdi-chart-bar', route: '/statistikk', loggedIn: true, loggedOut: false, adminOnly: false },
+        { title: 'veggen', icon: 'mdi-comment-text-multiple', route: '/veggen', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'instruks', icon: 'mdi-help-circle', route: '/instruks', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'om', icon: 'mdi-information', route: '/om', loggedIn: true, loggedOut: true, adminOnly: false },
         { title: 'profil', icon: 'mdi-account-circle', route: '/profil', loggedIn: true, loggedOut: false, adminOnly: false },

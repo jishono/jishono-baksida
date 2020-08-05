@@ -12,7 +12,7 @@
       >
         <v-card max-width="600px" class="mx-auto">
           <v-card-title>
-            Anbefalinger
+            {{ $t('oversett.anbefalinger') }}
             <v-spacer></v-spacer>
             <v-btn
               class="hidden-xs-only"
@@ -21,7 +21,7 @@
               @click="getAnbefalinger"
             >
               <v-icon small left>mdi-reload</v-icon>
-              Last på ny
+              {{ $t('oversett.hent_flere') }}
             </v-btn>
             <v-btn
               class="hidden-sm-and-up"
@@ -34,7 +34,7 @@
             </v-btn>
           </v-card-title>
           <v-card-subtitle>
-            10 ord som trenger oversettelse
+            {{ $t('oversett.anbefalinger_title') }}
           </v-card-subtitle>
           <v-card-text align="left">
             <v-simple-table
@@ -44,9 +44,9 @@
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">Oppslag</th>
-                    <th class="text-left">Ordklasse</th>
-                    <th class="text-left">Oversett</th>
+                    <th class="text-left">{{ $t('ord.oppslagsord') }}</th>
+                    <th class="text-left">{{ $t('ord.ordklasse') }}</th>
+                    <th class="text-left">{{ $t('oversett.oversett') }}</th>
                   </tr>
                 </thead>
                 <tbody>

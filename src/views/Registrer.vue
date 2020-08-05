@@ -4,10 +4,10 @@
     class="mt-10 mx-auto"
   >
     <v-card-title class="font-weight-bold">
-      Registrer deg
+      {{ $t('bruker.registrering.registrer_deg') }}
     </v-card-title>
     <v-card-subtitle>
-      Lag en bruker for å kunne oversette nye ord
+      {{ $t('bruker.registrering.registrer_undertittel') }}
     </v-card-subtitle>
     <v-card-text>
       <v-form
@@ -15,7 +15,7 @@
         v-model="valid"
       >
         <v-text-field
-          label="Brukernavn"
+          :label="$t('bruker.brukernavn')"
           v-model="username"
           outlined
           :rules="username_rules"
@@ -23,7 +23,7 @@
         />
         <v-text-field
           type="email"
-          label="E-post"
+          :label="$t('bruker.epost')"
           v-model="email"
           :rules="email_rules"
           outlined
@@ -31,7 +31,7 @@
         />
         <v-text-field
           :type="showPassword ? 'text' : 'password'"
-          label="Passord"
+          :label="$t('bruker.passord')"
           v-model="password"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPassword = !showPassword"
@@ -41,7 +41,7 @@
         />
         <v-text-field
           :type="showPasswordConfirmed ? 'text' : 'password'"
-          label="Bekreft passord"
+          :label="$t('bruker.registrering.bekreft_passord')"
           v-model="password_confirm"
           :append-icon="showPasswordConfirmed ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPasswordConfirmed = !showPasswordConfirmed"
@@ -51,7 +51,7 @@
           @keyup.enter="register"
         />
         <v-text-field
-          label="Hva er fem pluss seks? Bruk bokstaver"
+          :label="$t('bruker.registrering.sjekk')"
           v-model="check"
           outlined
           :rules="check_rules"
@@ -79,7 +79,7 @@
         color="accent"
         @click="register"
         :disabled="!valid"
-      >Registrer ny bruker</v-btn>
+      > {{ $t('bruker.registrering.registrer_knapp') }}</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -96,28 +96,28 @@ export default {
       showPasswordConfirmed: false,
       email: '',
       email_rules: [
-        v => !!v || 'Du må skrive e-posten din',
-
-        v => (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) || 'Adressen må være gyldig',
+        v => !!v || this.$t('bruker.registrering.error_epost'),
+        v => (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) || this.$t('bruker.registrering.error_epost_gyldig'),
       ],
       username: '',
       username_rules: [
-        v => !!v || 'Du må skrive et brukernavn',
-        v => (v && v.length > 5 && v.length < 13) || 'Brukernavnet må mellom 6 og 12 tegn eller lengre'
+        v => !!v || this.$t('bruker.registrering.error_brukernavn'),
+        v => (v && v.length > 5 && v.length < 13) || this.$t('bruker.registrering.error_brukernavn_lengde'),
+        v => (v && /^[a-zæøå]+$/.test(v)) || this.$t('bruker.registrering.error_brukernavn_gyldig'),
       ],
 
       password: '',
       password_rules: [
-        v => (v && v.length > 5) || 'Passordet må være 6 tegn eller lengre'
+        v => (v && v.length > 5) || this.$t('bruker.registrering.error_passord')
       ],
       password_confirm: '',
       password_confirm_rules: [
-        v => !!v || 'Gjenta passordet over',
-        v => (v && v == this.password) || 'Begge passordfeltene må være helt like'
+        v => !!v || this.$t('bruker.registrering.error_bekreft_passord'),
+        v => (v && v == this.password) || this.$t('bruker.registrering.error_bekreft_ulikt')
       ],
       check: '',
       check_rules: [
-        v => (!!v) || 'Du må svare riktig på dette',
+        v => (!!v) || this.$t('bruker.registrering.error_sjekk'),
       ],
       error_message: '',
       success_message: '',
@@ -132,17 +132,17 @@ export default {
           password: this.password,
           check: this.check
         }
+        this.error_message = ''
         JishoDataService.registrer(user_data)
           .then((response) => {
-            this.error_message = ''
-            this.success_message = response.data
+            this.success_message = response.data[this.$i18n.locale]
             setTimeout(() => {
               this.$router.push('logginn')
             }, 2000)
           })
           .catch(error => {
             console.log(error)
-            this.error_message = error.response.data
+            this.error_message = error.response.data[this.$i18n.locale]
           })
       }
     },

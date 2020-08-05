@@ -9,8 +9,8 @@
       v-if="current_forslag"
     >
       <v-card>
-        <v-card-title v-if="$store.getters.isAdmin">Redigerer og godkjenn forslag</v-card-title>
-        <v-card-title v-else>Rediger forslag</v-card-title>
+        <v-card-title v-if="$store.getters.isAdmin">{{ $t('forslag.rediger_godkjenn') }}</v-card-title>
+        <v-card-title v-else>{{ $t('forslag.rediger_forslag') }}</v-card-title>
         <v-card-text>
           <v-text-field
             v-model="redigert_forslag"
@@ -18,7 +18,9 @@
             maxlength="100"
             outlined
           ></v-text-field>
-          OBS. Hvis du endrer forslaget blir alle stemmer nullstilt.
+          <span v-if="$store.getters.user_id == current_forslag.user_id">
+            {{ $t('forslag.rediger_forslag_advarsel') }}
+            </span>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -27,14 +29,15 @@
             dark
             @click="endre_dialog = false"
           >
-            Avbryt
+            {{ $t('knapper.avbryt') }}
           </v-btn>
           <v-btn
+            v-if="$store.getters.user_id == current_forslag.user_id"
             color="green"
             dark
             @click="redigerForslag(current_forslag)"
           >
-            Oppdater
+            {{ $t('knapper.oppdater') }}
           </v-btn>
           <v-btn
             v-if="$store.getters.isAdmin"
@@ -42,7 +45,7 @@
             dark
             @click="godkjennForslag(current_forslag)"
           >
-            Godkjenn
+            {{ $t('knapper.godkjenn') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -63,10 +66,10 @@
       class="mb-2"
     >
       <v-tab>
-        Alle
+        {{ $t('forslag.alle') }}
       </v-tab>
       <v-tab>
-        Mine
+        {{ $t('forslag.mine') }}
       </v-tab>
     </v-tabs>
     <v-text-field
@@ -85,6 +88,7 @@
       sort-by="opprettet"
       :sort-desc="true"
       class="elevation-1"
+      mobile-breakpoint="1024"
     >
       <template v-slot:item.lemma_id="{ item }">
 
@@ -149,15 +153,16 @@
       <template v-slot:item.stemmer="{ item }">
         <v-chip
           :color="getColorUp(item)"
-          class="mr-1"
+          class="mr-1 px-2"
           text-color="white"
           small
           @click="stemForslag(item, 1)"
         >
-          <span class="mr-2">
+          <span class="ml-1 mr-2">
             {{ item.upvotes}}
           </span>
           <v-icon
+            :x-small="$vuetify.breakpoint.mdAndDown"
             small
             dark
           >
@@ -165,16 +170,17 @@
           </v-icon>
         </v-chip>
         <v-chip
-          class="mr-1"
+          class="mr-1 px-2"
           :color="getColorDown(item)"
           text-color="white"
           small
           @click="stemForslag(item, 0)"
         >
-          <span class="mr-2">
+          <span class="ml-1 mr-2">
             {{ item.downvotes}}
           </span>
           <v-icon
+            :x-small="$vuetify.breakpoint.mdAndDown"
             small
             dark
           >
@@ -182,17 +188,18 @@
           </v-icon>
         </v-chip>
         <v-chip
-          class="mr-1"
+          class="mr-1 px-2"
           color="orange"
           text-color="white"
           small
           @click="openKommentarDialog(item)"
         >
-          <span class="mr-2">
+          <span class="ml-1 mr-2">
             {{ item.antall_kommentarer}}
           </span>
           <v-icon
             small
+            :x-small="$vuetify.breakpoint.mdAndDown"
             dark
           >
             mdi-comment-text-outline
@@ -202,10 +209,10 @@
       <template v-slot:item.status="{ item }">
         <v-chip
           small
-          :color="$store.getters.status_color(item.status)"
+          :color="forslag_status[item.status].color"
           text-color="white"
         >
-          {{ $store.getters.status_text(item.status)}}
+          {{ forslag_status[item.status].text }}
         </v-chip>
       </template>
       <template v-slot:item.opprettet="{ item }">
@@ -231,35 +238,60 @@ export default {
       search: '',
       headers: [],
       alle_headers: [
-
         {
-          text: 'Lemma-ID',
+          text: this.$t('ord.lemma_id'),
           align: 'start',
           value: 'lemma_id',
           width: '1%'
         },
-        { text: 'Oppslagsord', value: 'oppslag', width: '1%' },
-        { text: 'Ordklasse', value: 'boy_tabell', width: '1%' },
-        { text: 'Forslag til definisjon', value: 'forslag_definisjon', width: '30%' },
-        { text: 'Oversatt av', value: 'brukernavn', width: '1%' },
-        { text: 'Stemmer', value: 'stemmer', width: '20%' },
-        { text: 'Dato', value: 'opprettet', width: '15%' },
+        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '1%' },
+        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '1%' },
+        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
+        { text: this.$t('forslag.oversatt_av'), value: 'brukernavn', width: '1%' },
+        { text: this.$t('forslag.stemmer'), value: 'stemmer', width: '25%' },
+        { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
       mine_headers: [
         {
-          text: 'Lemma-ID',
+          text: this.$t('ord.lemma_id'),
           align: 'start',
           value: 'lemma_id',
-          width: '1%'
+          width: '5%'
         },
-        { text: 'Oppslagsord', value: 'oppslag', width: '1%' },
-        { text: 'Ordklasse', value: 'boy_tabell', width: '1%' },
-        { text: 'Forslag til definisjon', value: 'forslag_definisjon', width: '30%' },
-        { text: 'Stemmer', value: 'stemmer', width: '20%' },
-        { text: 'Status', value: 'status', width: '1%' },
-        { text: 'Dato', value: 'opprettet', width: '10%' },
+        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '5%' },
+        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '5%' },
+        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
+        { text: this.$t('forslag.oversatt_av'), value: 'stemmer', width: '25%' },
+        { text: this.$t('forslag.stemmer'), value: 'status', width: '15%' },
+        { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
       forslag: [],
+      forslag_status: {
+        0: {
+          text: this.$t('forslag.under_avstemning'),
+          color: 'orange'
+        },
+        1: {
+          text: this.$t('forslag.godkjent_avstemning'),
+          color: 'green'
+        },
+        2: {
+          text: this.$t('forslag.godkjent_admin'),
+          color: 'green'
+        },
+        3: {
+          text: this.$t('forslag.endret_godkjent'),
+          color: 'green'
+        },
+        4: {
+          text: this.$t('forslag.avvist_avstemning'),
+          color: 'red'
+        },
+        5: {
+          text: this.$t('forslag.avvist_admin'),
+          color: 'red'
+        }
+      }
     }
   },
   components: {

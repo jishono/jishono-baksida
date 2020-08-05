@@ -7,15 +7,15 @@
       <v-col>
         <v-card class="ma-2">
           <v-card-title>
-            Diverse statistikk
+              {{ $t('statistikk.diverse') }}
           </v-card-title>
           <v-card-text>
             <v-simple-table dense>
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">Type</th>
-                    <th class="text-left">Antall</th>
+                    <th class="text-left">{{ $t('statistikk.type') }}</th>
+                    <th class="text-left">{{ $t('statistikk.antall') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -23,7 +23,7 @@
                     v-for="item in statistikk.oppslag_info"
                     :key="item.tittel"
                   >
-                    <td>{{ item.tittel }}</td>
+                    <td>{{ $t('statistikk.' + item.tittel) }}</td>
                     <td>{{ item.antall }}</td>
                   </tr>
                 </tbody>
@@ -39,15 +39,15 @@
       >
         <v-card class="ma-2">
           <v-card-title>
-            Brukere
+            {{ $t('statistikk.brukere') }}
           </v-card-title>
           <v-card-text>
             <v-simple-table dense>
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">Bruker</th>
-                    <th class="text-left">Oversettelser</th>
+                    <th class="text-left">{{ $t('bruker.brukernavn') }}</th>
+                    <th class="text-left">{{ $t('statistikk.oversettelser') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -61,12 +61,9 @@
                 </tbody>
               </template>
             </v-simple-table>
-
           </v-card-text>
-
         </v-card>
       </v-col>
-
     </v-row>
     <v-row
       no-gutters
@@ -74,7 +71,7 @@
     >
       <v-col>
         <v-card class="ma-2">
-         <v-card-title>Siste 30 dager</v-card-title>
+         <v-card-title>   {{ $t('statistikk.siste_30') }}</v-card-title>
           <line-chart
             v-bind:nye_oversettelser="this.statistikk.nye_oversettelser" 
             v-bind:nye_forslag="this.statistikk.nye_forslag"
@@ -109,7 +106,6 @@ export default {
     JishoDataService.getStatistikk()
       .then(response => {
         this.statistikk = response.data
-        this.genererChart()
       })
       .catch(error => {
         console.log(error)

@@ -9,7 +9,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Nye aksepterte oversettelser',
+            label: this.$t('statistikk.nye_aksepterte'),
             data: [],
             fill: false,
             borderColor: '#1565c0',
@@ -17,7 +17,7 @@ export default {
             borderWidth: 2
           },
           {
-            label: 'Nye forslag',
+            label: this.$t('statistikk.nye_forslag'),
             data: [],
             fill: false,
             borderColor: 'red',
@@ -25,7 +25,7 @@ export default {
             borderWidth: 2
           },
            {
-            label: 'Kommentarer',
+            label: this.$t('kommentar.kommentarer'),
             data: [],
             fill: false,
             borderColor: 'orange',
@@ -66,9 +66,12 @@ export default {
   methods: {
     getDateArray (start, end) {
       let array = []
-      const date = new Date(start)
+      let date = new Date(start)
       while (date <= end) {
-        array.push((date.getDate()) + '-' + (date.getMonth() + 1));
+        let newDate = ''
+        if (date.getDate().toString().length == 1) newDate += '0';
+        newDate += (date.getDate()) + '-' + (date.getMonth() + 1)
+        array.push(newDate)
         date.setDate(date.getDate() + 1);
       }
       return array;

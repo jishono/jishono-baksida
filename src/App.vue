@@ -15,7 +15,7 @@
           sm=12
           md=12
           lg=10
-          xl=6
+          xl=8
           class="ma-0 px-0"
         >
           <v-main>

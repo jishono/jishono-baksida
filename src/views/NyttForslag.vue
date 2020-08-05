@@ -14,16 +14,16 @@
       class="mx-auto"
     >
       <v-card-title>
-        Nytt forslag
+        {{ $t('navbar.nytt_forslag') }}
       </v-card-title>
       <v-card-text>
-        <div class="text-h3">{{currentOppslag.oppslag}}</div>
-        <div>Lemma ID: {{currentOppslag.lemma_id}}</div>
-        <div>Ordklasse: {{currentOppslag.boy_tabell}}</div>
+        <div class="text-h3 mb-2">{{currentOppslag.oppslag}}</div>
+        <div>{{ $t('ord.lemma_id') }}: {{currentOppslag.lemma_id}}</div>
+        <div>{{ $t('ord.ordklasse') }}: {{currentOppslag.boy_tabell}}</div>
         <a
           :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
           target="_blank"
-        >Se oppslag i Bokmålsordboka</a>
+        >{{ $t('forslag.bokmålsordboka') }}</a>
 
         <v-form
           ref="form"
@@ -40,7 +40,7 @@
               outlined
             >
               <template v-slot:label>
-                Forslag til definisjon {{index+1}}
+                {{ $t('forslag.forslag_definisjon') }} {{index+1}}
               </template>
               <template v-slot:append>
                 <div v-if="index == forslag_definisjoner.length-1">
@@ -71,7 +71,7 @@
               dark
               v-on="on"
             >
-              Instruks
+              {{ $t('knapper.instruks') }}
             </v-btn>
           </template>
           <InstruksBoks>
@@ -82,7 +82,7 @@
           color="primary"
           @click="boyningsDialog = true"
         >
-          Bøyning
+          {{ $t('knapper.boyning') }}
         </v-btn>
         <v-spacer></v-spacer>
 
@@ -92,7 +92,7 @@
           color="red"
           @click="$router.go(-1)"
         >
-          Avbryt
+          {{ $t('knapper.avbryt') }}
         </v-btn>
         <v-btn
           class="hidden-xs-only"
@@ -100,7 +100,7 @@
           color="green"
           @click="addForslag"
         >
-          Foreslå
+          {{ $t('knapper.foreslå') }}
         </v-btn>
         <v-btn
           class="hidden-sm-and-up"

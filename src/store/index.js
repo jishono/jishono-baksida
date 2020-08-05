@@ -12,37 +12,12 @@ export default new Vuex.Store({
     username: localStorage.getItem('username') || '',
     user_id: localStorage.getItem('user_id') || null,
     admin: localStorage.getItem('admin') || null,
+    locale: localStorage.getItem('locale') || process.env.VUE_APP_I18N_LOCALE || 'no',
     snackbar: {
       text: '',
       color: '',
     },
     boy_ok: ['adj', 'adv', 'det', 'pron', 'subst', 'verb'],
-    forslag_status: {
-      0: {
-        text: 'Til avstemning',
-        color: 'orange'
-      },
-      1: {
-        text: 'Godkjent ved avstemning',
-        color: 'green'
-      },
-      2: {
-        text: 'Godkjent av admin',
-        color: 'green'
-      },
-      3: {
-        text: 'Endret og godkjent av admin',
-        color: 'green'
-      },
-      4: {
-        text: 'Avvist ved avstemning',
-        color: 'red'
-      },
-      5: {
-        text: 'Avvist av admin',
-        color: 'red'
-      }
-    }
   },
   mutations: {
     auth_request (state) {
@@ -54,6 +29,7 @@ export default new Vuex.Store({
       state.username = payload.username
       state.user_id = payload.user_id
       state.admin = payload.admin
+      state.locale = payload.locale
     },
     auth_error (state) {
       state.status = 'error'
@@ -68,6 +44,11 @@ export default new Vuex.Store({
       state.snackbar.color = payload.color
       state.snackbar.show = true */
       state.snackbar = payload
+    },
+    set_locale (state, payload) {
+      state.locale = payload
+      i18n.locale = payload
+
     }
   },
   actions: {
@@ -84,14 +65,15 @@ export default new Vuex.Store({
         localStorage.setItem('username', username)
         localStorage.setItem('user_id', user_id)
         localStorage.setItem('admin', admin)
-        i18n.locale = locale    
-        commit('auth_success', { token: token, user_id: user_id, username: username, admin: admin })
+        localStorage.setItem('locale', locale)        
+        commit('auth_success', { token: token, user_id: user_id, username: username, admin: admin, locale: locale })
       } catch (error) {
         commit('auth_error')
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         localStorage.removeItem('user_id')
         localStorage.removeItem('admin')
+        localStorage.removeItem('locale')
         throw error
       }
     },
@@ -103,8 +85,12 @@ export default new Vuex.Store({
       localStorage.removeItem('admin')
       commit('logout')
     },
-    show_snackbar ({ commit}, snackbar_data) {
+    show_snackbar ({ commit }, snackbar_data) {
       commit('set_snackbar', snackbar_data)
+    },
+    set_locale ({ commit }, language) {
+      localStorage.setItem('locale', language)
+      commit('set_locale', language)
     }
   },
   getters: {
@@ -114,13 +100,7 @@ export default new Vuex.Store({
     username: state => state.username,
     user_id: state => state.user_id,
     boy_ok: state => state.boy_ok,
-    status_text: state => status => {
-      return state.forslag_status[status].text
-    },
-    status_color: state => status => {
-      return state.forslag_status[status].color
-    },
     snackbar: state => state.snackbar,
-
+    locale: state => state.locale
   }
 });
