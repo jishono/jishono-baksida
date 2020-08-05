@@ -27,7 +27,6 @@
             {{ $t('veggen.subtitle')}}
           </v-card-subtitle>
           <v-card-text>
-
             <v-textarea
               outlined
               counter
@@ -43,7 +42,6 @@
               no-gutters
               justify="end"
             >
-
             </v-row>
             <div
               v-for="(innlegg) in alle_innlegg"
@@ -74,14 +72,12 @@
                 </v-card-text>
               </v-card>
               <v-row no-gutters>
-
                 <v-col cols=1>
                   <v-divider
                     class="mx-4"
                     vertical
                   ></v-divider>
                 </v-col>
-
                 <v-col cols=11>
                   <div
                     v-for="(svar) in innlegg.svar"
@@ -130,7 +126,6 @@
                     >
                       {{ $t('veggen.svar_knapp')}}
                     </v-btn>
-
                   </div>
                 </v-col>
               </v-row>
@@ -144,7 +139,6 @@
 
 <script>
 import JishoDataService from '../services/JishoDataService'
-//import JishoDataService from '../services/JishoDataService'
 
 export default {
   name: "veggen",
