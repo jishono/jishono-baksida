@@ -19,7 +19,7 @@
           class="ma-0 px-0"
         >
           <v-main>
-            <router-view />
+            <router-view :key="$route.fullPath" />
           </v-main>
         </v-col>
       </v-row>

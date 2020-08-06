@@ -12,22 +12,20 @@
           max-width="600px"
           class="mx-auto"
         >
-          <v-card-title>
-            <span class="my-1">{{$t('navbar.veggen')}}</span>
-            <v-spacer></v-spacer>
-            <v-btn
-              v-if="nytt_innlegg"
-              color="primary"
-              @click="postInnlegg(null)"
-            >
-              {{ $t('veggen.innlegg_knapp')}}
-            </v-btn>
-          </v-card-title>
-          <v-card-subtitle>
-            {{ $t('veggen.subtitle')}}
-          </v-card-subtitle>
+          <div v-if="!$route.params.id">
+
+            <v-card-title>
+              <span class="my-1">{{$t('navbar.veggen')}}</span>
+              <v-spacer></v-spacer>
+
+            </v-card-title>
+            <v-card-subtitle>
+              {{ $t('veggen.subtitle')}}
+            </v-card-subtitle>
+          </div>
           <v-card-text>
             <v-textarea
+              v-if="!$route.params.id"
               outlined
               counter
               maxlength="1000"
@@ -38,10 +36,18 @@
               no-resize
               rows="6"
             ></v-textarea>
+
             <v-row
               no-gutters
               justify="end"
             >
+              <v-btn
+                v-if="nytt_innlegg"
+                color="primary"
+                @click="postInnlegg(null)"
+              >
+                {{ $t('veggen.innlegg_knapp')}}
+              </v-btn>
             </v-row>
             <div
               v-for="(innlegg) in alle_innlegg"
@@ -57,14 +63,34 @@
                   </v-col>
                   <v-col align="end">
                     {{ new Date(innlegg.opprettet).toLocaleString("da-DK")}}
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          color="grey darken-3"
+                          class="ml-2"
+                          v-on="on"
+                          @click="fastlenke(innlegg.innlegg_id)"
+                        >
+                          mdi-link
+                        </v-icon>
+                      </template>
+                      <span>{{ $t('knapper.lenke')}}</span>
+                    </v-tooltip>
 
-                    <v-icon
-                      color="black"
-                      class="ml-2"
-                      @click="handleSvarknapp(innlegg)"
-                    >
-                      mdi-reply
-                    </v-icon>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          color="grey darken-3"
+                          class="ml-2"
+                          v-on="on"
+                          @click="handleSvarknapp(innlegg)"
+                        >
+                          mdi-reply
+                        </v-icon>
+                      </template>
+                      <span>{{ $t('knapper.svar')}}</span>
+                    </v-tooltip>
+
                   </v-col>
                 </v-card-title>
                 <v-card-text class="pa-3">
@@ -147,12 +173,14 @@ export default {
       alle_innlegg: [],
       nytt_innlegg: '',
       nytt_svar: '',
-      svar_id: Number
+      svar_id: Number,
+      enkeltinnlegg: false
     }
   },
+
   methods: {
-    getAlleInnlegg () {
-      JishoDataService.getAlleVegginnlegg()
+    hentVegginnlegg (innlegg_id) {
+      JishoDataService.hentVegginnlegg(innlegg_id)
         .then(response => {
           this.alle_innlegg = response.data
         })
@@ -163,13 +191,17 @@ export default {
         this.$refs.svarfelt[0].$refs.input.focus()
       })
     },
+    fastlenke (innlegg_id) {
+      this.$router.push('/veggen/' + innlegg_id)
+      this.hentVegginnlegg(innlegg_id)
+    },
     postInnlegg (parent_id) {
       const innhold = parent_id ? this.nytt_svar : this.nytt_innlegg
       console.log(innhold)
       JishoDataService.postVegginnlegg({ parent_id: parent_id, innhold: innhold })
         .then((response) => {
           this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.getAlleInnlegg()
+          this.hentVegginnlegg()
           this.nytt_innlegg = ''
           this.nytt_svar = ''
           this.svar_id = null
@@ -180,7 +212,7 @@ export default {
     }
   },
   mounted () {
-    this.getAlleInnlegg()
+    this.hentVegginnlegg(this.$route.params.id)
   }
 }
 </script>

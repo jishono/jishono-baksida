@@ -106,6 +106,14 @@ let router = new Router({
       component: () => import("./views/Veggen")
     },
     {
+      path: "/veggen/:id",
+      meta: {
+        requiresAuth: true,
+        title: 'veggen'
+      },
+      component: () => import("./views/Veggen")
+    },
+    {
       path: "/*",
       redirect: '/'
     },

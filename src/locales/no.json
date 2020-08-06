@@ -33,7 +33,9 @@
     "instruks": "instruks",
     "avbryt": "avbryt",
     "oppdater": "oppdater",
-    "godkjenn": "godkjenn"
+    "godkjenn": "godkjenn",
+    "svar": "Svar",
+    "lenke": "Direktelenke"
   },
   "kommentar": {
     "forslag_fra": "Forslag fra: ",

@@ -33,7 +33,9 @@
     "instruks": "手引き",
     "avbryt": "キャンセル",
     "oppdater": "更新",
-    "godkjenn": "承認"
+    "godkjenn": "承認",
+    "svar": "返事",
+    "lenke": "直結URL"
   },
   "kommentar": {
     "forslag_fra": "提案者：",
