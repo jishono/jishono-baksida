@@ -97,7 +97,13 @@
                   primary-title
                 >
                   <v-col cols=5>
-                    <span class="font-weight-black"> {{ innlegg.brukernavn}} </span>
+                    <v-avatar
+                      :color="randomFarge(innlegg.brukernavn)"
+                      size="32"
+                    >
+                      <span class="white--text">{{ initialer(innlegg.brukernavn) }}</span>
+                    </v-avatar>
+                    <span class="font-weight-black ml-1"> {{ innlegg.brukernavn}} </span>
 
                   </v-col>
                   <v-col align="end">
@@ -177,7 +183,13 @@
                         primary-title
                       >
                         <v-col cols=5>
-                          <span class="font-weight-black"> {{ svar.brukernavn}} </span>
+                          <v-avatar
+                            :color="randomFarge(svar.brukernavn)"
+                            size="32"
+                          >
+                            <span class="white--text">{{ initialer(svar.brukernavn) }}</span>
+                          </v-avatar>
+                          <span class="font-weight-black ml-1"> {{ svar.brukernavn}} </span>
                         </v-col>
                         <v-col align="end">
                           {{ new Date(svar.opprettet).toLocaleString("da-DK")}}
@@ -244,6 +256,7 @@
 
 <script>
 import JishoDataService from '../services/JishoDataService'
+import md5 from 'md5'
 
 export default {
   name: "veggen",
@@ -310,6 +323,12 @@ export default {
         .catch(error => {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
+    },
+    randomFarge (brukernavn) {
+      return '#' + md5(brukernavn).slice(0, 6);
+    },
+    initialer (brukernavn) {
+      return brukernavn.slice(0, 2).toUpperCase();
     }
   },
   mounted () {

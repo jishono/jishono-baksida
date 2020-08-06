@@ -20,7 +20,7 @@
           ></v-text-field>
           <span v-if="$store.getters.user_id == current_forslag.user_id">
             {{ $t('forslag.rediger_forslag_advarsel') }}
-            </span>
+          </span>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -85,18 +85,20 @@
                       'items-per-page-options': [5, 10, 20, 30, 40, 50]
                        }"
       :items-per-page="20"
+      :header-props="{ sortIcon: null }"
       sort-by="opprettet"
       :sort-desc="true"
       class="elevation-1"
-      mobile-breakpoint="1024"
+      mobile-breakpoint="1030"
     >
       <template v-slot:item.lemma_id="{ item }">
-
-        <router-link
-          v-if="$store.getters.isAdmin"
-          :to="{path: 'endre/' + item.lemma_id}"
-        >{{ item.lemma_id}}</router-link>
-        <span v-else>{{ item.lemma_id }}</span>
+        <div style="width: 60px">
+          <router-link
+            v-if="$store.getters.isAdmin"
+            :to="{path: 'endre/' + item.lemma_id}"
+          >{{ item.lemma_id}}</router-link>
+          <span v-else>{{ item.lemma_id }}</span>
+        </div>
       </template>
       <template v-slot:item.forslag_definisjon="{ item }">
         {{item.forslag_definisjon}}
@@ -150,61 +152,66 @@
           </v-btn>
         </div>
       </template>
-      <template v-slot:item.stemmer="{ item }">
-        <v-chip
-          :color="getColorUp(item)"
-          class="mr-1 px-2"
-          text-color="white"
-          small
-          @click="stemForslag(item, 1)"
+      <template v-slot:item.upvotes="{ item }">
+        <div
+          class=""
+          style="width: 165px"
         >
-          <span class="ml-1 mr-2">
-            {{ item.upvotes}}
-          </span>
-          <v-icon
-            :x-small="$vuetify.breakpoint.mdAndDown"
+          <v-chip
+            :color="getColorUp(item)"
+            class="mr-1 px-2"
+            text-color="white"
             small
-            dark
+            @click="stemForslag(item, 1)"
           >
-            mdi-thumb-up-outline
-          </v-icon>
-        </v-chip>
-        <v-chip
-          class="mr-1 px-2"
-          :color="getColorDown(item)"
-          text-color="white"
-          small
-          @click="stemForslag(item, 0)"
-        >
-          <span class="ml-1 mr-2">
-            {{ item.downvotes}}
-          </span>
-          <v-icon
-            :x-small="$vuetify.breakpoint.mdAndDown"
+            <span class="ml-1 mr-2">
+              {{ item.upvotes}}
+            </span>
+            <v-icon
+              :x-small="$vuetify.breakpoint.mdAndDown"
+              small
+              dark
+            >
+              mdi-thumb-up-outline
+            </v-icon>
+          </v-chip>
+          <v-chip
+            class="mr-1 px-2"
+            :color="getColorDown(item)"
+            text-color="white"
             small
-            dark
+            @click="stemForslag(item, 0)"
           >
-            mdi-thumb-down-outline
-          </v-icon>
-        </v-chip>
-        <v-chip
-          class="mr-1 px-2"
-          color="orange"
-          text-color="white"
-          small
-          @click="openKommentarDialog(item)"
-        >
-          <span class="ml-1 mr-2">
-            {{ item.antall_kommentarer}}
-          </span>
-          <v-icon
+            <span class="ml-1 mr-2">
+              {{ item.downvotes}}
+            </span>
+            <v-icon
+              :x-small="$vuetify.breakpoint.mdAndDown"
+              small
+              dark
+            >
+              mdi-thumb-down-outline
+            </v-icon>
+          </v-chip>
+          <v-chip
+            class="mr-1 px-2"
+            color="orange"
+            text-color="white"
             small
-            :x-small="$vuetify.breakpoint.mdAndDown"
-            dark
+            @click="openKommentarDialog(item)"
           >
-            mdi-comment-text-outline
-          </v-icon>
-        </v-chip>
+            <span class="ml-1 mr-2">
+              {{ item.antall_kommentarer}}
+            </span>
+            <v-icon
+              small
+              :x-small="$vuetify.breakpoint.mdAndDown"
+              dark
+            >
+              mdi-comment-text-outline
+            </v-icon>
+          </v-chip>
+        </div>
       </template>
       <template v-slot:item.status="{ item }">
         <v-chip
@@ -246,9 +253,9 @@ export default {
         },
         { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '1%' },
         { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '1%' },
-        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
-        { text: this.$t('forslag.oversatt_av'), value: 'brukernavn', width: '1%' },
-        { text: this.$t('forslag.stemmer'), value: 'stemmer', width: '25%' },
+        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '50%' },
+        { text: this.$t('forslag.bruker'), value: 'brukernavn', width: '1%' },
+        { text: this.$t('forslag.stemmer'), value: 'upvotes', width: '1%' },
         { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
       mine_headers: [
@@ -256,13 +263,13 @@ export default {
           text: this.$t('ord.lemma_id'),
           align: 'start',
           value: 'lemma_id',
-          width: '5%'
+          width: '1%'
         },
-        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '5%' },
-        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '5%' },
+        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '1%' },
+        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '1%' },
         { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
-        { text: this.$t('forslag.stemmer'), value: 'stemmer', width: '25%' },
-        { text: this.$t('forslag.status'), value: 'status', width: '15%' },
+        { text: this.$t('forslag.stemmer'), value: 'upvotes', width: '1%' },
+        { text: this.$t('forslag.status'), value: 'status', width: '1%' },
         { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
       forslag: [],
@@ -405,11 +412,6 @@ export default {
         return 'red lighten-3'
       }
     },
-    setSnackbar (message, color) {
-      this.snackbarMessage = message
-      this.snackbarColor = color
-      this.snackbar = true
-    }
   },
   mounted () {
     this.refresh()
