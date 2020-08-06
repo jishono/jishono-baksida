@@ -94,7 +94,11 @@
                   </v-col>
                 </v-card-title>
                 <v-card-text class="pa-3">
-                  <div class="text--primary">{{ innlegg.innhold}}</div>
+                  <!-- <div class="text--primary">{{ innlegg.innhold}}</div> -->
+                  <vue-simple-markdown
+                    class="text--primary linjeskift"
+                    :source="innlegg.innhold"
+                  ></vue-simple-markdown>
                 </v-card-text>
               </v-card>
               <v-row no-gutters>
@@ -122,10 +126,10 @@
                         </v-col>
                       </v-card-title>
                       <v-card-text class="pa-3">
-                        <div
-                          v-html="svar.innhold"
-                          class="text--primary"
-                        ></div>
+                        <vue-simple-markdown
+                          class="text--primary linjeskift"
+                          :source="svar.innhold"
+                        ></vue-simple-markdown>
                       </v-card-text>
                     </v-card>
                   </div>
@@ -165,6 +169,8 @@
 
 <script>
 import JishoDataService from '../services/JishoDataService'
+/* import VueSimpleMarkdown from 'vue-simple-markdown'
+import 'vue-simple-markdown/dist/vue-simple-markdown.css' */
 
 export default {
   name: "veggen",
@@ -177,7 +183,9 @@ export default {
       enkeltinnlegg: false
     }
   },
-
+  /*   components: {
+      'vue-simple-markdown': VueSimpleMarkdown
+    }, */
   methods: {
     hentVegginnlegg (innlegg_id) {
       JishoDataService.hentVegginnlegg(innlegg_id)
@@ -216,3 +224,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.linjeskift {
+  white-space: pre-line;
+}
+</style>

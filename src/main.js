@@ -4,6 +4,10 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import store from './store';
 import i18n from './i18n'
+import VueSimpleMarkdown from 'vue-simple-markdown'
+/* import 'vue-simple-markdown/dist/vue-simple-markdown.css' */
+ 
+Vue.use(VueSimpleMarkdown)
 
 Vue.config.productionTip = false
 
