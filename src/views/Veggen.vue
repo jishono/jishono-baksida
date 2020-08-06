@@ -183,7 +183,7 @@
                           {{ new Date(svar.opprettet).toLocaleString("da-DK")}}
                           <v-tooltip
                             bottom
-                            v-if="$store.getters.user_id == innlegg.user_id"
+                            v-if="$store.getters.user_id == svar.user_id"
                           >
                             <template v-slot:activator="{ on }">
                               <v-icon
