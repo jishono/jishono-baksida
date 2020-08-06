@@ -89,6 +89,9 @@ class JishoDataService {
   postVegginnlegg(data) {
     return api.post(`/veggen/nytt_innlegg`, data)
   }
+  endreVegginnlegg(id, data) {
+    return api.post(`/veggen/innlegg/${id}/endre`, data)
+  }
 }
 
 export default new JishoDataService();

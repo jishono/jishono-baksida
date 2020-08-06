@@ -8,6 +8,44 @@
         cols=12
         class="pa-0"
       >
+        <v-dialog
+          v-model="endre_dialog"
+          width="500"
+        >
+          <v-card>
+            <v-card-title>tittel </v-card-title>
+            <v-card-text>
+              <v-textarea
+                v-model="endret_innhold"
+                outlined
+                counter
+                maxlength="1000"
+                clearable
+                :label="$t('veggen.endre_innlegg')"
+                auto-grow
+                no-resize
+                rows="6"
+              ></v-textarea>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="red"
+                dark
+                @click="endre_dialog = false"
+              >
+                {{ $t('knapper.avbryt') }}
+              </v-btn>
+              <v-btn
+                color="green"
+                dark
+                @click="endreInnlegg(current_innlegg_id)"
+              >
+                {{ $t('knapper.oppdater') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-card
           max-width="600px"
           class="mx-auto"
@@ -26,12 +64,12 @@
           <v-card-text>
             <v-textarea
               v-if="!$route.params.id"
+              v-model="nytt_innlegg"
               outlined
               counter
               maxlength="1000"
               clearable
               :label="$t('veggen.nytt_innlegg')"
-              v-model="nytt_innlegg"
               auto-grow
               no-resize
               rows="6"
@@ -60,6 +98,7 @@
                 >
                   <v-col cols=5>
                     <span class="font-weight-black"> {{ innlegg.brukernavn}} </span>
+
                   </v-col>
                   <v-col align="end">
                     {{ new Date(innlegg.opprettet).toLocaleString("da-DK")}}
@@ -75,6 +114,23 @@
                         </v-icon>
                       </template>
                       <span>{{ $t('knapper.lenke')}}</span>
+                    </v-tooltip>
+
+                    <v-tooltip
+                      bottom
+                      v-if="$store.getters.user_id == innlegg.user_id"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          color="grey darken-3"
+                          class="ml-2"
+                          v-on="on"
+                          @click="openEndreDialog(innlegg)"
+                        >
+                          mdi-pencil
+                        </v-icon>
+                      </template>
+                      <span>{{ $t('knapper.endre')}}</span>
                     </v-tooltip>
 
                     <v-tooltip bottom>
@@ -95,6 +151,8 @@
                 </v-card-title>
                 <v-card-text class="pa-3">
                   <!-- <div class="text--primary">{{ innlegg.innhold}}</div> -->
+
+                  <span v-if="innlegg.endret == true">({{$t('veggen.endret') }})</span>
                   <vue-simple-markdown
                     class="text--primary linjeskift"
                     :source="innlegg.innhold"
@@ -123,9 +181,26 @@
                         </v-col>
                         <v-col align="end">
                           {{ new Date(svar.opprettet).toLocaleString("da-DK")}}
+                          <v-tooltip
+                            bottom
+                            v-if="$store.getters.user_id == innlegg.user_id"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-icon
+                                color="grey darken-3"
+                                class="ml-2"
+                                v-on="on"
+                                @click="openEndreDialog(svar)"
+                              >
+                                mdi-pencil
+                              </v-icon>
+                            </template>
+                            <span>{{ $t('knapper.endre')}}</span>
+                          </v-tooltip>
                         </v-col>
                       </v-card-title>
                       <v-card-text class="pa-3">
+                        <span v-if="svar.endret == true">({{$t('veggen.endret') }})</span>
                         <vue-simple-markdown
                           class="text--primary linjeskift"
                           :source="svar.innhold"
@@ -169,8 +244,6 @@
 
 <script>
 import JishoDataService from '../services/JishoDataService'
-/* import VueSimpleMarkdown from 'vue-simple-markdown'
-import 'vue-simple-markdown/dist/vue-simple-markdown.css' */
 
 export default {
   name: "veggen",
@@ -179,19 +252,25 @@ export default {
       alle_innlegg: [],
       nytt_innlegg: '',
       nytt_svar: '',
+      endret_innhold: '',
+      endre_dialog: '',
       svar_id: Number,
+      current_innlegg_id: Number,
       enkeltinnlegg: false
     }
   },
-  /*   components: {
-      'vue-simple-markdown': VueSimpleMarkdown
-    }, */
   methods: {
     hentVegginnlegg (innlegg_id) {
       JishoDataService.hentVegginnlegg(innlegg_id)
         .then(response => {
           this.alle_innlegg = response.data
         })
+    },
+    nullstill () {
+      this.nytt_innlegg = ''
+      this.nytt_svar = ''
+      this.svar_id = null
+      this.hentVegginnlegg()
     },
     handleSvarknapp (innlegg) {
       this.svar_id = innlegg.innlegg_id;
@@ -203,16 +282,30 @@ export default {
       this.$router.push('/veggen/' + innlegg_id)
       this.hentVegginnlegg(innlegg_id)
     },
+    openEndreDialog (innlegg) {
+      this.endre_dialog = true
+      this.current_innlegg_id = innlegg.innlegg_id
+      this.endret_innhold = innlegg.innhold.slice()
+    },
+    endreInnlegg (innlegg_id) {
+      JishoDataService.endreVegginnlegg(innlegg_id, { endret_innhold: this.endret_innhold })
+        .then((response) => {
+          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
+          this.nullstill()
+          this.endre_dialog = false
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+        })
+    },
     postInnlegg (parent_id) {
       const innhold = parent_id ? this.nytt_svar : this.nytt_innlegg
       console.log(innhold)
       JishoDataService.postVegginnlegg({ parent_id: parent_id, innhold: innhold })
         .then((response) => {
           this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.hentVegginnlegg()
-          this.nytt_innlegg = ''
-          this.nytt_svar = ''
-          this.svar_id = null
+          this.nullstill()
+
         })
         .catch(error => {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })

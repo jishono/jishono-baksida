@@ -28,7 +28,7 @@
   "knapper": {
     "vis_boyning": "vis bøyning",
     "boyning": "bøyning",
-    "endre": "endre",
+    "endre": "Endre",
     "foreslå": "foreslå",
     "instruks": "instruks",
     "avbryt": "avbryt",
@@ -93,6 +93,7 @@
     "dato": "Dato",
     "status": "Status",
     "avvist_avstemning": "Avvist ved avsteming",
+    "avvist_admin": "Avvist av admin",
     "endret_godkjent": "Endret og godkjent av admin",
     "godkjent_admin": "Godkjent av admin",
     "godkjent_avstemning": "Godkjent ved avstemning",
@@ -110,9 +111,11 @@
   "veggen": {
     "subtitle": "Still spørsmål, kom med med tilbakemeldinger, rapporter bugs osv. på norsk/japansk",
     "nytt_innlegg": "Nytt innlegg",
+    "endre_innlegg": "Endre innlegg",
     "innlegg_knapp": "Post",
     "svar": "Ditt svar",
-    "svar_knapp": "Post"
+    "svar_knapp": "Post",
+    "endret": "endret"
   },
   "statistikk": {
     "diverse": "Diverse statistikk",

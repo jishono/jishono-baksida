@@ -93,6 +93,7 @@
     "dato": "日付",
     "status": "ステータス",
     "avvist_avstemning": "投票により否認済",
+    "avvist_admin": "管理者により否認済",
     "endret_godkjent": "管理者により変更・承認済",
     "godkjent_admin": "管理者により承認済",
     "godkjent_avstemning": "投票により承認済",
@@ -110,9 +111,11 @@
   "veggen": {
     "subtitle": "質問、フィードバック、バグレポなど、日本語でもノルウェー語でも、何でもOKです。",
     "nytt_innlegg": "新しい投稿",
+    "endre_innlegg": "投稿を編集",
     "innlegg_knapp": "投稿",
     "svar": "ここで返事を書いてください",
-    "svar_knapp": "返事"
+    "svar_knapp": "返事",
+    "endret": "編集済み"
   },
   "statistikk": {
     "diverse": "諸統計",
