@@ -183,6 +183,7 @@
             :color="getColorUp(item)"
             class="mr-1 px-2"
             text-color="white"
+            :disabled="filter_status != 0"
             small
             @click="stemForslag(item, 1)"
           >
