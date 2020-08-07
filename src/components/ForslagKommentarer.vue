@@ -17,7 +17,7 @@
       </v-tooltip>
       <v-btn
         icon
-        @click="$emit('close')"
+        @click="$emit('close')"        
       >
         <v-icon>
           mdi-close

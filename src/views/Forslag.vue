@@ -50,10 +50,12 @@
     <v-dialog
       v-model="kommentar_dialog"
       width="500"
+      @click:outside="kommentar_dialog = false; refresh()"
     >
       <forslag-kommentarer
         v-bind:forslag_id="this.current_forslag_id"
         @close="kommentar_dialog = false; refresh()"
+        
       ></forslag-kommentarer>
     </v-dialog>
     <v-tabs
@@ -220,7 +222,7 @@
           </v-chip>
           <v-chip
             class="mr-1 px-2"
-            :color="kommentarFarge(item.nyere)"
+            :color="kommentarFarge(item.sett)"
             text-color="white"
             small
             @click="openKommentarDialog(item.forslag_id)"
@@ -446,11 +448,11 @@ export default {
         return 'red lighten-3'
       }
     },
-    kommentarFarge (nyere) {
-      if (nyere == true) {
-        return 'red'
-      } else {
+    kommentarFarge (sett) {
+      if (sett == true) {
         return 'orange'
+      } else {
+        return 'red'
       }
     }
   },
