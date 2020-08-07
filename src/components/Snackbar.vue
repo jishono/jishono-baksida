@@ -5,7 +5,8 @@
     :color="color"
     top
   >
-    {{ message[$i18n.locale] }}
+    <span v-if="typeof message == 'string'">{{ message }} </span>
+    <span v-else>{{ message[$i18n.locale] }}</span>
   </v-snackbar>
 </template>
 
@@ -32,9 +33,9 @@ export default {
   },
   watch: {
     snackbar (updated_snackbar) {
-        this.message = updated_snackbar.message
-        this.color = updated_snackbar.color
-        this.show = true
+      this.message = updated_snackbar.message
+      this.color = updated_snackbar.color
+      this.show = true
     }
   }
 }

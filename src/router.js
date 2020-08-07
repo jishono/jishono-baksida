@@ -58,6 +58,14 @@ let router = new Router({
       component: () => import("./views/Forslag")
     },
     {
+      path: "/forslag/:id/kommentarer",
+      meta: {
+        requiresAuth: true,
+        title: 'forslag'
+      },
+      component: () => import("./views/Forslag")
+    },
+    {
       path: "/nytt_forslag/:id",
       meta: {
         requiresAuth: true,

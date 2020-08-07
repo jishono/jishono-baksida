@@ -293,6 +293,7 @@ export default {
         this.treff = this.oppslagsliste.length
         this.side = 0
       } catch (error) {
+        this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         console.log(error);
       }
     },

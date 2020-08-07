@@ -133,14 +133,13 @@ export default {
         })
         .catch(error => {
           if (error.response.status === 400) {
-            this.setSnackbar(error.response.data, 'error')
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
           }
         })
     },
     sjekkSkjema () {
       if (this.passord.nytt != '') {
         if (this.passord.nytt === this.passord.nyttBekreft) {
-          console.log("like passord")
           this.oppdaterBrukerdata()
         } else {
           this.$store.dispatch('show_snackbar', { message: 'Passordene må være like', color: 'error' })

@@ -55,7 +55,7 @@
       width="500"
     >
       <forslag-kommentarer
-        v-bind:forslag="this.current_forslag"
+        v-bind:forslag_id="this.current_forslag_id"
         @close="kommentar_dialog = false; refresh()"
       ></forslag-kommentarer>
 
@@ -72,6 +72,28 @@
         {{ $t('forslag.mine') }}
       </v-tab>
     </v-tabs>
+    <v-row
+      no-gutters
+      v-if="tab == 0"
+    >
+      <v-col align="center">
+        <span
+          v-for="(statuskode, index) in forslag_status"
+          :key="statuskode.text"
+        >
+          <v-chip
+            class="mt-3 mx-2"
+            small
+            :color="statuskode.color + filterFarge(index)"
+            dark
+            @click="filter_status = index"
+          >
+            {{ statuskode.text }}
+          </v-chip>
+        </span>
+      </v-col>
+    </v-row>
+
     <v-text-field
       v-model="search"
       append-icon="mdi-magnify"
@@ -80,7 +102,7 @@
     <v-data-table
       :headers="headers"
       :search="search"
-      :items="forslag"
+      :items="filtrerteForslag"
       :footer-props="{
                       'items-per-page-options': [5, 10, 20, 30, 40, 50]
                        }"
@@ -195,18 +217,18 @@
           </v-chip>
           <v-chip
             class="mr-1 px-2"
-            color="orange"
+            :color="kommentarFarge(item.nyere)"
             text-color="white"
             small
-            @click="openKommentarDialog(item)"
+            @click="openKommentarDialog(item.forslag_id)"
           >
             <span class="ml-1 mr-2">
               {{ item.antall_kommentarer}}
             </span>
+
             <v-icon
               small
               :x-small="$vuetify.breakpoint.mdAndDown"
-              dark
             >
               mdi-comment-text-outline
             </v-icon>
@@ -241,6 +263,8 @@ export default {
       endre_dialog: false,
       kommentar_dialog: false,
       current_forslag: null,
+      current_forslag_id: Number,
+      forslag: [],
       redigert_forslag: '',
       search: '',
       headers: [],
@@ -272,7 +296,7 @@ export default {
         { text: this.$t('forslag.status'), value: 'status', width: '1%' },
         { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
-      forslag: [],
+
       forslag_status: {
         0: {
           text: this.$t('forslag.under_avstemning'),
@@ -298,7 +322,8 @@ export default {
           text: this.$t('forslag.avvist_admin'),
           color: 'red'
         }
-      }
+      },
+      filter_status: 0
     }
   },
   components: {
@@ -309,6 +334,24 @@ export default {
       this.refresh()
     }
   },
+  computed: {
+    filterFarge () {
+      return statuskode => {
+        if (statuskode == this.filter_status) {
+          return ''
+        } else {
+          return ' lighten-3'
+        }
+      }
+    },
+    filtrerteForslag () {
+      if (this.tab === 0) {
+        return this.forslag.filter(item => item.status == this.filter_status)
+      } else {
+        return this.forslag.filter(item => this.$store.getters.user_id == item.user_id)
+      }
+    },
+  },
   methods: {
     refresh () {
       this.search = ''
@@ -318,6 +361,10 @@ export default {
             this.forslag = result.data
             this.headers = this.alle_headers
           })
+          .catch(error => {
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+            console.log(error)
+          })
       } else if (this.tab === 1) {
         const user_id = this.$store.getters.user_id
         JishoDataService.getBrukerforslag(user_id)
@@ -326,6 +373,7 @@ export default {
             this.headers = this.mine_headers
           })
           .catch(error => {
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
             console.log(error)
           })
       }
@@ -345,9 +393,9 @@ export default {
       this.current_forslag = item
       this.redigert_forslag = item.forslag_definisjon.slice()
     },
-    openKommentarDialog (item) {
+    openKommentarDialog (forslag_id) {
       this.kommentar_dialog = true
-      this.current_forslag = item
+      this.current_forslag_id = forslag_id
     },
     redigerForslag (item) {
 
@@ -412,9 +460,21 @@ export default {
         return 'red lighten-3'
       }
     },
+    kommentarFarge (nyere) {
+      if (nyere == true) {
+        return 'red'
+      } else {
+        return 'orange'
+      }
+    }
   },
   mounted () {
     this.refresh()
+    const forslag_id = parseInt(this.$route.params.id)
+    if (forslag_id) {
+      this.openKommentarDialog(forslag_id)
+    }
+
   }
 }
 </script>

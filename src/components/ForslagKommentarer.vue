@@ -2,6 +2,19 @@
   <v-card>
     <v-card-title>{{ $t('kommentar.forslag_fra') }} {{ forslag.brukernavn }}
       <v-spacer></v-spacer>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-icon
+            color="grey darken-3"
+            class="ml-2"
+            v-on="on"
+            @click="lenke"
+          >
+            mdi-link
+          </v-icon>
+        </template>
+        <span>{{ $t('knapper.lenke')}}</span>
+      </v-tooltip>
       <v-btn
         icon
         @click="$emit('close')"
@@ -49,7 +62,10 @@
               </v-col>
             </v-card-title>
             <v-card-text class="pa-3">
-              <div class="text--primary">{{ kom.kommentar}}</div>
+              <vue-simple-markdown
+                class="text--primary linjeskift"
+                :source="kom.kommentar"
+              ></vue-simple-markdown>
             </v-card-text>
           </v-card>
         </div>
@@ -70,14 +86,16 @@ export default {
   data () {
     return {
       ny_kommentar: '',
-      kommentarer: []
+      kommentarer: [],
+      forslag: {}
     }
   },
   props: {
-    forslag: Object
+    forslag_id: Number
   },
   watch: {
-    forslag: function () {
+    forslag_id: function () {
+      this.hentForslag()
       this.hentKommentarer()
     }
   },
@@ -97,18 +115,37 @@ export default {
           })
       }
     },
+    hentForslag () {
+      JishoDataService.hentEnkeltForslag(this.forslag_id)
+        .then(response => {
+          this.forslag = response.data
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+        })
+    },
     hentKommentarer () {
-      JishoDataService.getForslagKommentarer(this.forslag.forslag_id)
+      JishoDataService.getForslagKommentarer(this.forslag_id)
         .then(response => {
           this.kommentarer = response.data
         })
         .catch(error => {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
+    },
+    lenke () {
+      let url = 'https://baksida.jisho.no/forslag/' + this.forslag_id + '/kommentarer'
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          this.$store.dispatch('show_snackbar', { message: this.$t('varsler.kopiert'), color: 'success' })
+        })
+
+
     }
   },
   mounted () {
     this.hentKommentarer()
+    this.hentForslag()
   }
 }
 

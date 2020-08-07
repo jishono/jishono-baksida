@@ -292,8 +292,13 @@ export default {
       })
     },
     fastlenke (innlegg_id) {
-      this.$router.push('/veggen/' + innlegg_id)
-      this.hentVegginnlegg(innlegg_id)
+      //this.$router.push('/veggen/' + innlegg_id)
+      //this.hentVegginnlegg(innlegg_id)
+      let url = 'https://baksida.jisho.no/veggen/' + innlegg_id
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          this.$store.dispatch('show_snackbar', { message: this.$t('varsler.kopiert'), color: 'success' })
+    })
     },
     openEndreDialog (innlegg) {
       this.endre_dialog = true
@@ -336,9 +341,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.linjeskift {
-  white-space: pre-line;
-}
-</style>

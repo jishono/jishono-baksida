@@ -37,6 +37,9 @@
     "svar": "Svar",
     "lenke": "Direktelenke"
   },
+  "varsler": {
+    "kopiert": "URL kopiert til utklippstavla."
+  },
   "kommentar": {
     "forslag_fra": "Forslag fra: ",
     "ny_kommentar": "Ny kommentar",

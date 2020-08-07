@@ -62,6 +62,9 @@ class JishoDataService {
   getAllForslag () {
     return api.get(`/forslag`);
   }
+  hentEnkeltForslag (id) {
+    return api.get(`/forslag/${id}`);
+  }
   getForslagKommentarer (id) {
     return api.get(`/forslag/${id}/kommentarer`);
   }

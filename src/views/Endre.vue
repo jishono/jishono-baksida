@@ -166,7 +166,10 @@
                 </v-col>
               </v-card-title>
               <v-card-text class="pa-3">
-                <div class="text--primary">{{ kom.kommentar}}</div>
+                <vue-simple-markdown
+                  class="text--primary linjeskift"
+                  :source="kom.kommentar"
+                ></vue-simple-markdown>
               </v-card-text>
             </v-card>
           </div>

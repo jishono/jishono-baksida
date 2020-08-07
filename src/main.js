@@ -6,6 +6,7 @@ import store from './store';
 import i18n from './i18n'
 import VueSimpleMarkdown from 'vue-simple-markdown'
 /* import 'vue-simple-markdown/dist/vue-simple-markdown.css' */
+import './assets/css/global.css';
  
 Vue.use(VueSimpleMarkdown)
 

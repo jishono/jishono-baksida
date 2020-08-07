@@ -37,6 +37,9 @@
     "svar": "返事",
     "lenke": "直結URL"
   },
+  "varsler": {
+    "kopiert": "URLがクリップボードにコピーされました。"
+  },
   "kommentar": {
     "forslag_fra": "提案者：",
     "ny_kommentar": "新しいコメント",
