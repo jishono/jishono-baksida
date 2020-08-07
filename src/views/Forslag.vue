@@ -100,7 +100,7 @@
       label="Søk"
     ></v-text-field>
     <v-data-table
-      :headers="headers"
+      :headers="currentHeaders"
       :search="search"
       :items="filtrerteForslag"
       :footer-props="{
@@ -267,7 +267,6 @@ export default {
       forslag: [],
       redigert_forslag: '',
       search: '',
-      headers: [],
       alle_headers: [
         {
           text: this.$t('ord.lemma_id'),
@@ -296,7 +295,6 @@ export default {
         { text: this.$t('forslag.status'), value: 'status', width: '1%' },
         { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
-
       forslag_status: {
         0: {
           text: this.$t('forslag.under_avstemning'),
@@ -351,32 +349,26 @@ export default {
         return this.forslag.filter(item => this.$store.getters.user_id == item.user_id)
       }
     },
+    currentHeaders () {
+      if (this.tab === 0) {
+        return this.alle_headers
+      } else {
+        return this.mine_headers
+      }
+    },
   },
   methods: {
     refresh () {
       this.search = ''
-      if (this.tab === 0) {
-        JishoDataService.getAllForslag()
-          .then(result => {
-            this.forslag = result.data
-            this.headers = this.alle_headers
-          })
-          .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-            console.log(error)
-          })
-      } else if (this.tab === 1) {
-        const user_id = this.$store.getters.user_id
-        JishoDataService.getBrukerforslag(user_id)
-          .then(res => {
-            this.forslag = res.data
-            this.headers = this.mine_headers
-          })
-          .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-            console.log(error)
-          })
-      }
+      JishoDataService.getAllForslag()
+        .then(result => {
+          this.forslag = result.data
+          this.headers = this.alle_headers
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          console.log(error)
+        })
     },
     stemForslag (item, type) {
       JishoDataService.stemForslag(item.forslag_id, { type: type })
