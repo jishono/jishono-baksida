@@ -38,7 +38,8 @@
     "lenke": "直結URL"
   },
   "varsler": {
-    "kopiert": "URLがクリップボードにコピーされました。"
+    "kopiert": "URLがクリップボードにコピーされました。",
+    "server_error": "サーバーに接続できませんでした"
   },
   "kommentar": {
     "forslag_fra": "提案者：",

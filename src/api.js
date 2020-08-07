@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "./store"
+import i18n from '@/i18n'
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_NODE_HOST,
@@ -25,7 +26,7 @@ api.interceptors.response.use(
   res => { return res },
   error => {
     if (!error.response || error.response.status == 502) {
-      store.dispatch('show_snackbar', { message: 'Får ikke kontakt med API. Serveren kan være nede.', color: 'error' })
+      store.dispatch('show_snackbar', { message: i18n.t('varsler.server_error'), color: 'error' })
   }
 
     return Promise.reject(error);

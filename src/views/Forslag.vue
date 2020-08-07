@@ -18,9 +18,6 @@
             maxlength="100"
             outlined
           ></v-text-field>
-          <span v-if="$store.getters.user_id == current_forslag.user_id">
-            {{ $t('forslag.rediger_forslag_advarsel') }}
-          </span>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -58,7 +55,6 @@
         v-bind:forslag_id="this.current_forslag_id"
         @close="kommentar_dialog = false; refresh()"
       ></forslag-kommentarer>
-
     </v-dialog>
     <v-tabs
       centered
@@ -81,15 +77,6 @@
           v-for="(statuskode, index) in forslag_status"
           :key="statuskode.text"
         >
-         <!--  <v-chip
-            class="mt-3 mx-2"
-            small
-            :color="statuskode.color + filterFarge(index)"
-            dark
-            @click="filter_status = index"
-          >
-            {{ statuskode.text }}
-          </v-chip> -->
           <v-chip
             class="mt-3 mx-2"
             small
@@ -133,8 +120,7 @@
         </div>
       </template>
       <template v-slot:item.forslag_definisjon="{ item }">
-        {{item.forslag_definisjon}}
-
+        <span>{{item.forslag_definisjon}}</span>
         <v-btn
           class="float-right"
           icon
@@ -148,7 +134,10 @@
           </v-icon>
         </v-btn>
         <div class="float-right">
-
+          <span
+            class="text-caption"
+            v-if="item.endret == true"
+          >({{$t('veggen.endret') }})</span>
           <v-btn
             icon
             x-small
@@ -171,6 +160,7 @@
               mdi-close-box
             </v-icon>
           </v-btn>
+
           <v-btn
             icon
             x-small
@@ -211,6 +201,7 @@
             class="mr-1 px-2"
             :color="getColorDown(item)"
             text-color="white"
+            :disabled="filter_status != 0"
             small
             @click="stemForslag(item, 0)"
           >
@@ -219,6 +210,7 @@
             </span>
             <v-icon
               :x-small="$vuetify.breakpoint.mdAndDown"
+              
               small
               dark
             >
@@ -312,23 +304,23 @@ export default {
         },
         1: {
           text: this.$t('forslag.godkjent_avstemning'),
-          color: 'green'
+          color: 'green lighten-1'
         },
         2: {
           text: this.$t('forslag.godkjent_admin'),
-          color: 'green'
+          color: 'green lighten-1'
         },
         3: {
           text: this.$t('forslag.endret_godkjent'),
-          color: 'green'
+          color: 'green lighten-1'
         },
         4: {
           text: this.$t('forslag.avvist_avstemning'),
-          color: 'red'
+          color: 'red lighten-1'
         },
         5: {
           text: this.$t('forslag.avvist_admin'),
-          color: 'red'
+          color: 'red lighten-1'
         }
       },
       filter_status: 0

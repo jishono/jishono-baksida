@@ -38,7 +38,8 @@
     "lenke": "Direktelenke"
   },
   "varsler": {
-    "kopiert": "URL kopiert til utklippstavla."
+    "kopiert": "URL kopiert til utklippstavla.",
+    "server_error": "Får ikke kontakt med API. Serveren kan være nede."
   },
   "kommentar": {
     "forslag_fra": "Forslag fra: ",
