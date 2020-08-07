@@ -81,11 +81,21 @@
           v-for="(statuskode, index) in forslag_status"
           :key="statuskode.text"
         >
-          <v-chip
+         <!--  <v-chip
             class="mt-3 mx-2"
             small
             :color="statuskode.color + filterFarge(index)"
             dark
+            @click="filter_status = index"
+          >
+            {{ statuskode.text }}
+          </v-chip> -->
+          <v-chip
+            class="mt-3 mx-2"
+            small
+            :color="statuskode.color"
+            :outlined="filter_status != index"
+            :dark="filter_status == index"
             @click="filter_status = index"
           >
             {{ statuskode.text }}
@@ -333,15 +343,6 @@ export default {
     }
   },
   computed: {
-    filterFarge () {
-      return statuskode => {
-        if (statuskode == this.filter_status) {
-          return ''
-        } else {
-          return ' lighten-3'
-        }
-      }
-    },
     filtrerteForslag () {
       if (this.tab === 0) {
         return this.forslag.filter(item => item.status == this.filter_status)

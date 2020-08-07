@@ -135,14 +135,14 @@ export default {
         this.error_message = ''
         JishoDataService.registrer(user_data)
           .then((response) => {
-            this.success_message = response.data[this.$i18n.locale]
+            this.success_message = response.data
             setTimeout(() => {
               this.$router.push('logginn')
             }, 2000)
           })
           .catch(error => {
             console.log(error)
-            this.error_message = error.response.data[this.$i18n.locale]
+            this.error_message = error.response.data
           })
       }
     },

@@ -24,7 +24,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   res => { return res },
   error => {
-    if (!error.response) {
+    if (!error.response || error.response.status == 502) {
       store.dispatch('show_snackbar', { message: 'Får ikke kontakt med API. Serveren kan være nede.', color: 'error' })
   }
 
