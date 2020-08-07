@@ -4,10 +4,12 @@
       no-gutters
       justify="center"
     >
-      <v-col>
+      <v-col 
+      lg=9
+      cols=12>
         <v-card class="ma-2">
           <v-card-title>
-              {{ $t('statistikk.diverse') }}
+            {{ $t('statistikk.diverse') }}
           </v-card-title>
           <v-card-text>
             <v-simple-table dense>
@@ -31,11 +33,19 @@
             </v-simple-table>
           </v-card-text>
         </v-card>
+        <v-card class="ma-2">
+          <v-card-title> {{ $t('statistikk.siste_30') }}</v-card-title>
+          <line-chart
+            v-bind:nye_oversettelser="this.statistikk.nye_oversettelser"
+            v-bind:nye_forslag="this.statistikk.nye_forslag"
+            v-bind:antall_kommentarer="this.statistikk.antall_kommentarer"
+          >
+          </line-chart>
+        </v-card>
       </v-col>
       <v-col
-        lg=4
-        md=8
-        xs=12
+        lg=3
+        cols=12
       >
         <v-card class="ma-2">
           <v-card-title>
@@ -70,15 +80,7 @@
       justify="center"
     >
       <v-col>
-        <v-card class="ma-2">
-         <v-card-title>   {{ $t('statistikk.siste_30') }}</v-card-title>
-          <line-chart
-            v-bind:nye_oversettelser="this.statistikk.nye_oversettelser" 
-            v-bind:nye_forslag="this.statistikk.nye_forslag"
-            v-bind:antall_kommentarer="this.statistikk.antall_kommentarer"
-          >
-          </line-chart>
-        </v-card>
+
       </v-col>
     </v-row>
 
