@@ -8,26 +8,38 @@
           :boyningsDialog.sync="boyningsDialog"
           @outside_click="boyningsDialog = false"
         />
-        <v-btn
-          color="primary"
-          :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
-          target="_blank"
-          class="mx-2"
-        >
-          Bokmålsordboka
-        </v-btn>
+         <v-btn
+            color="primary"
+            :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
+            target="_blank"
+            outlined
+            class="mx-1"
+          >
+          <v-icon left>mdi-open-in-new</v-icon>
+            BMO
+          </v-btn>
+          <v-btn
+            color="primary"
+            :href="'https://naob.no/s%C3%B8k/' + currentOppslag.oppslag"
+            target="_blank"
+            outlined
+            class="mx-1"
+          >
+          <v-icon left>mdi-open-in-new</v-icon>
+            NOAB
+          </v-btn>
         <v-btn
           v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
           color="primary"
           @click="boyningsDialog = true"
-          class="mx-2"
+          class="mx-1"
         >
           {{ $t("knapper.vis_boyning") }}
         </v-btn>
         <v-btn
           color="primary"
           :to="'/nytt_forslag/' + currentOppslag.lemma_id"
-          class="mx-2"
+          class="mx-1"
         >
           Nytt forslag
         </v-btn>
@@ -35,7 +47,7 @@
           dark
           color="green"
           @click="updateOppslag"
-          class="mx-2"
+          class="mx-1"
         >
           {{ $t("knapper.oppdater") }}
         </v-btn>

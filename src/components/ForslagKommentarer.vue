@@ -1,7 +1,10 @@
 <template>
-  <v-card>
-    <v-card-title>{{ $t('kommentar.forslag_fra') }} {{ forslag.brukernavn }}
+  <v-card v-if="forslag">
+    <v-card-title class="pr-2">
+      <span class="hidden-xs-only">{{ $t('kommentar.forslag_fra') }} {{ forslag.brukernavn }}</span>
+      <span class="hidden-sm-and-up"> {{ forslag.brukernavn }}</span>
       <v-spacer></v-spacer>
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-icon
@@ -26,7 +29,47 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      <div class="text-h5 font-weight-bold">{{forslag.oppslag}} ({{forslag.boy_tabell}})</div>
+      <div class="text-h5 font-weight-bold mb-3">
+        <v-row
+          no-gutters
+          align="center"
+        >
+          <v-col
+            sm=7
+            cols=12
+          >
+            <span>{{forslag.oppslag}} ({{forslag.boy_tabell}})</span>
+          </v-col>
+          <v-col
+            sm=5
+            cols=12
+            class="d-flex justify-sm-end"
+          >
+            <v-btn
+              color="primary"
+              :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + forslag.oppslag + '&bokmaal=+'"
+              target="_blank"
+              small
+              outlined
+            >
+              <v-icon left>mdi-open-in-new</v-icon>
+              BMO
+            </v-btn>
+            <v-btn
+              color="primary"
+              :href="'https://naob.no/s%C3%B8k/' + forslag.oppslag"
+              target="_blank"
+              class="ml-1"
+              small
+              outlined
+            >
+              <v-icon left>mdi-open-in-new</v-icon>
+              NOAB
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+
       <div v-if="forslag.eksisterende_definisjoner.length > 0">
         <span class="">
           <v-icon
@@ -103,7 +146,7 @@ export default {
     return {
       ny_kommentar: '',
       kommentarer: [],
-      forslag: {}
+      forslag: null
     }
   },
   props: {

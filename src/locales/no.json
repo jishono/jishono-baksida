@@ -46,7 +46,7 @@
     "forslag_fra": "Forslag fra: ",
     "ny_kommentar": "Ny kommentar",
     "kommentarer": "Kommentarer",
-    "post_kommentar": "Post kommentar"
+    "post_kommentar": "Post"
   },
   "bruker": {
     "brukernavn": "Brukernavn",
@@ -113,7 +113,7 @@
     "med_def": "med definisjoner",
     "uten_def": "uten definisjoner",
     "med_uttale": "med uttale",
-    "uten_uttale": "uten_uttale",
+    "uten_uttale": "uten uttale",
     "treff": "Treff"
   },
   "veggen": {

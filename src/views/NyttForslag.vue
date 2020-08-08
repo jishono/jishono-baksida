@@ -15,15 +15,35 @@
     >
       <v-card-title>
         {{ $t('navbar.nytt_forslag') }}
-      </v-card-title>
-      <v-card-text>
-        <div class="text-h3 mb-2">{{currentOppslag.oppslag}}</div>
-        <div>{{ $t('ord.lemma_id') }}: {{currentOppslag.lemma_id}}</div>
-        <div>{{ $t('ord.ordklasse') }}: {{currentOppslag.boy_tabell}}</div>
-        <a
+        <v-spacer></v-spacer>
+        <v-btn
+          color="primary"
           :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
           target="_blank"
-        >{{ $t('forslag.bokmålsordboka') }}</a>
+          outlined
+          small
+        >
+          <v-icon left>mdi-open-in-new</v-icon>
+          BMO
+        </v-btn>
+        <v-btn
+          color="primary"
+          :href="'https://naob.no/s%C3%B8k/' + currentOppslag.oppslag"
+          target="_blank"
+          class="ml-1"
+          outlined
+          small
+        >
+          <v-icon left>mdi-open-in-new</v-icon>
+          NOAB
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <div class="text-h3 mb-2">
+          <span>{{currentOppslag.oppslag}}</span>
+        </div>
+        <div>{{ $t('ord.lemma_id') }}: {{currentOppslag.lemma_id}}</div>
+        <div>{{ $t('ord.ordklasse') }}: {{currentOppslag.boy_tabell}}</div>
 
         <v-form
           ref="form"
