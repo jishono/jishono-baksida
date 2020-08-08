@@ -26,10 +26,11 @@ api.interceptors.response.use(
   res => { return res },
   error => {
     if (!error.response || error.response.status == 502) {
+      console.log(error)
       store.dispatch('show_snackbar', { message: i18n.t('varsler.server_error'), color: 'error' })
-  }
-
-    return Promise.reject(error);
+      return new Promise(() => {})
+    } 
+      return Promise.reject(error);
   }
 );
 
