@@ -30,20 +30,34 @@
           class="mt-4"
         >
           <div
-            v-for="(def,index) in forslag_definisjoner"
+            v-for="(def,index) in currentOppslag.definisjon"
             v-bind:key="index"
           >
             <v-text-field
-              v-model="forslag_definisjoner[index]"
+              v-model="currentOppslag.definisjon[index].definisjon"
+              disabled
+              outlined
+            >
+              <template v-slot:label>
+                {{ $t('forslag.eksisterende_definisjon') }} {{index+1}}
+              </template>
+            </v-text-field>
+          </div>
+          <div
+            v-for="(ny_def,index2) in forslag_definisjoner"
+            v-bind:key="index2+100"
+          >
+            <v-text-field
+              v-model="forslag_definisjoner[index2]"
               counter
               maxlength="100"
               outlined
             >
               <template v-slot:label>
-                {{ $t('forslag.forslag_definisjon') }} {{index+1}}
+                {{ $t('forslag.forslag_definisjon') }} {{currentOppslag.definisjon.length + index2+1}}
               </template>
               <template v-slot:append>
-                <div v-if="index == forslag_definisjoner.length-1">
+                <div v-if="index2 == forslag_definisjoner.length-1">
                   <v-icon
                     color="green lighten-1"
                     v-on:click="addDef"

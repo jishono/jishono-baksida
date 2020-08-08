@@ -55,7 +55,6 @@
       <forslag-kommentarer
         v-bind:forslag_id="this.current_forslag_id"
         @close="kommentar_dialog = false; refresh()"
-        
       ></forslag-kommentarer>
     </v-dialog>
     <v-tabs
@@ -121,6 +120,27 @@
           <span v-else>{{ item.lemma_id }}</span>
         </div>
       </template>
+      <template v-slot:item.oppslag="{ item }">
+        <span>{{ item.oppslag}}</span>
+        <v-tooltip
+          bottom
+          v-if="item.eksisterende_definisjoner && item.status == 0"
+        >
+          <template v-slot:activator="{ on }">
+            <v-icon
+              color="red"
+              small
+              class="ml-1"
+              v-on="on"
+            >
+              mdi-alert-circle
+            </v-icon>
+          </template>
+          <span>{{ $t('forslag.eksisterende_definisjoner_varsel')}}</span>
+        </v-tooltip>
+
+      </template>
+
       <template v-slot:item.forslag_definisjon="{ item }">
         <span>{{item.forslag_definisjon}}</span>
         <v-btn
@@ -213,7 +233,6 @@
             </span>
             <v-icon
               :x-small="$vuetify.breakpoint.mdAndDown"
-              
               small
               dark
             >

@@ -17,7 +17,7 @@
       </v-tooltip>
       <v-btn
         icon
-        @click="$emit('close')"        
+        @click="$emit('close')"
       >
         <v-icon>
           mdi-close
@@ -26,8 +26,24 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      {{forslag.oppslag}} ({{forslag.boy_tabell}})
-      <p class="text-h5">{{forslag.forslag_definisjon}}</p>
+      <div class="text-h5 font-weight-bold">{{forslag.oppslag}} ({{forslag.boy_tabell}})</div>
+      <div v-if="forslag.eksisterende_definisjoner.length > 0">
+        <span class="">
+          <v-icon
+            small
+            color="red"
+          >mdi-alert-circle</v-icon> {{ $t('forslag.eksisterende_definisjoner_varsel')}}:
+        </span>
+        <div
+          v-for="(def,index) in forslag.eksisterende_definisjoner"
+          :key="index"
+        >
+          <span>{{index+1}}: {{ def.definisjon }}</span>
+
+        </div>
+      </div>
+      <div class="mt-2">{{ $t('navbar.forslag')}}:</div>
+      <p class="text-h6">{{forslag.forslag_definisjon}}</p>
       <span class="text-h6"> {{ $t('kommentar.kommentarer') }}</span>
       <v-btn
         class="float-right"

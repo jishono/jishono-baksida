@@ -135,7 +135,6 @@
                     :to="'/endre/' + currentOppslag.lemma_id"
                   >{{ $t('knapper.endre') }}</v-btn>
                   <v-btn
-                    v-if="currentOppslag.definisjon.length == 0"
                     class="ml-2"
                     small
                     dark

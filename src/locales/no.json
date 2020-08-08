@@ -40,6 +40,7 @@
   "varsler": {
     "kopiert": "URL kopiert til utklippstavla.",
     "server_error": "Får ikke kontakt med API. Serveren kan være nede."
+    
   },
   "kommentar": {
     "forslag_fra": "Forslag fra: ",
@@ -86,6 +87,9 @@
   },
   "forslag": {
     "forslag_definisjon": "Forslag til definisjon",
+    "eksisterende_definisjon": "Eksisterende definisjon",
+    "eksisterende_definisjoner": "Eksisterende definisjoner",
+    "eksisterende_definisjoner_varsel": "Ordet har allerede godkjente definisjoner",
     "rediger_forslag": "Rediger forslag",
     "rediger_godkjenn": "Rediger og godkjenn forslag",
     "rediger_forslag_advarsel": "OBS. Hvis du endrer forslaget blir alle stemmer nullstilt.",
