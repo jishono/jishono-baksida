@@ -256,10 +256,11 @@
 
 <script>
 import JishoDataService from '../services/JishoDataService'
-import md5 from 'md5'
+import helpers from '../mixins/helpers'
 
 export default {
   name: "veggen",
+  mixins: [helpers],
   data () {
     return {
       alle_innlegg: [],
@@ -329,12 +330,7 @@ export default {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
-    randomFarge (brukernavn) {
-      return '#' + md5(brukernavn).slice(0, 6);
-    },
-    initialer (brukernavn) {
-      return brukernavn.slice(0, 2).toUpperCase();
-    }
+    
   },
   mounted () {
     this.hentVegginnlegg(this.$route.params.id)

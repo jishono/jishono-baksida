@@ -110,11 +110,17 @@
         >
           <v-card class="mb-4">
             <v-card-title
-              class="headline grey lighten-3 body-2 pa-0"
+              class="headline orange lighten-3 body-2 pa-0"
               primary-title
             >
               <v-col cols=5>
-                <span class="font-weight-black"> {{ kom.brukernavn}} </span>
+                <v-avatar
+                      :color="randomFarge(kom.brukernavn)"
+                      size="32"
+                    >
+                      <span class="white--text">{{ initialer(kom.brukernavn) }}</span>
+                    </v-avatar>
+                <span class="font-weight-black ml-1"> {{ kom.brukernavn}} </span>
               </v-col>
               <v-col align="end">
                 {{ new Date(kom.opprettet).toLocaleString("da-DK")}}
@@ -138,10 +144,12 @@
 </template>
 
 <script>
-import JishoDataService from "../services/JishoDataService";
+import JishoDataService from "../services/JishoDataService"
+import helpers from '../mixins/helpers'
 
 export default {
   name: 'forslag-kommentarer',
+  mixins: [helpers],
   data () {
     return {
       ny_kommentar: '',

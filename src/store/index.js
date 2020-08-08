@@ -101,6 +101,7 @@ export default new Vuex.Store({
     user_id: state => state.user_id,
     boy_ok: state => state.boy_ok,
     snackbar: state => state.snackbar,
-    locale: state => state.locale
+    locale: state => state.locale,
+    
   }
 });
