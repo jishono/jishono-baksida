@@ -6,17 +6,29 @@
       color="primary"
       dark
     >
-      <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
-        class="hidden-lg-and-up"
-      ></v-app-bar-nav-icon>
+      <v-badge
+        :value="$store.getters.usette_innlegg > 0"
+        dot
+        overlap
+        color="red lighten-1"
+        offset-x="17"
+        offset-y="16"
+        class="hidden-lg-and-up ml-n3"
+      >
+        <v-app-bar-nav-icon
+          @click.stop="drawer = !drawer"
+          
+        ></v-app-bar-nav-icon>
+      </v-badge>
       <router-link
         to="/"
         class="v-toolbar__title"
         tag="div"
-        
       >
-        <span class="hidden-md-and-down" :style="{ cursor: 'pointer'}">jisho.no - Baksida</span>
+        <span
+          class="hidden-md-and-down"
+          :style="{ cursor: 'pointer'}"
+        >jisho.no - Baksida</span>
         <span
           class="float-left hidden-lg-and-up"
           v-if="$route.meta.title"
@@ -42,7 +54,7 @@
           small
         >
           <v-badge
-            v-if="item.title == 'veggen' && $store.getters.usette_innlegg > 0"
+            :value="item.title == 'veggen' && $store.getters.usette_innlegg > 0"
             dot
             color="red lighten-1"
             offset-x="10"
@@ -51,11 +63,6 @@
             <v-icon left>
               {{ item.icon }}</v-icon>
           </v-badge>
-          <v-icon
-            v-else
-            left
-          >
-            {{ item.icon }}</v-icon>
           <span v-if="$i18n.locale == 'no'">{{ $t("navbar." + item.title) }}</span>
           <span
             v-if="$i18n.locale == 'ja'"
@@ -94,7 +101,16 @@
           link
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-badge
+              :value="item.title == 'veggen' && $store.getters.usette_innlegg > 0"
+              dot
+              color="red lighten-1"
+              offset-x="10"
+              offset-y="6"
+            >
+              <v-icon left>
+                {{ item.icon }}</v-icon>
+            </v-badge>
           </v-list-item-action>
 
           <v-list-item-content>
