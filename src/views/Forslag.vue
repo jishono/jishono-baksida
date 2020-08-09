@@ -115,6 +115,27 @@
           </v-avatar>
           Uleste kommentarer
         </v-chip>
+
+        <v-chip
+          class="mt-3 mx-2"
+          small
+          color="primary"
+          :outlined="!filtrer_ikke_stemt"
+          :dark="!filtrer_ikke_stemt"
+          @click="filtrer_ikke_stemt = filtrer_ikke_stemt ? false : true"
+        >
+          <v-avatar left>
+            <v-icon
+              small
+              v-if="filtrer_ikke_stemt"
+            >mdi-checkbox-marked-circle</v-icon>
+            <v-icon
+              small
+              v-else
+            >mdi-checkbox-blank-circle-outline</v-icon>
+          </v-avatar>
+          Ikke stemt
+        </v-chip>
       </v-col>
     </v-row>
 
@@ -318,6 +339,7 @@ export default {
       redigert_forslag: '',
       search: '',
       filtrer_uleste: false,
+      filtrer_ikke_stemt: false,
       alle_headers: [
         {
           text: this.$t('ord.lemma_id'),
@@ -393,6 +415,9 @@ export default {
       }
       if (this.filtrer_uleste) {
         filtrerte = filtrerte.filter(item => item.sett == 0)
+      }
+      if (this.filtrer_ikke_stemt) {
+        filtrerte = filtrerte.filter(item => item.minstemme == null)
       }
       return filtrerte
     },
