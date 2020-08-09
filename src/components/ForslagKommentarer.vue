@@ -86,7 +86,7 @@
         </div>
       </div>
       <div class="mt-2">{{ $t('navbar.forslag')}}:</div>
-      <p class="text-h6">{{forslag.forslag_definisjon}}</p>
+      <p class="text-h6" v-html="addFurigana(forslag.forslag_definisjon)"></p>
       <span class="text-h6"> {{ $t('kommentar.kommentarer') }}</span>
       <v-btn
         class="float-right"

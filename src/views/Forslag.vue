@@ -189,7 +189,7 @@
       </template>
 
       <template v-slot:item.forslag_definisjon="{ item }">
-        <span>{{item.forslag_definisjon}}</span>
+        <span v-html="addFurigana(item.forslag_definisjon)"></span>
         <v-btn
           class="float-right"
           icon
@@ -325,9 +325,11 @@
 <script>
 import JishoDataService from "../services/JishoDataService";
 import ForslagKommentarer from "../components/ForslagKommentarer";
+import helpers from '../mixins/helpers'
 
 export default {
   name: 'Forslag',
+  mixins: [helpers],
   data () {
     return {
       tab: 0,

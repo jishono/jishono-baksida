@@ -50,6 +50,7 @@
             <p>{{ $t('om.p6.tekst')}}</p>
             <p v-html="$t('om.p6.liste')"> </p>
             <p>{{ $t('om.p6.kontakt')}}</p>
+
           </v-card-text>
         </v-card>
       </v-col>
@@ -64,11 +65,10 @@ export default {
   name: 'om',
   data () {
     return {
-
     }
   },
   methods: {
-
+    
   },
   mounted () {
 

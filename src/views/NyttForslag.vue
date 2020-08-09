@@ -45,11 +45,9 @@
         <div>{{ $t('ord.lemma_id') }}: {{currentOppslag.lemma_id}}</div>
         <div>{{ $t('ord.ordklasse') }}: {{currentOppslag.boy_tabell}}</div>
 
-        <v-form
-          ref="form"
-          class="mt-4"
-        >
+
           <div
+            class="mt-4"
             v-for="(def,index) in currentOppslag.definisjon"
             v-bind:key="index"
           >
@@ -91,7 +89,6 @@
               </template>
             </v-text-field>
           </div>
-        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-dialog
