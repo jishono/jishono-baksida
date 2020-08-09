@@ -42,7 +42,6 @@ let router = new Router({
     },
     {
       path: "/oversett",
-      alias: "/",
       meta: {
         requiresAuth: true,
         title: 'oversett'
@@ -51,6 +50,7 @@ let router = new Router({
     },
     {
       path: "/forslag",
+      alias: "/",
       meta: {
         requiresAuth: true,
         title: 'forslag'

@@ -10,17 +10,27 @@
         @click.stop="drawer = !drawer"
         class="hidden-lg-and-up"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title class="hidden-md-and-down">
-        jisho.no - Baksida
-      </v-toolbar-title>
-      <v-toolbar-title class="hidden-lg-and-up ">
+      <router-link
+        to="/"
+        class="v-toolbar__title"
+        tag="div"
+        
+      >
+        <span class="hidden-md-and-down" :style="{ cursor: 'pointer'}">jisho.no - Baksida</span>
         <span
-          class="float-left"
+          class="float-left hidden-lg-and-up"
           v-if="$route.meta.title"
         >{{ $t("navbar." + $route.meta.title) }}</span>
-      </v-toolbar-title>
+
+      </router-link>
       <v-spacer></v-spacer>
-      <span class="hidden-lg-and-up hidden-xs-only mr-2">jisho.no - Baksida</span>
+      <router-link
+        to="/"
+        tag="div"
+        :style="{ cursor: 'pointer'}"
+        class="hidden-lg-and-up hidden-xs-only mr-2"
+      >jisho.no - Baksida</router-link>
+
       <div class="hidden-md-and-down">
 
         <v-btn
@@ -129,9 +139,9 @@ export default {
       usette_innlegg: 0,
       nav_items: [
 
+        { title: 'forslag', icon: 'mdi-account-group', route: '/forslag', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'oversett', icon: 'mdi-translate', route: '/oversett', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'sok', icon: 'mdi-magnify', route: '/sok', loggedIn: true, loggedOut: false, adminOnly: false },
-        { title: 'forslag', icon: 'mdi-account-group', route: '/forslag', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'statistikk', icon: 'mdi-chart-bar', route: '/statistikk', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'veggen', icon: 'mdi-comment-text-multiple', route: '/veggen', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'instruks', icon: 'mdi-help-circle', route: '/instruks', loggedIn: true, loggedOut: false, adminOnly: false },
@@ -186,4 +196,3 @@ export default {
   font-weight: 200;
   font-size: 16px;
 }
-</style>
