@@ -47,8 +47,7 @@
           @click:append="showPasswordConfirmed = !showPasswordConfirmed"
           :rules="password_confirm_rules"
           outlined
-          required
-          @keyup.enter="register"
+          required   
         />
         <v-text-field
           :label="$t('bruker.registrering.sjekk')"
@@ -56,6 +55,7 @@
           outlined
           :rules="check_rules"
           required
+          @keyup.enter="register"
         />
       </v-form>
       <v-alert
@@ -76,7 +76,7 @@
     <v-card-actions class="justify-center pb-6">
       <v-btn
         type="submit"
-        color="accent"
+        color="primary"
         @click="register"
         :disabled="!valid"
       > {{ $t('bruker.registrering.registrer_knapp') }}</v-btn>

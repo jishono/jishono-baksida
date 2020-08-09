@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar></Navbar>
+    <Navbar :key="$route.fullPath"></Navbar>
     <Snackbar></Snackbar>
     <v-container
       fluid

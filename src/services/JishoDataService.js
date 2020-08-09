@@ -95,6 +95,11 @@ class JishoDataService {
   endreVegginnlegg(id, data) {
     return api.post(`/veggen/innlegg/${id}/endre`, data)
   }
+  hentUsetteVeggeninnlegg() {
+    return api.get(`/veggen/usette_innlegg/`)
+  }
+
+  
 }
 
 export default new JishoDataService();

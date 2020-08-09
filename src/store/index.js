@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '../api'
 import i18n from '@/i18n'
+import JishoDataService from "../services/JishoDataService";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
       color: '',
     },
     boy_ok: ['adj', 'adv', 'det', 'pron', 'subst', 'verb'],
+    usette_innlegg: 0
   },
   mutations: {
     auth_request (state) {
@@ -49,6 +51,9 @@ export default new Vuex.Store({
       state.locale = payload
       i18n.locale = payload
 
+    },
+    set_usette_innlegg (state, payload) {
+      state.usette_innlegg = payload
     }
   },
   actions: {
@@ -65,7 +70,7 @@ export default new Vuex.Store({
         localStorage.setItem('username', username)
         localStorage.setItem('user_id', user_id)
         localStorage.setItem('admin', admin)
-        localStorage.setItem('locale', locale)        
+        localStorage.setItem('locale', locale)
         commit('auth_success', { token: token, user_id: user_id, username: username, admin: admin, locale: locale })
       } catch (error) {
         commit('auth_error')
@@ -91,6 +96,10 @@ export default new Vuex.Store({
     set_locale ({ commit }, language) {
       localStorage.setItem('locale', language)
       commit('set_locale', language)
+    },
+    async refresh_usette_innlegg ({ commit }) {
+      const antall = await JishoDataService.hentUsetteVeggeninnlegg()
+      commit('set_usette_innlegg', antall.data.usette_innlegg)
     }
   },
   getters: {
@@ -102,6 +111,7 @@ export default new Vuex.Store({
     boy_ok: state => state.boy_ok,
     snackbar: state => state.snackbar,
     locale: state => state.locale,
-    
+    usette_innlegg: state => state.usette_innlegg,
+
   }
 });

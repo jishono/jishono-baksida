@@ -91,6 +91,32 @@
         </span>
       </v-col>
     </v-row>
+    <v-row
+      no-gutters
+    >
+      <v-col align="center">
+        <v-chip
+          class="mt-3 mx-2"
+          small
+          color="primary"
+          :outlined="!filtrer_uleste"
+          :dark="!filtrer_uleste"
+          @click="filtrer_uleste = filtrer_uleste ? false : true"
+        >
+          <v-avatar left>
+            <v-icon
+              small
+              v-if="filtrer_uleste"
+            >mdi-checkbox-marked-circle</v-icon>
+            <v-icon
+              small
+              v-else
+            >mdi-checkbox-blank-circle-outline</v-icon>
+          </v-avatar>
+          Uleste kommentarer
+        </v-chip>
+      </v-col>
+    </v-row>
 
     <v-text-field
       v-model="search"
@@ -291,6 +317,7 @@ export default {
       forslag: [],
       redigert_forslag: '',
       search: '',
+      filtrer_uleste: false,
       alle_headers: [
         {
           text: this.$t('ord.lemma_id'),
@@ -358,12 +385,18 @@ export default {
   },
   computed: {
     filtrerteForslag () {
+      let filtrerte = []
       if (this.tab === 0) {
-        return this.forslag.filter(item => item.status == this.filter_status)
+        filtrerte = this.forslag.filter(item => item.status == this.filter_status)
       } else {
-        return this.forslag.filter(item => this.$store.getters.user_id == item.user_id)
+        filtrerte = this.forslag.filter(item => this.$store.getters.user_id == item.user_id)
       }
+      if (this.filtrer_uleste) {
+        filtrerte = filtrerte.filter(item => item.sett == 0)
+      }
+      return filtrerte
     },
+
     currentHeaders () {
       if (this.tab === 0) {
         return this.alle_headers

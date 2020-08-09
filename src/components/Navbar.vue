@@ -22,6 +22,7 @@
       <v-spacer></v-spacer>
       <span class="hidden-lg-and-up hidden-xs-only mr-2">jisho.no - Baksida</span>
       <div class="hidden-md-and-down">
+
         <v-btn
           v-for="item in activeMenuItems()"
           :key="item.title"
@@ -30,7 +31,18 @@
           text
           small
         >
+          <v-badge
+            v-if="item.title == 'veggen' && $store.getters.usette_innlegg > 0"
+            dot
+            color="red lighten-1"
+            offset-x="10"
+            offset-y="6"
+          >
+            <v-icon left>
+              {{ item.icon }}</v-icon>
+          </v-badge>
           <v-icon
+            v-else
             left
           >
             {{ item.icon }}</v-icon>
@@ -40,6 +52,7 @@
             class="nav-button-jap"
           >{{ $t("navbar." + item.title) }}</span>
         </v-btn>
+
       </div>
       <div class="hidden-xs-only">
         <v-btn
@@ -113,6 +126,7 @@ export default {
       drawer: false,
       closeOnClick: true,
       logged_in: false,
+      usette_innlegg: 0,
       nav_items: [
 
         { title: 'oversett', icon: 'mdi-translate', route: '/oversett', loggedIn: true, loggedOut: false, adminOnly: false },
@@ -157,6 +171,9 @@ export default {
       this.$store.dispatch('logout')
     },
   },
+  mounted () {
+
+  }
 }
 
 

@@ -20,12 +20,12 @@
         1: （警察などへの）届け出、報告<br>
         2: （映画などの）評価、レビュー
       </p>
-      <p>{{ $t('instruks.p2.tekst2') }} {{ $t('instruks.p2.eksempel') }} kuk -> <v-icon
+      <p>{{ $t('instruks.p2.tekst2') }} {{ $t('instruks.p2.eksempel') }} faen -> <v-icon
           small
           color="green"
         >
           mdi-checkbox-marked-circle
-        </v-icon>（卑語）ちんぽ
+        </v-icon>（卑語）ちくしょう！、くそ！
       </p>
       <div class="text-subtitle-2 font-weight-bold">{{ $t('instruks.p3.tittel')}}</div>
       <p>{{ $t('instruks.p3.tekst1') }}</p>
