@@ -408,16 +408,17 @@ export default {
   computed: {
     filtrerteForslag () {
       let filtrerte = []
+      const user_id = this.$store.getters.user_id
       if (this.tab === 0) {
         filtrerte = this.forslag.filter(item => item.status == this.filter_status)
       } else {
-        filtrerte = this.forslag.filter(item => this.$store.getters.user_id == item.user_id)
+        filtrerte = this.forslag.filter(item => user_id == item.user_id)
       }
       if (this.filtrer_uleste) {
         filtrerte = filtrerte.filter(item => item.sett == 0)
       }
       if (this.filtrer_ikke_stemt) {
-        filtrerte = filtrerte.filter(item => item.minstemme == null)
+        filtrerte = filtrerte.filter(item => item.minstemme == null && item.user_id != user_id )
       }
       return filtrerte
     },

@@ -78,7 +78,7 @@ export default {
           const username = this.username
           const password = this.password
           await this.$store.dispatch('login', { username, password })
-          this.$router.push('/oversett')
+          this.$router.push('/')
         } catch (error) {
           console.log(error.response.data)
           this.error_message = error.response.data[this.$i18n.locale]
