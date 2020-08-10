@@ -86,14 +86,12 @@
             :dark="filter_status == index"
             @click="filter_status = index"
           >
-            {{ statuskode.text }}
+            {{ $t(statuskode.text) }}
           </v-chip>
         </span>
       </v-col>
     </v-row>
-    <v-row
-      no-gutters
-    >
+    <v-row no-gutters>
       <v-col align="center">
         <v-chip
           class="mt-3 mx-2"
@@ -113,7 +111,7 @@
               v-else
             >mdi-checkbox-blank-circle-outline</v-icon>
           </v-avatar>
-          Uleste kommentarer
+          {{ $t('forslag.uleste_kommentarer') }}
         </v-chip>
 
         <v-chip
@@ -134,7 +132,7 @@
               v-else
             >mdi-checkbox-blank-circle-outline</v-icon>
           </v-avatar>
-          Ikke stemt
+          {{ $t('forslag.ikke_stemt') }}
         </v-chip>
       </v-col>
     </v-row>
@@ -370,32 +368,32 @@ export default {
         { text: this.$t('forslag.status'), value: 'status', width: '1%' },
         { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
       ],
-      forslag_status: {
-        0: {
-          text: this.$t('forslag.under_avstemning'),
+      forslag_status: [
+        {
+          text: 'forslag.under_avstemning',
           color: 'orange'
         },
-        1: {
-          text: this.$t('forslag.godkjent_avstemning'),
+        {
+          text: 'forslag.godkjent_avstemning',
           color: 'green lighten-1'
         },
-        2: {
-          text: this.$t('forslag.godkjent_admin'),
+        {
+          text: 'forslag.godkjent_admin',
           color: 'green lighten-1'
         },
-        3: {
-          text: this.$t('forslag.endret_godkjent'),
+        {
+          text: 'forslag.endret_godkjent',
           color: 'green lighten-1'
         },
-        4: {
-          text: this.$t('forslag.avvist_avstemning'),
+        {
+          text: 'forslag.avvist_avstemning',
           color: 'red lighten-1'
         },
-        5: {
-          text: this.$t('forslag.avvist_admin'),
+        {
+          text: 'forslag.avvist_admin',
           color: 'red lighten-1'
         }
-      },
+      ],
       filter_status: 0
     }
   },
