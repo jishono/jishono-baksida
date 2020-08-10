@@ -84,7 +84,7 @@
             :color="statuskode.color"
             :outlined="filter_status != index"
             :dark="filter_status == index"
-            @click="filter_status = index"
+            @click="filter_status = index; page = 0"
           >
             {{ $t(statuskode.text) }}
           </v-chip>
@@ -146,6 +146,7 @@
       :headers="currentHeaders"
       :search="search"
       :items="filtrerteForslag"
+      :page.sync="page"
       :footer-props="{
                       'items-per-page-options': [5, 10, 20, 30, 40, 50]
                        }"
@@ -310,7 +311,7 @@
           :color="forslag_status[item.status].color"
           text-color="white"
         >
-          {{ forslag_status[item.status].text }}
+          {{ $t(forslag_status[item.status].text) }}
         </v-chip>
       </template>
       <template v-slot:item.opprettet="{ item }">
@@ -331,6 +332,7 @@ export default {
   data () {
     return {
       tab: 0,
+      page: 0,
       endre_dialog: false,
       kommentar_dialog: false,
       current_forslag: null,
