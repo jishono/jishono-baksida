@@ -18,12 +18,15 @@ export default {
         },
         addFurigana (str) {
             let escaped = this.escapeHTML(str)
+            if (!escaped.match(/\[/)) {
+                return escaped
+            }
             const regex = new RegExp(/[^）、]*?\]/g)
-            const array = escaped.match(regex)
+            const matches = escaped.match(regex)
             let final_string = escaped
-            if (array) {
-                array.forEach(element => {
-                    final_string = final_string.replace(element, this.addRuby(element))
+            if (matches) {
+                matches.forEach(match => {
+                    final_string = final_string.replace(match, this.addRuby(match))
                 })
             }
             return final_string
