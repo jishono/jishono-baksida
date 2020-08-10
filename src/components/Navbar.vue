@@ -212,3 +212,4 @@ export default {
   font-weight: 200;
   font-size: 16px;
 }
+</style>
