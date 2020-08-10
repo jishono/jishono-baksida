@@ -18,7 +18,7 @@ export default {
         },
         addFurigana (str) {
             let escaped = this.escapeHTML(str)
-            const regex = new RegExp(/[^）]*?\]/g)
+            const regex = new RegExp(/[^）、]*?\]/g)
             const array = escaped.match(regex)
             let final_string = escaped
             if (array) {
