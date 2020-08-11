@@ -157,7 +157,7 @@
       class="elevation-1"
       mobile-breakpoint="1030"
     >
-      <template v-slot:item.lemma_id="{ item }">
+      <template v-slot:[`item.lemma_id`]="{ item }">
         <div style="width: 60px">
           <router-link
             v-if="$store.getters.isAdmin"
@@ -166,7 +166,7 @@
           <span v-else>{{ item.lemma_id }}</span>
         </div>
       </template>
-      <template v-slot:item.oppslag="{ item }">
+      <template v-slot:item[`oppslag`]="{ item }">
         <span>{{ item.oppslag}}</span>
         <v-tooltip
           bottom
@@ -187,7 +187,7 @@
 
       </template>
 
-      <template v-slot:item.forslag_definisjon="{ item }">
+      <template v-slot:[`item.forslag_definisjon`]="{ item }">
         <span v-html="addFurigana(item.forslag_definisjon)"></span>
         <v-btn
           class="float-right"
@@ -242,10 +242,10 @@
           </v-btn>
         </div>
       </template>
-      <template v-slot:item.upvotes="{ item }">
+      <template v-slot:[`item.upvotes`]="{ item }">
         <div
           class=""
-          style="width: 165px"
+          style="width: 175px"
         >
           <v-chip
             :color="getColorUp(item)"
@@ -305,7 +305,7 @@
           </v-chip>
         </div>
       </template>
-      <template v-slot:item.status="{ item }">
+      <template v-slot:[`item.status`]="{ item }">
         <v-chip
           small
           :color="forslag_status[item.status].color"
@@ -314,7 +314,7 @@
           {{ $t(forslag_status[item.status].text) }}
         </v-chip>
       </template>
-      <template v-slot:item.opprettet="{ item }">
+      <template v-slot:[`item.opprettet`]="{ item }">
         {{ new Date(item.opprettet).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}
       </template>
     </v-data-table>
@@ -420,7 +420,7 @@ export default {
         filtrerte = filtrerte.filter(item => item.sett == 0)
       }
       if (this.filtrer_ikke_stemt) {
-        filtrerte = filtrerte.filter(item => item.minstemme == null && item.user_id != user_id )
+        filtrerte = filtrerte.filter(item => item.minstemme == null && item.user_id != user_id)
       }
       return filtrerte
     },
