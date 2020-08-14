@@ -93,67 +93,63 @@
             >
               <v-card class="mt-5 mb-3">
                 <v-card-title
-                  class="headline green lighten-3 body-2 pa-0"
+                  class="headline green lighten-3 body-2 pa-3"
                   primary-title
                 >
-                  <v-col cols=5>
-                    <v-avatar
-                      :color="randomFarge(innlegg.brukernavn)"
-                      size="32"
-                    >
-                      <span class="white--text">{{ initialer(innlegg.brukernavn) }}</span>
-                    </v-avatar>
-                    <span class="font-weight-black ml-1"> {{ innlegg.brukernavn}} </span>
+                  <v-avatar
+                    :color="randomFarge(innlegg.brukernavn)"
+                    size="32"
+                  >
+                    <span class="white--text">{{ initialer(innlegg.brukernavn) }}</span>
+                  </v-avatar>
+                  <span class="font-weight-black ml-1"> {{ innlegg.brukernavn}} </span>
+                  <v-spacer></v-spacer>
 
-                  </v-col>
-                  <v-col align="end">
-                    {{ new Date(innlegg.opprettet).toLocaleString("da-DK")}}
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          color="grey darken-3"
-                          class="ml-2"
-                          v-on="on"
-                          @click="fastlenke(innlegg.innlegg_id)"
-                        >
-                          mdi-link
-                        </v-icon>
-                      </template>
-                      <span>{{ $t('knapper.lenke')}}</span>
-                    </v-tooltip>
+                  <span>{{ new Date(innlegg.opprettet).toLocaleString("da-DK")}}</span>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        color="grey darken-3"
+                        class="ml-2"
+                        v-on="on"
+                        @click="fastlenke(innlegg.innlegg_id)"
+                      >
+                        mdi-link
+                      </v-icon>
+                    </template>
+                    <span>{{ $t('knapper.lenke')}}</span>
+                  </v-tooltip>
 
-                    <v-tooltip
-                      bottom
-                      v-if="$store.getters.user_id == innlegg.user_id"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          color="grey darken-3"
-                          class="ml-2"
-                          v-on="on"
-                          @click="openEndreDialog(innlegg)"
-                        >
-                          mdi-pencil
-                        </v-icon>
-                      </template>
-                      <span>{{ $t('knapper.endre')}}</span>
-                    </v-tooltip>
+                  <v-tooltip
+                    bottom
+                    v-if="$store.getters.user_id == innlegg.user_id"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        color="grey darken-3"
+                        class="ml-2"
+                        v-on="on"
+                        @click="openEndreDialog(innlegg)"
+                      >
+                        mdi-pencil
+                      </v-icon>
+                    </template>
+                    <span>{{ $t('knapper.endre')}}</span>
+                  </v-tooltip>
 
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-icon
-                          color="grey darken-3"
-                          class="ml-2"
-                          v-on="on"
-                          @click="handleSvarknapp(innlegg)"
-                        >
-                          mdi-reply
-                        </v-icon>
-                      </template>
-                      <span>{{ $t('knapper.svar')}}</span>
-                    </v-tooltip>
-
-                  </v-col>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        color="grey darken-3"
+                        class="ml-2"
+                        v-on="on"
+                        @click="handleSvarknapp(innlegg)"
+                      >
+                        mdi-reply
+                      </v-icon>
+                    </template>
+                    <span>{{ $t('knapper.svar')}}</span>
+                  </v-tooltip>
                 </v-card-title>
                 <v-card-text class="pa-3">
                   <!-- <div class="text--primary">{{ innlegg.innhold}}</div> -->
@@ -179,37 +175,35 @@
                   >
                     <v-card class="mb-2">
                       <v-card-title
-                        class="headline orange lighten-3 body-2 pa-0"
+                        class="headline orange lighten-3 body-2 pa-3"
                         primary-title
                       >
-                        <v-col cols=5>
-                          <v-avatar
-                            :color="randomFarge(svar.brukernavn)"
-                            size="32"
-                          >
-                            <span class="white--text">{{ initialer(svar.brukernavn) }}</span>
-                          </v-avatar>
-                          <span class="font-weight-black ml-1"> {{ svar.brukernavn}} </span>
-                        </v-col>
-                        <v-col align="end">
-                          {{ new Date(svar.opprettet).toLocaleString("da-DK")}}
-                          <v-tooltip
-                            bottom
-                            v-if="$store.getters.user_id == svar.user_id"
-                          >
-                            <template v-slot:activator="{ on }">
-                              <v-icon
-                                color="grey darken-3"
-                                class="ml-2"
-                                v-on="on"
-                                @click="openEndreDialog(svar)"
-                              >
-                                mdi-pencil
-                              </v-icon>
-                            </template>
-                            <span>{{ $t('knapper.endre')}}</span>
-                          </v-tooltip>
-                        </v-col>
+                        <v-avatar
+                          :color="randomFarge(svar.brukernavn)"
+                          size="32"
+                        >
+                          <span class="white--text">{{ initialer(svar.brukernavn) }}</span>
+                        </v-avatar>
+                        <span class="font-weight-black ml-1"> {{ svar.brukernavn}} </span>
+
+                        <v-spacer></v-spacer>
+                        <span>{{ new Date(svar.opprettet).toLocaleString("da-DK")}}</span>
+                        <v-tooltip
+                          bottom
+                          v-if="$store.getters.user_id == svar.user_id"
+                        >
+                          <template v-slot:activator="{ on }">
+                            <v-icon
+                              color="grey darken-3"
+                              class="ml-2"
+                              v-on="on"
+                              @click="openEndreDialog(svar)"
+                            >
+                              mdi-pencil
+                            </v-icon>
+                          </template>
+                          <span>{{ $t('knapper.endre')}}</span>
+                        </v-tooltip>
                       </v-card-title>
                       <v-card-text class="pa-3">
                         <span v-if="svar.endret == true">({{$t('veggen.endret') }})</span>
@@ -299,7 +293,7 @@ export default {
       navigator.clipboard.writeText(url)
         .then(() => {
           this.$store.dispatch('show_snackbar', { message: this.$t('varsler.kopiert'), color: 'success' })
-    })
+        })
     },
     openEndreDialog (innlegg) {
       this.endre_dialog = true
@@ -330,7 +324,7 @@ export default {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
-    
+
   },
   mounted () {
     this.hentVegginnlegg(this.$route.params.id)
