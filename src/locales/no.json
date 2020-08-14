@@ -102,7 +102,7 @@
     "stemmer": "Stemmer",
     "dato": "Dato",
     "status": "Status",
-    "avvist_avstemning": "Avvist ved avsteming",
+    "avvist_avstemning": "Avvist ved avstemning",
     "avvist_admin": "Avvist av admin",
     "endret_godkjent": "Endret og godkjent av admin",
     "godkjent_admin": "Godkjent av admin",
