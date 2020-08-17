@@ -1,73 +1,149 @@
 <template>
   <v-container class="pa-0">
     <v-row no-gutters>
-      <v-col
-        align="center"
-        cols=12
-        class="pa-0"
-      >
-        <v-card max-width='600px'>
-          <v-card-title class="font-weight-bold">
-           {{ $t('navbar.profil') }}
-          </v-card-title>
-          <v-card-text>
-            <v-form
-              ref="form"
-              v-model="valid"
-            >
-              <v-text-field
-                :label="$t('bruker.brukernavn')"
-                v-model="brukerdata.brukernavn"
-                outlined
-                disabled
-              />
-              <v-text-field
-                type="email"   
-                :label="$t('bruker.epost')"
-                v-model="brukerdata.epost"
-                :rules="epostRules"
-                outlined
-              />
-              <v-select
-                v-model="brukerdata.locale"
-                :label="$t('bruker.profil.visningsspråk')"
-                :items="sprakvalg"
-                item-value='value'
-                item-text='text'
-                outlined
-              ></v-select>
+      <v-col>
+        <v-dialog
+          v-model="dialog"
+          width="500"
+        >
+          <v-card>
+
+            <v-card-title>
+              Bekreft
+            </v-card-title>
+
+            <v-card-text>
               <v-text-field
                 type="password"
                 :label="$t('bruker.profil.gammelt_passord')"
                 v-model="passord.gammelt"
                 :rules="oldPasswordRules"
+                @keyup.enter="dialog = false; sjekkSkjema()"
                 outlined
+                autofocus
               />
-              <v-text-field
-                type="password"
-                :label="$t('bruker.profil.nytt_passord')"
-                v-model="passord.nytt"
-                outlined
-              />
-              <v-text-field
-                type="password"
-                :label="$t('bruker.registrering.bekreft_passord')"
-                v-model="passord.nyttBekreft"
-                outlined
-              />
+            </v-card-text>
 
-            </v-form>
-          </v-card-text>
-          <v-card-actions class="justify-center pb-6">
-            <v-btn
-              color="primary"
-              @click="sjekkSkjema"
-              :disabled="!valid"
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                @click="dialog = false; sjekkSkjema()"
+              >
+                Godkjenn
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-row no-gutters>
+          <v-col>
+            <v-card
+              max-width='600px'
+              class="mx-auto"
+              v-if="brukerdata"
             >
-              {{ $t('knapper.oppdater') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+              <v-card-text>
+                <h2 class="mb-3">
+                  {{ $t('navbar.profil') }}
+                </h2>
+                <v-form
+                  ref="form"
+                  v-model="valid_profile"
+                >
+                  <v-text-field
+                    :label="$t('bruker.brukernavn')"
+                    v-model="brukerdata.brukernavn"
+                    outlined
+                    disabled
+                  />
+                  <v-text-field
+                    type="email"
+                    :label="$t('bruker.epost')"
+                    v-model="brukerdata.epost"
+                    :rules="epostRules"
+                    outlined
+                  />
+                  <v-select
+                    v-model="brukerdata.locale"
+                    :label="$t('bruker.profil.visningsspråk')"
+                    :items="sprakvalg"
+                    item-value='value'
+                    item-text='text'
+                    outlined
+                  ></v-select>
+                  <h2 class="mb-3">
+                    Endre passord
+                  </h2>
+                  <v-text-field
+                    type="password"
+                    :label="$t('bruker.profil.nytt_passord')"
+                    v-model="passord.nytt"
+                    outlined
+                  />
+                  <v-text-field
+                    type="password"
+                    :label="$t('bruker.registrering.bekreft_passord')"
+                    v-model="passord.nyttBekreft"
+                    outlined
+                  />
+                </v-form>
+                <h2 class="mb-3">
+                  Oppdateringer på e-post
+                </h2>
+                <span>Aktivitetsoppsummering:</span>
+                <v-row class="ml-1">
+                  <v-radio-group
+                    v-model="brukerdata.oppdateringer.opp_periode"
+                    row
+                  >
+                    <v-radio
+                      label="Aldri"
+                      :value=0
+                    ></v-radio>
+                    <v-radio
+                      label="Daglig"
+                      :value=1
+                    ></v-radio>
+                    <v-radio
+                      label="Hver uke"
+                      :value=7
+                    ></v-radio>
+                    <v-radio
+                      label="Annenhver uke"
+                      :value=14
+                    ></v-radio>
+                  </v-radio-group>
+                </v-row>
+
+                <span>Ved følgende hendelser:</span>
+                <v-checkbox
+                  hide-details
+                  label="Noen kommenterer på et av dine forslag"
+                  v-model="brukerdata.oppdateringer.opp_kommentar_eget"
+                >
+
+                </v-checkbox>
+                <v-checkbox
+                  hide-details
+                  label="Noen svarer på en av dine kommentarer/vegginnlegg"
+                  v-model="brukerdata.oppdateringer.opp_svar"
+                >
+                </v-checkbox>
+              </v-card-text>
+              <v-card-actions class="justify-center pb-6">
+                <v-btn
+                  color="primary"
+                  @click="dialog = true"
+                  :disabled="!valid_profile"
+                >
+                  {{ $t('knapper.oppdater') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+
       </v-col>
     </v-row>
   </v-container>
@@ -81,10 +157,9 @@ export default {
   name: 'profil',
   data () {
     return {
-      tab: 0,
-      valid: false,
-      brukerdata: {},
-      brukerforslag: [],
+      dialog: false,
+      valid_profile: false,
+      brukerdata: null,
       sprakvalg: [
         { value: 'no', text: 'Norsk' },
         { value: 'ja', text: '日本語' }
@@ -155,7 +230,8 @@ export default {
         epost: this.brukerdata.epost,
         gammelt_passord: this.passord.gammelt,
         nytt_passord: this.passord.nytt,
-        locale: this.brukerdata.locale
+        locale: this.brukerdata.locale,
+        oppdateringer: this.brukerdata.oppdateringer
       })
         .then((response) => {
           this.getBrukerdata()
@@ -165,11 +241,13 @@ export default {
           this.$refs.form.reset()
           this.passord.nytt = ''
           this.passord.nyttBekreft = ''
+          this.passord.gammelt = ''
         })
         .catch(error => {
           console.log(error)
           const message = error.response.data
           this.$store.dispatch('show_snackbar', { message: message, color: 'error' })
+          this.passord.gammelt = ''
         })
 
     },
@@ -183,22 +261,11 @@ export default {
           console.log(error)
         })
     },
-    getBrukerforslag () {
-      const user_id = this.$store.getters.user_id
-      JishoDataService.getBrukerforslag(user_id)
-        .then(res => {
-          this.brukerforslag = res.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
   },
   computed: {
   },
   mounted () {
     this.getBrukerdata()
-    this.getBrukerforslag()
   }
 }
 

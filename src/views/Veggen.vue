@@ -287,8 +287,6 @@ export default {
       })
     },
     fastlenke (innlegg_id) {
-      //this.$router.push('/veggen/' + innlegg_id)
-      //this.hentVegginnlegg(innlegg_id)
       let url = 'https://baksida.jisho.no/veggen/' + innlegg_id
       navigator.clipboard.writeText(url)
         .then(() => {
