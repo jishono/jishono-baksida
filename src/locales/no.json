@@ -75,7 +75,17 @@
     "profil": {
       "visningsspråk": "Visningsspråk",
       "gammelt_passord": "Gammelt passord",
-      "nytt_passord": "Nytt passord"
+      "nytt_passord": "Nytt passord",
+      "endre_passord": "Endre passord",
+      "oppdateringer": "Oppdateringer på e-post",
+      "aktivitetsoppsummering": "Aktivitetsoppsummering:",
+      "aldri": "Aldri",
+      "daglig": "Daglig",
+      "hver_uke": "Hver uke",
+      "annenhver_uke": "Annenhver uke",
+      "hendelser": "Ved følgende hendelser:",
+      "kommenterer_forslag": "Noen kommenterer på et av dine forslag",
+      "svarer_kommentar_innlegg": "Noen svarer på en av dine kommentarer/vegginnlegg"
     }
   },
   "oversett": {

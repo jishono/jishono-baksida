@@ -74,7 +74,17 @@
     "profil": {
       "visningsspråk": "表示言語",
       "gammelt_passord": "古いパスワード",
-      "nytt_passord": "新しいパスワード"
+      "nytt_passord": "新しいパスワード",
+      "endre_passord": "パスワード変更",
+      "oppdateringer": "メール通知",
+      "aktivitetsoppsummering": "ダイジェスト配信の間隔：",
+      "aldri": "オフ",
+      "daglig": "毎日",
+      "hver_uke": "毎週",
+      "annenhver_uke": "隔週",
+      "hendelser": "次の場合：",
+      "kommenterer_forslag": "誰かがあなたの提案にコメントした時",
+      "svarer_kommentar_innlegg": "誰かがあなたのコメントか掲示板投稿に返事した時"
     }
   },
   "oversett": {

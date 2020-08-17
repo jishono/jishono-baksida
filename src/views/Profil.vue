@@ -73,7 +73,7 @@
                     outlined
                   ></v-select>
                   <h2 class="mb-3">
-                    Endre passord
+                    {{ $t('bruker.profil.endre_passord')}}
                   </h2>
                   <v-text-field
                     type="password"
@@ -89,44 +89,44 @@
                   />
                 </v-form>
                 <h2 class="mb-3">
-                  Oppdateringer på e-post
+                  {{ $t('bruker.profil.oppdateringer')}}
                 </h2>
-                <span>Aktivitetsoppsummering:</span>
+                <span>  {{ $t('bruker.profil.aktivitetsoppsummering')}}</span>
                 <v-row class="ml-1">
                   <v-radio-group
                     v-model="brukerdata.oppdateringer.opp_periode"
                     row
                   >
                     <v-radio
-                      label="Aldri"
+                      :label="$t('bruker.profil.aldri')"
                       :value=0
                     ></v-radio>
                     <v-radio
-                      label="Daglig"
+                      :label="$t('bruker.profil.daglig')"
                       :value=1
                     ></v-radio>
                     <v-radio
-                      label="Hver uke"
+                      :label="$t('bruker.profil.hver_uke')"
                       :value=7
                     ></v-radio>
                     <v-radio
-                      label="Annenhver uke"
+                      :label="$t('bruker.profil.annenhver_uke')"
                       :value=14
                     ></v-radio>
                   </v-radio-group>
                 </v-row>
 
-                <span>Ved følgende hendelser:</span>
+                <span> {{ $t('bruker.profil.hendelser')}}</span>
                 <v-checkbox
                   hide-details
-                  label="Noen kommenterer på et av dine forslag"
+                  :label="$t('bruker.profil.kommenterer_forslag')"
                   v-model="brukerdata.oppdateringer.opp_kommentar_eget"
                 >
 
                 </v-checkbox>
                 <v-checkbox
                   hide-details
-                  label="Noen svarer på en av dine kommentarer/vegginnlegg"
+                  :label="$t('bruker.profil.svarer_kommentar_innlegg')"
                   v-model="brukerdata.oppdateringer.opp_svar"
                 >
                 </v-checkbox>
