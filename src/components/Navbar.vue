@@ -208,8 +208,7 @@ export default {
 <style scoped>
 .nav-button-jap {
   /* font-family: 'Noto Sans Japanese', sans-serif; */
-  font-family: "Kosugi Maru", sans-serif;
-  font-weight: 200;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 15px;
 }
 </style>
