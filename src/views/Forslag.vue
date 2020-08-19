@@ -166,8 +166,12 @@
           <span v-else>{{ item.lemma_id }}</span>
         </div>
       </template>
-      <template v-slot:item[`oppslag`]="{ item }">
-        <span>{{ item.oppslag}}</span>
+      <template v-slot:[`item.oppslag`]="{ item }">
+        <router-link
+          v-on="on"
+          :to="{path: 'nytt_forslag/' + item.lemma_id}"
+          :title="$t('forslag.nytt_forslag_oppslag')"
+        >{{ item.oppslag}}</router-link>
         <v-tooltip
           bottom
           v-if="item.eksisterende_definisjoner && item.status == 0"
