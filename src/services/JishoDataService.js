@@ -98,6 +98,9 @@ class JishoDataService {
   hentUsetteVeggeninnlegg() {
     return api.get(`/veggen/usette_innlegg/`)
   }
+  updateLastSeen(id) {
+    return api.post(`/bruker/${id}/sist_sett`)
+  }
 
   
 }

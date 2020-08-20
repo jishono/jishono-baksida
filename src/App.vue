@@ -30,6 +30,7 @@
 <script>
 import Navbar from './components/Navbar'
 import Snackbar from './components/Snackbar'
+import JishoDataService from "./services/JishoDataService";
 
 export default {
   name: 'app',
@@ -37,9 +38,27 @@ export default {
     Navbar,
     Snackbar
   },
+  data () {
+    return {
+      api_call: null
+    }
+  },
   methods: {
-    
+    updateLastSeen () {
+      JishoDataService.updateLastSeen(this.$store.getters.user_id)
+      this.api_call = setInterval(() => {
+        if (this.$store.getters.isLoggedIn) {
+          JishoDataService.updateLastSeen(this.$store.getters.user_id)
+        }
+      }, 1800000)
+    }
+  },
+  beforeDestroy () {
+    clearInterval(this.api_call)
+  },
+  created () {
+    this.updateLastSeen()
   }
+
 }
 </script>
-

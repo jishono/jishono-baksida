@@ -168,7 +168,6 @@
       </template>
       <template v-slot:[`item.oppslag`]="{ item }">
         <router-link
-          v-on="on"
           :to="{path: 'nytt_forslag/' + item.lemma_id}"
           :title="$t('forslag.nytt_forslag_oppslag')"
         >{{ item.oppslag}}</router-link>
