@@ -286,9 +286,9 @@ export default {
         const response = await JishoDataService.findByOppslag(this.q, this.meduten.meddef,
           this.meduten.utendef, this.meduten.medut, this.meduten.utenut,
           string)
-        this.oppslagsliste = response.data;
-        this.currentIndex = -1;
-        this.currentOppslag = null;
+        this.oppslagsliste = response.data
+        this.currentIndex = -1
+        this.currentOppslag = null
         this.treff = this.oppslagsliste.length
         this.side = 0
       } catch (error) {
@@ -326,6 +326,9 @@ export default {
           this.side += 1
         }
       }
+      this.currentIndex = -1
+      this.currentOppslag = null
+      this.showExpansion = false
     }
   },
   computed: {
