@@ -96,7 +96,7 @@ class JishoDataService {
     return api.post(`/veggen/innlegg/${id}/endre`, data)
   }
   deleteVegginnlegg(id) {
-    return api.delete(`/veggen/innlegg/${id}/delete`)
+    return api.post(`/veggen/innlegg/${id}/delete`)
   }
   hentUsetteVeggeninnlegg() {
     return api.get(`/veggen/usette_innlegg/`)
