@@ -154,7 +154,7 @@
         sm=6
         cols=12
       >
-        <h1>{{ $t('ord.kommentarer') }}</h1>
+        <h1>{{ $t('kommentar.kommentarer') }}</h1>
         <v-textarea
           outlined
           :label="$t('kommentar.ny_kommentar')"
