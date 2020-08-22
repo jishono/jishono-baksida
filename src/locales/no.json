@@ -34,12 +34,13 @@
     "oppdater": "oppdater",
     "godkjenn": "godkjenn",
     "svar": "Svar",
-    "lenke": "Direktelenke"
+    "lenke": "Direktelenke",
+    "slett": "Slett"
   },
   "varsler": {
     "kopiert": "URL kopiert til utklippstavla.",
-    "server_error": "Får ikke kontakt med API. Serveren kan være nede."
-    
+    "server_error": "Får ikke kontakt med API. Serveren kan være nede.",
+    "slette_dialog": "Er du sikker på du vil slette dette?"
   },
   "kommentar": {
     "forslag_fra": "Forslag fra: ",

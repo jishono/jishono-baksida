@@ -95,14 +95,15 @@ class JishoDataService {
   endreVegginnlegg(id, data) {
     return api.post(`/veggen/innlegg/${id}/endre`, data)
   }
+  deleteVegginnlegg(id) {
+    return api.delete(`/veggen/innlegg/${id}/delete`)
+  }
   hentUsetteVeggeninnlegg() {
     return api.get(`/veggen/usette_innlegg/`)
   }
   updateLastSeen(id) {
     return api.post(`/bruker/${id}/sist_sett`)
   }
-
-  
 }
 
 export default new JishoDataService();

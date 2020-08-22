@@ -35,11 +35,13 @@
     "oppdater": "更新",
     "godkjenn": "承認",
     "svar": "返事",
-    "lenke": "直結URL"
+    "lenke": "直結URL",
+    "slett": "削除"
   },
   "varsler": {
     "kopiert": "URLがクリップボードにコピーされました。",
-    "server_error": "サーバーに接続できませんでした"
+    "server_error": "サーバーに接続できませんでした",
+    "slette_dialog": "本当に削除しますか？"
   },
   "kommentar": {
     "forslag_fra": "提案者：",

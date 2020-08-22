@@ -46,6 +46,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
         <v-card
           max-width="600px"
           class="mx-auto"
@@ -137,6 +138,23 @@
                     <span>{{ $t('knapper.endre')}}</span>
                   </v-tooltip>
 
+                  <v-tooltip
+                    bottom
+                    v-if="$store.getters.user_id == innlegg.user_id"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        color="grey darken-3"
+                        class="ml-2"
+                        v-on="on"
+                        @click="deleteInnlegg(innlegg.innlegg_id)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                    <span>{{ $t('knapper.slett')}}</span>
+                  </v-tooltip>
+
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon
@@ -152,8 +170,6 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text class="pa-3">
-                  <!-- <div class="text--primary">{{ innlegg.innhold}}</div> -->
-
                   <span v-if="innlegg.endret == true">({{$t('veggen.endret') }})</span>
                   <vue-simple-markdown
                     class="text--primary linjeskift"
@@ -203,6 +219,22 @@
                             </v-icon>
                           </template>
                           <span>{{ $t('knapper.endre')}}</span>
+                        </v-tooltip>
+                        <v-tooltip
+                          bottom
+                          v-if="$store.getters.user_id == svar.user_id"
+                        >
+                          <template v-slot:activator="{ on }">
+                            <v-icon
+                              color="grey darken-3"
+                              class="ml-2"
+                              v-on="on"
+                              @click="deleteInnlegg(svar.innlegg_id)"
+                            >
+                              mdi-delete
+                            </v-icon>
+                          </template>
+                          <span>{{ $t('knapper.slett')}}</span>
                         </v-tooltip>
                       </v-card-title>
                       <v-card-text class="pa-3">
@@ -311,18 +343,30 @@ export default {
     },
     postInnlegg (parent_id) {
       const innhold = parent_id ? this.nytt_svar : this.nytt_innlegg
-      console.log(innhold)
       JishoDataService.postVegginnlegg({ parent_id: parent_id, innhold: innhold })
         .then((response) => {
           this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
           this.nullstill()
+          window.scrollTo(0, 0)
 
         })
         .catch(error => {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         })
     },
-
+    deleteInnlegg (innlegg_id) {
+      if (confirm(this.$t('varsler.slette_dialog'))) {
+        JishoDataService.deleteVegginnlegg(innlegg_id)
+          .then((response) => {
+            this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
+            this.nullstill()
+            this.endre_dialog = false
+          })
+          .catch(error => {
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          })
+      }
+    }
   },
   mounted () {
     this.hentVegginnlegg(this.$route.params.id)
