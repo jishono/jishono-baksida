@@ -122,6 +122,14 @@ let router = new Router({
       component: () => import("./views/Veggen")
     },
     {
+      path: "/admin/users",
+      meta: {
+        requiresAuth: true,
+        title: 'users'
+      },
+      component: () => import("./views/Users")
+    },
+    {
       path: "/*",
       redirect: '/'
     },

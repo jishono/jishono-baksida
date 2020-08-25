@@ -13,7 +13,8 @@
     "logg_inn": "ログイン",
     "sprak": "言語",
     "endre": "編集",
-    "veggen": "掲示板"
+    "veggen": "掲示板",
+    "users": "ユーザー"
   },
   "ord": {
     "lemma_id": "見出語ID",

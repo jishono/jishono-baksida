@@ -15,10 +15,7 @@
         offset-y="16"
         class="hidden-lg-and-up ml-n3"
       >
-        <v-app-bar-nav-icon
-          @click.stop="drawer = !drawer"
-          
-        ></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </v-badge>
       <router-link
         to="/"
@@ -85,6 +82,28 @@
           ></v-img>
         </v-btn>
       </div>
+      <v-menu
+        v-if="$store.getters.isAdmin"
+        right
+        offset-y
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            tile
+            large
+            icon
+            v-on="on"
+          >
+            <v-icon>mdi-shield-account</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item to="/admin/users">
+            <v-list-item-title>Brukere</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -150,7 +169,6 @@ export default {
   data () {
     return {
       drawer: false,
-      closeOnClick: true,
       logged_in: false,
       usette_innlegg: 0,
       nav_items: [

@@ -104,6 +104,9 @@ class JishoDataService {
   updateLastSeen(id) {
     return api.post(`/bruker/${id}/sist_sett`)
   }
+  getAllUsers() {
+    return api.get(`/brukere`)
+  }
 }
 
 export default new JishoDataService();
