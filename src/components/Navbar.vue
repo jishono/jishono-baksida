@@ -89,7 +89,6 @@
       >
         <template v-slot:activator="{ on }">
           <v-btn
-            tile
             large
             icon
             v-on="on"
