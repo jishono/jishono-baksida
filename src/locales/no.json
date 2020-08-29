@@ -172,7 +172,7 @@
         "33": " for hvordan oversette ord på en god måte",
         "4": "Besøk fanen 'Oversett' og oversett enten ord som anbefales eller søk opp ord du selv vil oversette.",
         "5": "Nye forslag til definisjoner (oversettelser) kan ses av alle og stemmes på under fanen 'Forslag'. Kommenter også gjerne på andres oversettelser for å gi innspill.",
-        "6": "Hvis et forslag får 5 positive stemmer, eller hvis en admin godkjenner det direkte, legges det til i ordboka. Ved 5 negative stemmer blir forslaget avvist."
+        "6": "Hvis et forslag får 3 positive stemmer, eller hvis en admin godkjenner det direkte, legges det til i ordboka. Ved 3 negative stemmer blir forslaget avvist."
       }
     },
     "p4": {
