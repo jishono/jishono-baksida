@@ -57,7 +57,7 @@ class JishoDataService {
   }
 
   findByOppslag (q, meddef, utendef, medut, utenut, string) {
-    return api.get(`/search?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}${string}`);
+    return api.get(`/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}${string}`);
   }
   getAllForslag () {
     return api.get(`/forslag`);
