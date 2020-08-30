@@ -152,7 +152,7 @@
                        }"
       :items-per-page="20"
       :header-props="{ sortIcon: null }"
-      sort-by="opprettet"
+      :sort-by="filter_status === 0 ? 'opprettet' : 'godkjent_avvist'"
       :sort-desc="true"
       class="elevation-1"
       mobile-breakpoint="1030"
@@ -318,7 +318,8 @@
         </v-chip>
       </template>
       <template v-slot:[`item.opprettet`]="{ item }">
-        {{ new Date(item.opprettet).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}
+        <span v-if="item.status === 0">{{ new Date(item.opprettet).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}</span>
+        <span v-else>{{ new Date(item.godkjent_avvist).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}</span>
       </template>
     </v-data-table>
   </v-container>
@@ -371,7 +372,7 @@ export default {
         { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
         { text: this.$t('forslag.stemmer'), value: 'upvotes', width: '1%' },
         { text: this.$t('forslag.status'), value: 'status', width: '1%' },
-        { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
+        { text: this.$t('forslag.lagt_til'), value: 'opprettet', width: '10%' },
       ],
       forslag_status: [
         {
@@ -407,6 +408,7 @@ export default {
   },
   watch: {
     tab: function () {
+      this.filter_status = 0
       this.refresh()
     }
   },
