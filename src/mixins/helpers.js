@@ -13,7 +13,8 @@ export default {
         },
         addRuby (str) {
             const kanji = str.match(/.*?(?=\[)/)
-            const furigana = str.match(/(?<=\[).*(?=\])/)
+            let furigana = str.match(/(?=\[).*(\])/)
+            furigana = furigana[0].replace(/\[|\]/g, "")
             return `<ruby>${kanji}<rp>(</rp><rt>${furigana}</rt><rp>)</rp></ruby>`
         },
         addFurigana (str) {
