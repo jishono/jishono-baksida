@@ -50,7 +50,7 @@ export default {
   methods: {
     getDateArray (start, end) {
       let array = []
-      let date = new Date(start)
+      let date = start
       while (date <= end) {
         let newDate = ''
         newDate += ((date.getMonth() + 1) + '-' + date.getFullYear())
@@ -60,7 +60,8 @@ export default {
       return array;
     },
     genererChart () {
-      const dateArray = this.getDateArray(new Date('2020-08-01'), new Date('2022-01-01'))
+      const startDate = new Date('2020-08-01')
+      const dateArray = this.getDateArray(startDate, new Date().setDate(new Date().getDate() + 90))
       this.chartData.datasets[0].data = this.WordsWithTranslations.map(word => word.antall)
       this.chartData.labels = dateArray
     }
