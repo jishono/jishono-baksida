@@ -153,7 +153,8 @@
     "ord_uten": "未翻訳の単語",
     "siste_30": "直近の30日",
     "nye_aksepterte": "新しく承認された翻訳",
-    "nye_forslag": "新しい提案"
+    "nye_forslag": "新しい提案",
+    "ord_med_oversettelser": "翻訳有りの単語数"
   },
   "om": {
     "hovedtittel": "jisho.noの「Baksida」について",

@@ -4,9 +4,10 @@
       no-gutters
       justify="center"
     >
-      <v-col 
-      lg=9
-      cols=12>
+      <v-col
+        lg=9
+        cols=12
+      >
         <v-card class="ma-2">
           <v-card-title>
             {{ $t('statistikk.diverse') }}
@@ -41,6 +42,11 @@
             v-bind:antall_kommentarer="this.statistikk.antall_kommentarer"
           >
           </line-chart>
+        </v-card>
+        <v-card class="ma-2">
+          <v-card-title> {{ $t('statistikk.ord_med_oversettelser') }}</v-card-title>
+          <line-chart-history v-bind:WordsWithTranslations="this.statistikk.translated_by_day">
+          </line-chart-history>
         </v-card>
       </v-col>
       <v-col
@@ -90,6 +96,7 @@
 <script>
 import JishoDataService from '../services/JishoDataService'
 import LineChart from '../components/LineChart'
+import LineChartHistory from '../components/LineChartHistory'
 
 export default {
   name: 'statistikk',
@@ -99,7 +106,7 @@ export default {
     }
   },
   components: {
-    LineChart
+    LineChart, LineChartHistory
   },
   methods: {
 
