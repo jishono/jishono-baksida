@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import JishoDataService from "../services/JishoDataService";
 
 export default {
   name: 'logg-inn',
@@ -78,6 +79,7 @@ export default {
           const username = this.username
           const password = this.password
           await this.$store.dispatch('login', { username, password })
+          await JishoDataService.updateLastSeen(this.$store.getters.user_id)
           this.$router.push('/')
         } catch (error) {
           console.log(error.response.data)

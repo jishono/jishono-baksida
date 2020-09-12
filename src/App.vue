@@ -40,24 +40,40 @@ export default {
   },
   data () {
     return {
-      api_call: null
+      PollerLastSeen: null,
+      PollerWallPosts: null,
+
     }
   },
   methods: {
     updateLastSeen () {
-      JishoDataService.updateLastSeen(this.$store.getters.user_id)
-      this.api_call = setInterval(() => {
+      if (this.$store.getters.isLoggedIn) {
+        JishoDataService.updateLastSeen(this.$store.getters.user_id)
+      }
+      this.PollerLastSeen = setInterval(() => {
         if (this.$store.getters.isLoggedIn) {
           JishoDataService.updateLastSeen(this.$store.getters.user_id)
         }
       }, 1800000)
+    },
+    updateUnseenWallposts () {
+      if (this.$store.getters.isLoggedIn) {
+        this.$store.dispatch('refresh_usette_innlegg')
+      }
+      this.PollerWallPosts = setInterval(() => {
+        if (this.$store.getters.isLoggedIn) {
+            this.$store.dispatch('refresh_usette_innlegg')
+        }
+      }, 120000)
     }
   },
   beforeDestroy () {
-    clearInterval(this.api_call)
+    clearInterval(this.PollerLastSeen)
+    clearInterval(this.PollerWallPosts)
   },
   created () {
     this.updateLastSeen()
+    this.updateUnseenWallposts()
   }
 
 }

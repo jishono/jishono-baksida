@@ -165,7 +165,6 @@ router.afterEach((to) => {
       document.title = i18n.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
     })
   }
-  store.dispatch('refresh_usette_innlegg')
 });
 
 export default router

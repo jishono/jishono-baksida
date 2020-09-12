@@ -57,7 +57,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async login ({ commit }, login_data) {
+    async login ({ commit, dispatch }, login_data) {
       commit('auth_request')
       try {
         const res = await api.post('/logg_inn', login_data)
@@ -72,6 +72,7 @@ export default new Vuex.Store({
         localStorage.setItem('admin', admin)
         localStorage.setItem('locale', locale)
         commit('auth_success', { token: token, user_id: user_id, username: username, admin: admin, locale: locale })
+        dispatch('refresh_usette_innlegg')
       } catch (error) {
         commit('auth_error')
         localStorage.removeItem('token')
