@@ -26,7 +26,7 @@
             class="mx-1"
           >
           <v-icon left>mdi-open-in-new</v-icon>
-            NOAB
+            NAOB
           </v-btn>
         <v-btn
           v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"

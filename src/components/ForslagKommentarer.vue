@@ -64,7 +64,7 @@
               outlined
             >
               <v-icon left>mdi-open-in-new</v-icon>
-              NOAB
+              NAOB
             </v-btn>
           </v-col>
         </v-row>

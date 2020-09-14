@@ -172,12 +172,12 @@ export default {
       usette_innlegg: 0,
       nav_items: [
 
-        { title: 'forslag', icon: 'mdi-account-group', route: '/forslag', loggedIn: true, loggedOut: false, adminOnly: false },
+        { title: 'forslag', icon: 'mdi-account-group', route: '/forslag', loggedIn: true, loggedOut: true, adminOnly: false },
         { title: 'oversett', icon: 'mdi-translate', route: '/oversett', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'sok', icon: 'mdi-magnify', route: '/sok', loggedIn: true, loggedOut: false, adminOnly: false },
-        { title: 'statistikk', icon: 'mdi-chart-bar', route: '/statistikk', loggedIn: true, loggedOut: false, adminOnly: false },
-        { title: 'veggen', icon: 'mdi-comment-text-multiple', route: '/veggen', loggedIn: true, loggedOut: false, adminOnly: false },
-        { title: 'instruks', icon: 'mdi-help-circle', route: '/instruks', loggedIn: true, loggedOut: false, adminOnly: false },
+        { title: 'statistikk', icon: 'mdi-chart-bar', route: '/statistikk', loggedIn: true, loggedOut: true, adminOnly: false },
+        { title: 'veggen', icon: 'mdi-comment-text-multiple', route: '/veggen', loggedIn: true, loggedOut: true, adminOnly: false },
+        { title: 'instruks', icon: 'mdi-help-circle', route: '/instruks', loggedIn: true, loggedOut: true, adminOnly: false },
         { title: 'om', icon: 'mdi-information', route: '/om', loggedIn: true, loggedOut: true, adminOnly: false },
         { title: 'profil', icon: 'mdi-account-circle', route: '/profil', loggedIn: true, loggedOut: false, adminOnly: false },
         { title: 'logg_ut', icon: 'mdi-logout', action: 'logout', route: '/logginn', loggedIn: true, loggedOut: false, adminOnly: false },

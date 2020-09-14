@@ -168,9 +168,11 @@
       </template>
       <template v-slot:[`item.oppslag`]="{ item }">
         <router-link
+          v-if="$store.getters.isLoggedIn"
           :to="{path: 'nytt_forslag/' + item.lemma_id}"
           :title="$t('forslag.nytt_forslag_oppslag')"
         >{{ item.oppslag}}</router-link>
+        <span v-else>{{ item.oppslag }}</span>
         <v-tooltip
           bottom
           v-if="item.eksisterende_definisjoner && item.status == 0"

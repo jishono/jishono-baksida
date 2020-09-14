@@ -52,7 +52,7 @@ let router = new Router({
       path: "/forslag",
       alias: "/",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'forslag'
       },
       component: () => import("./views/Forslag")
@@ -60,7 +60,7 @@ let router = new Router({
     {
       path: "/forslag/:id/kommentarer",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'forslag'
       },
       component: () => import("./views/Forslag")
@@ -76,7 +76,7 @@ let router = new Router({
     {
       path: "/statistikk",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'statistikk'
       },
       component: () => import("./views/Statistikk")
@@ -84,7 +84,7 @@ let router = new Router({
     {
       path: "/instruks",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'instruks'
       },
       component: () => import("./views/Instruks")
@@ -108,7 +108,7 @@ let router = new Router({
     {
       path: "/veggen",
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
         title: 'veggen'
       },
       component: () => import("./views/Veggen")
