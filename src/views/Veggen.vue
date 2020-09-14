@@ -370,6 +370,9 @@ export default {
   },
   mounted () {
     this.hentVegginnlegg(this.$route.params.id)
+    if (this.$store.getters.isLoggedIn) {
+        this.$store.dispatch('refresh_usette_innlegg')
+      }
   }
 }
 </script>
