@@ -35,7 +35,7 @@
           small
         >
           <v-icon left>mdi-open-in-new</v-icon>
-          NOAB
+          NAOB
         </v-btn>
       </v-card-title>
       <v-card-text>

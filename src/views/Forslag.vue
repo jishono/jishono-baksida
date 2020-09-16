@@ -50,11 +50,11 @@
     <v-dialog
       v-model="kommentar_dialog"
       width="500"
-      @click:outside="kommentar_dialog = false; refresh()"
+      @click:outside="closeKommentarDialog"
     >
       <forslag-kommentarer
         v-bind:forslag_id="this.current_forslag_id"
-        @close="kommentar_dialog = false; refresh()"
+        @close="closeKommentarDialog"
       ></forslag-kommentarer>
     </v-dialog>
     <v-tabs
@@ -442,7 +442,7 @@ export default {
   },
   methods: {
     refresh () {
-      this.search = ''
+      //this.search = ''
       JishoDataService.getAllForslag()
         .then(result => {
           this.forslag = result.data
@@ -471,6 +471,11 @@ export default {
     openKommentarDialog (forslag_id) {
       this.kommentar_dialog = true
       this.current_forslag_id = forslag_id
+    },
+    closeKommentarDialog () {
+      this.kommentar_dialog = false
+      this.current_forslag_id = null
+      this.refresh()
     },
     redigerForslag (item) {
 

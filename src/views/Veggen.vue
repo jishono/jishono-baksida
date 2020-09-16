@@ -304,6 +304,9 @@ export default {
       JishoDataService.hentVegginnlegg(innlegg_id)
         .then(response => {
           this.alle_innlegg = response.data
+          if (this.$store.getters.isLoggedIn) {
+            this.$store.dispatch('refresh_usette_innlegg')
+          }
         })
     },
     nullstill () {
@@ -370,9 +373,6 @@ export default {
   },
   mounted () {
     this.hentVegginnlegg(this.$route.params.id)
-    if (this.$store.getters.isLoggedIn) {
-        this.$store.dispatch('refresh_usette_innlegg')
-      }
   }
 }
 </script>

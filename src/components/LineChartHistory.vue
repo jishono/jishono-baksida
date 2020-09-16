@@ -20,6 +20,9 @@ export default {
         ]
       },
       options: {
+        tooltips: {
+          intersect: false
+        },
         scales: {
           yAxes: [{
             ticks: {
