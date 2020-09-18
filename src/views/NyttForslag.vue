@@ -62,11 +62,11 @@
             </v-text-field>
           </div>
           <div
-            v-for="(ny_def,index2) in forslag_definisjoner"
+            v-for="(ny_def,index2) in nye_forslag"
             v-bind:key="index2+100"
           >
             <v-text-field
-              v-model="forslag_definisjoner[index2]"
+              v-model="nye_forslag[index2]['definisjon']"
               counter
               maxlength="100"
               outlined
@@ -75,19 +75,33 @@
                 {{ $t('forslag.forslag_definisjon') }} {{currentOppslag.definisjon.length + index2+1}}
               </template>
               <template v-slot:append>
-                <div v-if="index2 == forslag_definisjoner.length-1">
+                <v-icon
+                    color="orange"
+                    v-on:click="toggleComment(index2)"
+                  >mdi-comment-text-outline </v-icon>
+                <div v-if="index2 == nye_forslag.length-1">
                   <v-icon
                     color="green lighten-1"
                     v-on:click="addDef"
                   >mdi-plus-circle </v-icon>
                   <v-icon
-                    v-if="forslag_definisjoner.length > 1"
+                    v-if="nye_forslag.length > 1"
                     color="red lighten-1"
                     v-on:click="removeDef"
                   >mdi-minus-circle </v-icon>
                 </div>
               </template>
             </v-text-field>
+            <v-textarea
+              v-model="nye_forslag[index2]['kommentar']"
+              v-if="nye_forslag[index2]['kommentar'] != null"
+              rows="4"
+              outlined
+            >
+              <template v-slot:label>
+                {{ $t('kommentar.kommentar') }} til definisjon {{currentOppslag.definisjon.length + index2+1}}
+              </template>
+            </v-textarea>
           </div>
       </v-card-text>
       <v-card-actions>
@@ -173,7 +187,7 @@ export default {
   data () {
     return {
       currentOppslag: null,
-      forslag_definisjoner: [''],
+      nye_forslag: [{definisjon: '', kommentar: null}],
       boyningsDialog: false,
       instruksDialog: false,
     };
@@ -195,7 +209,7 @@ export default {
     addForslag () {
       this.checkEmpty()
       JishoDataService.addForslag(this.currentOppslag.lemma_id, {
-        forslag_definisjoner: this.forslag_definisjoner,
+        nye_forslag: this.nye_forslag,
         lemma_id: this.currentOppslag.lemma_id
       })
         .then((response) => {
@@ -208,15 +222,23 @@ export default {
         });
     },
     addDef () {
-      this.forslag_definisjoner.push('')
+      this.nye_forslag.push({definisjon: '', kommentar: null})
     },
     removeDef () {
-      this.forslag_definisjoner.pop()
+      this.nye_forslag.pop()
+    },
+    toggleComment (index) {
+      if (this.nye_forslag[index].kommentar === null) {
+        this.nye_forslag[index].kommentar = ''
+      } else {
+        this.nye_forslag[index].kommentar = null
+      }
+
     },
     checkEmpty () {
-      if (this.forslag_definisjoner.length > 0 && this.forslag_definisjoner[0] != '') {
-        if (this.forslag_definisjoner[this.forslag_definisjoner.length - 1] == '') {
-          this.forslag_definisjoner.pop()
+      if (this.nye_forslag.length > 0 && this.nye_forslag[0] != '') {
+        if (this.nye_forslag[this.nye_forslag.length - 1] == '') {
+          this.nye_forslag.pop()
         }
       }
     },
