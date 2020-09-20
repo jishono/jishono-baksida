@@ -114,7 +114,6 @@
                         v-on:click="addUttale"
                       >mdi-plus-circle </v-icon>
                       <v-icon
-                        v-if="currentOppslag.uttale.length > 1"
                         color="red lighten-1"
                         v-on:click="removeUttale"
                       >mdi-minus-circle </v-icon>
@@ -122,12 +121,10 @@
                   </template>
                 </v-text-field>
               </div>
-
               <div
                 v-for="(def,index) in currentOppslag.definisjon"
                 v-bind:key="index"
               >
-
                 <v-text-field
                   v-model="def.definisjon"
                   counter
@@ -292,8 +289,7 @@ export default {
           this.currentOppslag.definisjon.pop()
         }
       }
-      if (this.currentOppslag.uttale.length > 0 && this.currentOppslag.uttale[0]['transkripsjon'] != '') {
-        console.log(this.currentOppslag.uttale.length)
+      if (this.currentOppslag.uttale.length > 0) {
         if (this.currentOppslag.uttale[this.currentOppslag.uttale.length - 1].transkripsjon == "") {
           this.currentOppslag.uttale.pop()
         }
