@@ -8,26 +8,26 @@
           :boyningsDialog.sync="boyningsDialog"
           @outside_click="boyningsDialog = false"
         />
-         <v-btn
-            color="primary"
-            :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
-            target="_blank"
-            outlined
-            class="mx-1"
-          >
+        <v-btn
+          color="primary"
+          :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
+          target="_blank"
+          outlined
+          class="mx-1"
+        >
           <v-icon left>mdi-open-in-new</v-icon>
-            BMO
-          </v-btn>
-          <v-btn
-            color="primary"
-            :href="'https://naob.no/s%C3%B8k/' + currentOppslag.oppslag"
-            target="_blank"
-            outlined
-            class="mx-1"
-          >
+          BMO
+        </v-btn>
+        <v-btn
+          color="primary"
+          :href="'https://naob.no/s%C3%B8k/' + currentOppslag.oppslag"
+          target="_blank"
+          outlined
+          class="mx-1"
+        >
           <v-icon left>mdi-open-in-new</v-icon>
-            NAOB
-          </v-btn>
+          NAOB
+        </v-btn>
         <v-btn
           v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
           color="primary"
@@ -65,13 +65,19 @@
           </v-card-title>
           <v-card-text>
             <v-form ref="form">
-              <v-text-field
-                v-model="currentOppslag.lemma_id"
-                :label="$t('ord.lemma_id')"
-                outlined
-                disabled
-              />
-
+              <v-row no-gutters>
+                <v-text-field
+                  v-model="currentOppslag.lemma_id"
+                  :label="$t('ord.lemma_id')"
+                  outlined
+                  disabled
+                />
+                <v-checkbox
+                  v-model="currentOppslag.skjult"
+                  class="ml-4"
+                  label="Skjult"
+                ></v-checkbox>
+              </v-row>
               <v-text-field
                 v-model="currentOppslag.oppslag"
                 :label="$t('ord.oppslagsord')"

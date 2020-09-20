@@ -56,8 +56,8 @@ class JishoDataService {
     return api.post(`/registrer`, data);
   }
 
-  findByOppslag (q, meddef, utendef, medut, utenut, string) {
-    return api.get(`/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}${string}`);
+  findByOppslag (q, meddef, utendef, medut, utenut, kun_skjult, string) {
+    return api.get(`/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}&kun_skjult=${kun_skjult}${string}`);
   }
   getAllForslag () {
     return api.get(`/forslag`);

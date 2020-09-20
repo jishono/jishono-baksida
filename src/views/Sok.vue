@@ -185,6 +185,15 @@
           @click.native="sokOppslag()"
         >
         </v-checkbox>
+        <v-checkbox
+          v-if="$store.getters.isAdmin"
+          class="pa-0 ma-0"
+          hide-details
+          label="kun skjulte"
+          v-model="kun_skjult"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
         <h5 class="mt-3">{{ $t('ord.ordklasse') }}</h5>
         <div
           class="custom-control custom-checkbox"
@@ -227,6 +236,7 @@ export default {
       side: 0,
       treffPerSide: 20,
       boyningsDialog: false,
+      kun_skjult: false,
       meduten: {
         meddef: false,
         utendef: false,
@@ -284,7 +294,7 @@ export default {
           string += "&" + ordklasse + "=" + this.pos[ordklasse]
         })
         const response = await JishoDataService.findByOppslag(this.q, this.meduten.meddef,
-          this.meduten.utendef, this.meduten.medut, this.meduten.utenut,
+          this.meduten.utendef, this.meduten.medut, this.meduten.utenut, this.kun_skjult,
           string)
         this.oppslagsliste = response.data
         this.currentIndex = -1
