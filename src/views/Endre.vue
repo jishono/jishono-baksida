@@ -66,17 +66,21 @@
           <v-card-text>
             <v-form ref="form">
               <v-row no-gutters>
+                <v-col cols=8 md=9 xl=10>
                 <v-text-field
                   v-model="currentOppslag.lemma_id"
                   :label="$t('ord.lemma_id')"
                   outlined
                   disabled
                 />
+                </v-col>
+                <v-col>
                 <v-checkbox
                   v-model="currentOppslag.skjult"
-                  class="ml-4"
+                  class="ml-4 mt-3"
                   label="Skjult"
                 ></v-checkbox>
+                </v-col>
               </v-row>
               <v-text-field
                 v-model="currentOppslag.oppslag"
