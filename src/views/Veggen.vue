@@ -16,7 +16,7 @@
             <v-card-title>tittel </v-card-title>
             <v-card-text>
               <v-textarea
-                v-model="endret_innhold"
+                :value="endret_innhold" @change="v => msg = v"
                 outlined
                 counter
                 maxlength="1000"
@@ -65,7 +65,7 @@
           <v-card-text>
             <v-textarea
               v-if="!$route.params.id"
-              v-model="nytt_innlegg"
+              :value="nytt_innlegg" @change="v => msg = v"
               outlined
               counter
               maxlength="1000"
@@ -258,7 +258,7 @@
                       no-resize
                       outlined
                       :label="$t('veggen.svar')"
-                      v-model="nytt_svar"
+                      :value="nytt_svar" @change="v => msg = v"
                       rows="4"
                       ref="svarfelt"
                     ></v-textarea>
