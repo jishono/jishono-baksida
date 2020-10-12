@@ -13,10 +13,11 @@
           width="500"
         >
           <v-card>
-            <v-card-title>tittel </v-card-title>
+            <v-card-title>{{ $t('veggen.endre_innlegg')}}</v-card-title>
             <v-card-text>
               <v-textarea
-                :value="endret_innhold" @change="v => msg = v"
+                :value="endret_innhold"
+                @change="v => endret_innhold = v"
                 outlined
                 counter
                 maxlength="1000"
@@ -65,7 +66,8 @@
           <v-card-text>
             <v-textarea
               v-if="!$route.params.id"
-              :value="nytt_innlegg" @change="v => msg = v"
+              :value="nytt_innlegg"
+              @change="v => nytt_innlegg = v"
               outlined
               counter
               maxlength="1000"
@@ -81,7 +83,6 @@
               justify="end"
             >
               <v-btn
-                v-if="nytt_innlegg"
                 color="primary"
                 @click="postInnlegg(null)"
               >
@@ -258,7 +259,8 @@
                       no-resize
                       outlined
                       :label="$t('veggen.svar')"
-                      :value="nytt_svar" @change="v => msg = v"
+                      :value="nytt_svar"
+                      @change="v => nytt_svar = v"
                       rows="4"
                       ref="svarfelt"
                     ></v-textarea>
@@ -346,16 +348,18 @@ export default {
     },
     postInnlegg (parent_id) {
       const innhold = parent_id ? this.nytt_svar : this.nytt_innlegg
-      JishoDataService.postVegginnlegg({ parent_id: parent_id, innhold: innhold })
-        .then((response) => {
-          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.nullstill()
-          window.scrollTo(0, 0)
-
-        })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-        })
+      if (innhold != "") {
+        JishoDataService.postVegginnlegg({ parent_id: parent_id, innhold: innhold })
+          .then((response) => {
+            this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
+            this.nullstill()
+            window.scrollTo(0, 0)
+  
+          })
+          .catch(error => {
+            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          })
+      }
     },
     deleteInnlegg (innlegg_id) {
       if (confirm(this.$t('varsler.slette_dialog'))) {

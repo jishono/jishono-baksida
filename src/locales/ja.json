@@ -95,6 +95,8 @@
     "anbefalinger": "自動提案",
     "sok": "検索",
     "anbefalinger_title": "翻訳が必要な10単語です",
+    "requests": "翻訳依頼",
+    "requests_title": "jisho.noのユーザーが下記の単語の翻訳を依頼しています。",
     "hent_flere": "さらに取得する",
     "oversett": "翻訳する"
   },

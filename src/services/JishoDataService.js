@@ -74,6 +74,9 @@ class JishoDataService {
   getAnbefalinger () {
     return api.get(`/anbefalinger`);
   }
+  getRequests () {
+    return api.get(`/requests`);
+  }
   getStatistikk () {
     return api.get(`/statistikk`);
   }
