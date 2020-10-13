@@ -22,10 +22,11 @@
         class="v-toolbar__title"
         tag="div"
       >
-        <span
+        <v-img
           class="hidden-md-and-down"
           :style="{ cursor: 'pointer'}"
-        >jisho.no - Baksida</span>
+          src="@/assets/images/jisho_logo_baksida_35.png"
+        ></v-img>
         <span
           class="float-left hidden-lg-and-up"
           v-if="$route.meta.title"
@@ -38,7 +39,11 @@
         tag="div"
         :style="{ cursor: 'pointer'}"
         class="hidden-lg-and-up hidden-xs-only mr-2"
-      >jisho.no - Baksida</router-link>
+      >
+        <v-img
+          src="@/assets/images/jisho_logo_baksida_30.png"
+        ></v-img>
+      </router-link>
 
       <div class="hidden-md-and-down">
 
