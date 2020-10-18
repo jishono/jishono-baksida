@@ -68,13 +68,14 @@
       <v-tab>
         {{ $t('forslag.mine') }}
       </v-tab>
-      <v-tab>
-        <router-link
+      <v-tab @click="handleWordlistTabClick">
+        {{ $t('ord.oppslag') }}
+      <!--   <router-link
           to='/oppslag_forslag'
           style="text-decoration: none; color: inherit;"
         >
           {{ $t('ord.oppslag') }}
-        </router-link>
+        </router-link> -->
       </v-tab>
     </v-tabs>
     <v-row
@@ -484,6 +485,9 @@ export default {
       this.kommentar_dialog = false
       this.current_forslag_id = null
       this.refresh()
+    },
+    handleWordlistTabClick() {
+      this.$router.push('/oppslag_forslag')
     },
     redigerForslag (item) {
 
