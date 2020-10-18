@@ -6,7 +6,7 @@
           :headers="headers"
           :items="users"
           :header-props="{ sortIcon: null }"
-          :sort-by="sist_sett"
+          sort-by="sist_sett"
           :sort-desc="true"
         >
           <template v-slot:[`item.admin`]="{ item }">
