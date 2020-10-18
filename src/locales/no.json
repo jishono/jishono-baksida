@@ -16,6 +16,7 @@
     "veggen": "Veggen",
     "users": "Brukere",
     "new_word": "Nytt oppslag",
+    "edit_approve": "Rediger og godkjenn nytt oppslag",
     "word_suggestion_list": "Oppslagsforslag"
   },
   "ord": {
@@ -40,6 +41,7 @@
     "svar": "Svar",
     "lenke": "Direktelenke",
     "slett": "Slett",
+    "avvis": "Avvis",
     "new_word": "NYTT OPPSLAG"
   },
   "varsler": {

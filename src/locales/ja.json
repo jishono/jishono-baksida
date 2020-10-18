@@ -16,6 +16,7 @@
     "veggen": "掲示板",
     "users": "ユーザー",
     "new_word": "新しい見出し語",
+    "edit_approve": "見出し語の編集と承諾",
     "word_suggestion_list": "見出し語の提案"
   },
   "ord": {
@@ -41,6 +42,7 @@
     "svar": "返事",
     "lenke": "直結URL",
     "slett": "削除",
+    "avvis": "却下",
     "new_word": "新しい見出し語"
   },
   "varsler": {

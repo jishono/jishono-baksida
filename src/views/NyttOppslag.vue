@@ -8,7 +8,8 @@
         <h1></h1>
         <v-card>
           <v-card-title class="pb-3">
-            {{ $t("navbar.new_word") }}
+            <span v-if="approveMode">{{ $t("navbar.edit_approve") }}</span>
+            <span v-else>{{ $t("navbar.new_word") }}</span>
           </v-card-title>
           <v-card-text>
             <v-form ref="form">
@@ -71,6 +72,14 @@
               :disabled="!valid"
             >
               {{ $t("knapper.foreslå") }}
+            </v-btn>
+            <v-btn
+              v-if="$store.getters.isAdmin && approveMode"
+              color="red"
+              class="white--text"
+              @click="rejectWordSuggestion"
+            >
+              {{ $t("knapper.avvis") }}
             </v-btn>
             <v-btn
               v-if="$store.getters.isAdmin && approveMode"
@@ -150,6 +159,17 @@ export default {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
           console.log(error)
         });
+    },
+    rejectWordSuggestion () {
+      JishoDataService.rejectWordSuggestion(this.wordSuggestionID)
+        .then((response) => {
+          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
+          setTimeout(() => this.$router.push('/oppslag_forslag'), 2000)
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          console.log(error)
+        })
     },
     pushNewConjugation (pos) {
       let common = {

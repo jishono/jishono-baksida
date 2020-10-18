@@ -83,6 +83,9 @@ class JishoDataService {
   acceptWordSuggestion(id, data) {
     return api.post(`/words/suggestions/${id}/accept`, data);
   }
+  rejectWordSuggestion(id) {
+    return api.post(`/words/suggestions/${id}/reject`);
+  }
   getAnbefalinger () {
     return api.get(`/anbefalinger`);
   }

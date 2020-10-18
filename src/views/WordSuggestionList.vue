@@ -71,7 +71,7 @@ export default {
         })
     },
     handleRowClick(item) {
-        if (this.$store.getters.isAdmin) {
+        if (this.$store.getters.isAdmin && item.status === 0) {
             this.$router.push('/nytt_oppslag/id/' + item.oppslag_forslag_id)
         }
     }

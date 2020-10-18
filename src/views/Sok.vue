@@ -262,6 +262,7 @@ export default {
         adj: false,
         adv: false,
         det: false,
+        egennavn: false,
         forkorting: false,
         interjeksjon: false,
         konjunksjon: false,
