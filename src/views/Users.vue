@@ -6,12 +6,22 @@
           :headers="headers"
           :items="users"
           :header-props="{ sortIcon: null }"
+          :sort-by="sist_sett"
+          :sort-desc="true"
         >
           <template v-slot:[`item.admin`]="{ item }">
-            <v-icon v-if="item.admin === 1" color="green" small>
+            <v-icon
+              v-if="item.admin === 1"
+              color="green"
+              small
+            >
               mdi-checkbox-marked-circle
             </v-icon>
-            <v-icon v-else color="red" small>
+            <v-icon
+              v-else
+              color="red"
+              small
+            >
               mdi-close-circle</v-icon>
           </template>
           <template v-slot:[`item.sist_sett`]="{ item }">

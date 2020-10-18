@@ -68,6 +68,14 @@
       <v-tab>
         {{ $t('forslag.mine') }}
       </v-tab>
+      <v-tab>
+        <router-link
+          to='/oppslag_forslag'
+          style="text-decoration: none; color: inherit;"
+        >
+          {{ $t('ord.oppslag') }}
+        </router-link>
+      </v-tab>
     </v-tabs>
     <v-row
       no-gutters

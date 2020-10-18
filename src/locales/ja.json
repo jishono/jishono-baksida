@@ -14,10 +14,13 @@
     "sprak": "言語",
     "endre": "編集",
     "veggen": "掲示板",
-    "users": "ユーザー"
+    "users": "ユーザー",
+    "new_word": "新しい見出し語",
+    "word_suggestion_list": "見出し語の提案"
   },
   "ord": {
     "lemma_id": "見出語ID",
+    "oppslag": "見出し語",
     "oppslagsord": "見出語",
     "ordklasse": "品詞",
     "ledd": "節",
@@ -37,7 +40,8 @@
     "godkjenn": "承認",
     "svar": "返事",
     "lenke": "直結URL",
-    "slett": "削除"
+    "slett": "削除",
+    "new_word": "新しい見出し語"
   },
   "varsler": {
     "kopiert": "URLがクリップボードにコピーされました。",
@@ -101,6 +105,8 @@
     "oversett": "翻訳する"
   },
   "forslag": {
+    "forslag": "提案",
+    "id": "ID",
     "forslag_definisjon": "意味の提案",
     "eksisterende_definisjon": "既存の意味",
     "eksisterende_definisjoner": "既存の意味",

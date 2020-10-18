@@ -71,6 +71,18 @@ class JishoDataService {
   postForslagKommentar (id, data) {
     return api.post(`/forslag/${id}/ny_kommentar`, data);
   }
+  postWordSuggestion (data) {
+    return api.post(`/words/suggestions/new`, data);
+  }
+  getWordSuggestion(id) {
+    return api.get(`/words/suggestions/${id}`);
+  }
+  getAllWordSuggestions() {
+    return api.get(`/words/suggestions`);
+  }
+  acceptWordSuggestion(id, data) {
+    return api.post(`/words/suggestions/${id}/accept`, data);
+  }
   getAnbefalinger () {
     return api.get(`/anbefalinger`);
   }

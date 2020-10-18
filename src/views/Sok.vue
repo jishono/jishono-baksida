@@ -146,6 +146,20 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+        <div
+          class="text-center mt-3"
+          v-if="showNewWordButton"
+        >
+          <v-btn
+            class="primary"
+            :to="'/nytt_oppslag/' + this.q"
+            style="text-transform: none"
+          >
+            <span>
+              {{ $t('knapper.new_word') }}: '{{q}}'
+            </span>
+          </v-btn>
+        </div>
       </v-col>
       <v-col
         cols=3
@@ -228,6 +242,7 @@ export default {
     return {
       oppslagsliste: [],
       showExpansion: false,
+      showNewWordButton: false,
       currentOppslag: null,
       currentIndex: -1,
       tabellSynlig: false,
@@ -288,6 +303,7 @@ export default {
     },
     async sokOppslag () {
       this.showExpansion = false
+      this.showNewWordButton = false
       try {
         let string = ""
         Object.keys(this.pos).forEach(ordklasse => {
@@ -301,6 +317,9 @@ export default {
         this.currentOppslag = null
         this.treff = this.oppslagsliste.length
         this.side = 0
+        if (!this.oppslagsliste.map(result => result.oppslag).includes(this.q) && this.q != '') {
+          this.showNewWordButton = true
+        }
       } catch (error) {
         this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         console.log(error);

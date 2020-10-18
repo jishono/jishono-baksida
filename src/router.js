@@ -122,6 +122,30 @@ let router = new Router({
       component: () => import("./views/Veggen")
     },
     {
+      path: "/nytt_oppslag/:oppslag",
+      meta: {
+        requiresAuth: true,
+        title: 'new_word'
+      },
+      component: () => import("./views/NyttOppslag")
+    },
+    {
+      path: "/nytt_oppslag/id/:id",
+      meta: {
+        requiresAuth: true,
+        title: 'new_word'
+      },
+      component: () => import("./views/NyttOppslag")
+    },
+    {
+      path: "/oppslag_forslag",
+      meta: {
+        requiresAuth: true,
+        title: 'word_suggestion_list'
+      },
+      component: () => import("./views/WordSuggestionList")
+    },
+    {
       path: "/admin/users",
       meta: {
         requiresAuth: true,

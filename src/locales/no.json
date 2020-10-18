@@ -14,10 +14,13 @@
     "sprak": "Språk",
     "endre": "Endre",
     "veggen": "Veggen",
-    "users": "Brukere"
+    "users": "Brukere",
+    "new_word": "Nytt oppslag",
+    "word_suggestion_list": "Oppslagsforslag"
   },
   "ord": {
     "lemma_id": "Lemma-ID",
+    "oppslag": "oppslag",
     "oppslagsord": "Oppslagsord",
     "ordklasse": "Ordklasse",
     "ledd": "Ledd",
@@ -36,7 +39,8 @@
     "godkjenn": "godkjenn",
     "svar": "Svar",
     "lenke": "Direktelenke",
-    "slett": "Slett"
+    "slett": "Slett",
+    "new_word": "NYTT OPPSLAG"
   },
   "varsler": {
     "kopiert": "URL kopiert til utklippstavla.",
@@ -100,6 +104,8 @@
     "oversett": "Oversett"
   },
   "forslag": {
+    "forslag": "Forslag",
+    "id": "ID",
     "forslag_definisjon": "Forslag til definisjon",
     "eksisterende_definisjon": "Eksisterende definisjon",
     "eksisterende_definisjoner": "Eksisterende definisjoner",
