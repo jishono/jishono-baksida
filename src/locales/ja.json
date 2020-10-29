@@ -143,6 +143,8 @@
     "uten_def": "意味未登録",
     "med_uttale": "発音登録済み",
     "uten_uttale": "発音未登録",
+    "kun_wiki": "Wikipedia翻訳のみ",
+    "uten_wiki": "Wikipedia翻訳含",
     "treff": "結果"
   },
   "veggen": {
@@ -160,7 +162,8 @@
     "antall": "件数",
     "brukere": "ユーザー",
     "oversettelser": "翻訳",
-    "ord_med": "翻訳有りの単語",
+    "ord_med": "ユーザー翻訳の単語",
+    "ord_wiki": "Wikipedia翻訳の単語",
     "ord_uten": "未翻訳の単語",
     "siste_30": "直近の30日",
     "nye_aksepterte": "新しく承認された翻訳",

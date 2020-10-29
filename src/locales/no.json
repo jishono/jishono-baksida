@@ -142,6 +142,8 @@
     "uten_def": "uten definisjoner",
     "med_uttale": "med uttale",
     "uten_uttale": "uten uttale",
+    "kun_wiki": "kun Wikipedia",
+    "uten_wiki": "uten Wikipedia",
     "treff": "Treff"
   },
   "veggen": {
@@ -159,7 +161,8 @@
     "antall": "Antall",
     "brukere": "Brukere",
     "oversettelser": "Oversettelser",
-    "ord_med": "Ord med oversettelser",
+    "ord_med": "Ord med brukeroversettelser",
+    "ord_wiki": "Ord Wikipedia-oversettelser",
     "ord_uten": "Ord uten oversettelser",
     "siste_30": "Siste 30 dager",
     "nye_aksepterte": "Nye aksepterte oversettelser",

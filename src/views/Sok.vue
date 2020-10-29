@@ -200,6 +200,22 @@
         >
         </v-checkbox>
         <v-checkbox
+          class="pa-0 ma-0"
+          hide-details
+          :label="$t('sok.kun_wiki')"
+          v-model="meduten.kunwiki"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
+          class="pa-0 ma-0"
+          hide-details
+          :label="$t('sok.uten_wiki')"
+          v-model="meduten.utenwiki"
+          @click.native="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
           v-if="$store.getters.isAdmin"
           class="pa-0 ma-0"
           hide-details
@@ -257,6 +273,8 @@ export default {
         utendef: false,
         medut: false,
         utenut: false,
+        kunwiki: false,
+        utenwiki: false,
       },
       pos: {
         adj: false,
@@ -311,7 +329,7 @@ export default {
           string += "&" + ordklasse + "=" + this.pos[ordklasse]
         })
         const response = await JishoDataService.findByOppslag(this.q, this.meduten.meddef,
-          this.meduten.utendef, this.meduten.medut, this.meduten.utenut, this.kun_skjult,
+          this.meduten.utendef, this.meduten.medut, this.meduten.utenut, this.meduten.kunwiki, this.meduten.utenwiki, this.kun_skjult,
           string)
         this.oppslagsliste = response.data
         this.currentIndex = -1
@@ -325,24 +343,6 @@ export default {
         this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
         console.log(error);
       }
-    },
-    setmeddef () {
-      this.meddef = this.meddef ? false : true;
-    },
-    setutendef () {
-      this.utendef = this.utendef ? false : true;
-    },
-    setmedut () {
-      this.medut = this.medut ? false : true;
-    },
-    setutenut () {
-      this.utenut = this.utenut ? false : true;
-    },
-    setmeduten (varname) {
-      this.meduten[varname] = this.meduten[varname] ? false : true;
-    },
-    setpos (pos) {
-      this.pos[pos] = this.pos[pos] ? false : true;
     },
     changePage (retning) {
       if (retning === 'ned') {
