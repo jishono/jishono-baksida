@@ -47,7 +47,7 @@
           @click:append="showPasswordConfirmed = !showPasswordConfirmed"
           :rules="password_confirm_rules"
           outlined
-          required   
+          required
         />
         <v-text-field
           :label="$t('bruker.registrering.sjekk')"
@@ -57,6 +57,16 @@
           required
           @keyup.enter="register"
         />
+        <v-checkbox v-model="checkbox">
+          <template v-slot:label>
+            <span
+              style="font-size: 14px"
+              v-html="$t('bruker.registrering.lisens')"
+              @click.stop
+            ></span>
+          </template>
+        </v-checkbox>
+
       </v-form>
       <v-alert
         v-if="error_message"
@@ -78,7 +88,7 @@
         type="submit"
         color="primary"
         @click="register"
-        :disabled="!valid"
+        :disabled="!valid || !checkbox"
       > {{ $t('bruker.registrering.registrer_knapp') }}</v-btn>
     </v-card-actions>
   </v-card>
@@ -92,6 +102,7 @@ export default {
   data () {
     return {
       valid: false,
+      checkbox: false,
       showPassword: false,
       showPasswordConfirmed: false,
       email: '',

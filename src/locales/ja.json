@@ -75,7 +75,8 @@
       "error_passord": "パスワードは6文字以上にしてください",
       "error_bekreft_passord": "パスワードを繰り返してください",
       "error_bekreft_ulikt": "入力されたパスワードが一致していません",
-      "error_sjekk": "正しい答えを入力してください"
+      "error_sjekk": "正しい答えを入力してください",
+      "lisens": "私が貢献したコンテンツがjisho.noに投稿されること、そして<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>Creative Commons BY-NC-SA 4.0</a>ライセンスによって他の人にも使用できることを承諾する"
     },
     "logg_inn": {
       "error_brukernavn": "ユーザー名を記載してください",

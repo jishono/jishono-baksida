@@ -74,7 +74,8 @@
       "error_passord": "Passordet må være 6 tegn eller lengre",
       "error_bekreft_passord": "Gjenta passordet over",
       "error_bekreft_ulikt": "Begge passordfeltene må være helt like",
-      "error_sjekk": "Du må svare riktig på dette"
+      "error_sjekk": "Du må svare riktig på dette",
+      "lisens": "Jeg samtykker til at alle mine bidrag kan bli publisert på jisho.no og brukes av andre under lisensen <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>Creative Commons BY-NC-SA 4.0</a>"
     },
     "logg_inn": {
       "error_brukernavn": "Skriv brukernavnet ditt",
