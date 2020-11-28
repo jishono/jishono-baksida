@@ -216,11 +216,11 @@
       "tittel": "Hvor mange forskjellige definisjoner skal ordet ha?",
       "tekst1": "Grunnregel: Hver unike betydning/konsept i det norske ordet skal ha en egen definisjon (eget felt) på japansk. Hvert felt kan også ha (og har veldig ofte) flere japanske ord som tilsammen representerer en god oversettelse. Skill hvert ord med et japansk komma 、",
       "eksempel": "Eksempel:",
-      "tekst2": "Fremgangsmåte: Slå først opp ordet i Bokmålsordboka (<a href='http://ordbok.uib.no' target='_blank'>ordbok.uib.no</a>) og se hvor mange betydninger de mener det norske ordet har. I de fleste tilfeller vil antallet definisjoner være det samme for oss. Dette gjelder dog ikke alltid, og det er lov å slå sammen definisjoner hvis man mener Bokmålsordboka bommer, eller hvis det ikke gir mening å skille mellom definisjonene på japansk, f.eks. om hver definisjon gir samme oversettelse. Det tyder på at flere konsepter i den norske betydningen er representert av ett og samme konsept på japansk."
+      "tekst2": "Fremgangsmåte: Slå først opp ordet i Bokmålsordboka (<a href='http://ordbok.uib.no' target='_blank'>ordbok.uib.no</a>) og/eller Det Norske Akademis Ordbok (<a href='https://naob.no/' target='_blank'>naob.no</a>) for å se hvor mange betydninger de mener det norske ordet har. I de fleste tilfeller vil antallet definisjoner være det samme for oss. Dette gjelder dog ikke alltid, og det er lov å slå sammen definisjoner hvis man mener disse ordbøkene bommer, eller hvis det ikke gir mening å skille mellom definisjonene på japansk, f.eks. om hver definisjon gir samme oversettelse. Det tyder på at flere konsepter i den norske betydningen er representert av ett og samme konsept på japansk."
     },
     "p2": {
       "tittel": "Forklaringer",
-      "tekst1": "Noen ganger har et ord nyanser som ikke kommer godt frem i en oversettelse. Dette kan f.eks. være at det kun brukes i spesielle kontekster. I slike tilfeller kan man legge til en parantes med en forklaring.",
+      "tekst1": "Noen ganger har et ord nyanser som ikke kommer godt frem i en oversettelse. Dette kan f.eks. være at det kun brukes i spesielle kontekster. I slike tilfeller kan man legge til en parentes med en forklaring.",
       "tekst2": "Marker også slang eller svært uformelle ord med（俗語）og vulgære ord/banneord med（卑語）",
       "eksempel": "Eksempel:"
     },

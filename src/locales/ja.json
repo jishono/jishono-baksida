@@ -76,7 +76,7 @@
       "error_bekreft_passord": "パスワードを繰り返してください",
       "error_bekreft_ulikt": "入力されたパスワードが一致していません",
       "error_sjekk": "正しい答えを入力してください",
-      "lisens": "私が貢献したコンテンツがjisho.noに投稿されること、そして<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>Creative Commons BY-NC-SA 4.0</a>ライセンスによって他の人にも使用できることを承諾する"
+      "lisens": "私は、<a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' target='_blank'>CC BY-NC-SA 4.0</a>（クリエイティブ・コモンズ・ライセンス　表示 - 非営利 - 継承 4.0 国際）の元に自分の全ての貢献内容がjisho.noに公開され得ること、および他者に使用され得ることに同意します。"
     },
     "logg_inn": {
       "error_brukernavn": "ユーザー名を記載してください",
@@ -217,7 +217,7 @@
       "tittel": "一つの単語につきいくつ意味を登録しますか？",
       "tekst1": "基本ルール：ノルウェー語の単語にある意味・概念につき日本語訳（個別のデータ項目）を一つ当てます。1つのデータ欄には、全ての意味をカバーする日本語訳（結果、複数の単語を登録することになることが多いです）を登録できます。日本語の読点「、」で単語を区切ってください。",
       "eksempel": "例：",
-      "tekst2": "アプローチ：Bokmålsordboka (<a href='http://ordbok.uib.no' target='_blank'>ordbok.uib.no</a>)で単語を調べ、そのノルウェー語の単語にいくつ意味があるか確認してください。ほとんどの場合、意味の数はjisho.noと同じになるはずです。しかし、これが常に当てはまるわけではなく、Bokmålsordbokaが誤っていると考える、日本語では意味を区別する意味がない場合（例えば、日本語訳が結局同じになるような場合）は、意味を掛け合わせても良いです。ノルウェー語の意味では複数に分けられる概念が、日本語では単一の概念で表せることを意味します。"
+      "tekst2": "アプローチ：Bokmålsordboka (<a href='http://ordbok.uib.no' target='_blank'>ordbok.uib.no</a>)やDet Norske Akademis Ordbok (<a href='https://naob.no/' target='_blank'>naob.no</a>)で単語を調べ、そのノルウェー語の単語にいくつ意味があるか確認してください。ほとんどの場合、意味の数はjisho.noと同じになるはずです。しかし、これが常に当てはまるわけではなく、BokmålsordbokaかDet Norske Akademis Ordbokが誤っていると考える、日本語では意味を区別する意味がない場合（例えば、日本語訳が結局同じになるような場合）は、意味を掛け合わせても良いです。ノルウェー語の意味では複数に分けられる概念が、日本語では単一の概念で表せることを意味します。"
     },
     "p2": {
       "tittel": "説明",
