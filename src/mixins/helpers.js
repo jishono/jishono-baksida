@@ -22,7 +22,7 @@ export default {
             if (!escaped.match(/\[/)) {
                 return escaped
             }
-            const regex = new RegExp(/[^）、の]*?\]/g)
+            const regex = new RegExp(/[^）、]*?\]/g)
             const matches = escaped.match(regex)
             let final_string = escaped
             if (matches) {

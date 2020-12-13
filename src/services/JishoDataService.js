@@ -59,8 +59,11 @@ class JishoDataService {
   findByOppslag (q, meddef, utendef, medut, utenut, kunwiki, utenwiki, kun_skjult, string) {
     return api.get(`/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}&kunwiki=${kunwiki}&utenwiki=${utenwiki}&kun_skjult=${kun_skjult}${string}`);
   }
-  getAllForslag () {
-    return api.get(`/forslag`);
+  getAllForslag (status) {
+    return api.get(`/forslag?status=${status}`);
+  }
+  getMyForslag (user_id) {
+    return api.get(`/forslag/user/${user_id}`);
   }
   hentEnkeltForslag (id) {
     return api.get(`/forslag/${id}`);

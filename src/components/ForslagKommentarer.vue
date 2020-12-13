@@ -70,7 +70,7 @@
         </v-row>
       </div>
 
-      <div v-if="forslag.eksisterende_definisjoner.length > 0">
+      <div v-if="forslag.eksisterende_definisjoner && forslag.eksisterende_definisjoner.length > 0">
         <span class="">
           <v-icon
             small

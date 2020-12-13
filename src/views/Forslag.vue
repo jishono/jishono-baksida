@@ -418,20 +418,24 @@ export default {
     ForslagKommentarer
   },
   watch: {
-    tab: function () {
-      this.filter_status = 0
-      this.refresh()
+    tab: function (tabValue) {
+      if (tabValue === 0) {
+        this.filter_status = 0
+        this.refresh(0)
+      } else {
+        this.getMyForslag()
+      }
+    },
+    filter_status: function(status) {
+      console.log("test")
+      this.refresh(status)
     }
   },
   computed: {
     filtrerteForslag () {
-      let filtrerte = []
+      let filtrerte = this.forslag
       const user_id = this.$store.getters.user_id
-      if (this.tab === 0) {
-        filtrerte = this.forslag.filter(item => item.status == this.filter_status)
-      } else {
-        filtrerte = this.forslag.filter(item => user_id == item.user_id)
-      }
+
       if (this.filtrer_uleste) {
         filtrerte = filtrerte.filter(item => item.sett == 0)
       }
@@ -450,12 +454,21 @@ export default {
     },
   },
   methods: {
-    refresh () {
-      //this.search = ''
-      JishoDataService.getAllForslag()
+    refresh (status=0) {
+      JishoDataService.getAllForslag(status)
         .then(result => {
           this.forslag = result.data
-          this.headers = this.alle_headers
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+          console.log(error)
+        })
+    },
+    getMyForslag () {
+      const user_id = this.$store.getters.user_id
+      JishoDataService.getMyForslag(user_id)
+        .then(result => {
+          this.forslag = result.data
         })
         .catch(error => {
           this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
@@ -484,13 +497,12 @@ export default {
     closeKommentarDialog () {
       this.kommentar_dialog = false
       this.current_forslag_id = null
-      this.refresh()
+      this.refresh(this.filter_status)
     },
     handleWordlistTabClick() {
       this.$router.push('/oppslag_forslag')
     },
     redigerForslag (item) {
-
       if (this.redigert_forslag !== this.current_forslag.forslag_definisjon) {
         JishoDataService.redigerForslag(item.forslag_id, { redigert_forslag: this.redigert_forslag })
           .then((response) => {
