@@ -9,7 +9,7 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "browserslist": "^4.16.6",
     "caniuse-lite": "^1.0.30001223",
     "chart.js": "^2.9.3",
