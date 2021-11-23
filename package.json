@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "browserslist": "^4.16.6",
+    "caniuse-lite": "^1.0.30001223",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "md5": "^2.3.0",

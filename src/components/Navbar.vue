@@ -40,9 +40,7 @@
         :style="{ cursor: 'pointer'}"
         class="hidden-lg-and-up hidden-xs-only mr-2"
       >
-        <v-img
-          src="@/assets/images/jisho_logo_baksida_30.png"
-        ></v-img>
+        <v-img src="@/assets/images/jisho_logo_baksida_30.png"></v-img>
       </router-link>
 
       <div class="hidden-md-and-down">
@@ -105,6 +103,9 @@
         <v-list>
           <v-list-item to="/admin/users">
             <v-list-item-title>Brukere</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/admin/visits">
+            <v-list-item-title>Sidebesøk</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

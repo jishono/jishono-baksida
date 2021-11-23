@@ -17,7 +17,8 @@
     "users": "Brukere",
     "new_word": "Nytt oppslag",
     "edit_approve": "Rediger og godkjenn nytt oppslag",
-    "word_suggestion_list": "Oppslagsforslag"
+    "word_suggestion_list": "Oppslagsforslag",
+    "visits": "Sidebesøk"
   },
   "ord": {
     "lemma_id": "Lemma-ID",

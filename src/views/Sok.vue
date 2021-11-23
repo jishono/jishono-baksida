@@ -50,9 +50,22 @@
         cols=12
         align="left"
       >
-        <div v-if="oppslagsliste.length > 0">
-          <span class="font-weight-bold py-2 float-left ml-3">{{ $t('sok.treff') }}: {{ this.treff}}</span>
-          <span class="float-right text-caption">
+        <div class="font-weight-bold py-2 float-left ml-3">
+          <span>{{ $t('sok.treff') }}:</span>
+          <v-progress-circular
+            v-if="isLoading"
+            class="ml-2"
+            size="20"
+            color="primary"
+            indeterminate
+          ></v-progress-circular>
+          <span v-else> {{ this.treff}}</span>
+        </div>
+        <div>
+          <span
+            class="float-right text-caption"
+            v-if="oppslagsliste.length > 0"
+          >
             <v-btn
               icon
               color="primary"
@@ -262,6 +275,7 @@ export default {
       currentOppslag: null,
       currentIndex: -1,
       tabellSynlig: false,
+      isLoading: false,
       q: "",
       treff: null,
       side: 0,
@@ -299,8 +313,12 @@ export default {
   },
   watch: {
     q: _.debounce(function () {
-      if (this.q != '' && this.q != '%' && this.q.length > 1) {
+      this.showNewWordButton = false
+      if (this.q != '' && this.q != '%' && this.q.length > 0) {
+        window.history.replaceState({}, document.title, '/sok/' + this.q);
         this.sokOppslag()
+      } else {
+        this.$router.replace('/sok/', () => { })
       }
     }, 200)
   },
@@ -321,8 +339,8 @@ export default {
       }
     },
     async sokOppslag () {
+      this.isLoading = true
       this.showExpansion = false
-      this.showNewWordButton = false
       try {
         let string = ""
         Object.keys(this.pos).forEach(ordklasse => {
@@ -332,6 +350,7 @@ export default {
           this.meduten.utendef, this.meduten.medut, this.meduten.utenut, this.meduten.kunwiki, this.meduten.utenwiki, this.kun_skjult,
           string)
         this.oppslagsliste = response.data
+        this.isLoading = false
         this.currentIndex = -1
         this.currentOppslag = null
         this.treff = this.oppslagsliste.length
@@ -375,6 +394,7 @@ export default {
     }
   },
   mounted () {
+    this.q = this.$route.params.query || ''
     if (!this.$store.getters.isAdmin) {
       this.meduten.utendef = true
     }

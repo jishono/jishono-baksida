@@ -91,6 +91,16 @@
     </v-row>
 
   </v-container>
+  <div
+    class="text-center mt-8"
+    v-else
+  >
+    <v-progress-circular
+      size="40"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+  </div>
 </template>
 
 <script>

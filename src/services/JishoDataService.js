@@ -128,6 +128,9 @@ class JishoDataService {
   getAllUsers() {
     return api.get(`/brukere`)
   }
+  getPageVisits() {
+    return api.get(`/pagevisits`)
+  }
 }
 
 export default new JishoDataService();

@@ -57,7 +57,6 @@ export default {
     getUserData () {
       JishoDataService.getAllUsers()
         .then((response) => {
-          console.log(response.data)
           this.users = response.data
         })
     }

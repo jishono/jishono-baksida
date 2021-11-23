@@ -17,7 +17,8 @@
     "users": "ユーザー",
     "new_word": "新しい見出し語",
     "edit_approve": "見出し語の編集と承諾",
-    "word_suggestion_list": "見出し語の提案"
+    "word_suggestion_list": "見出し語の提案",
+    "visits": "ページビュー"
   },
   "ord": {
     "lemma_id": "見出語ID",

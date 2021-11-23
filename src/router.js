@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "./store"
 import i18n from '@/i18n'
+import Sok from "./views/Sok"
 
 Vue.use(Router);
 
@@ -14,7 +15,15 @@ let router = new Router({
         requiresAuth: true,
         title: 'sok'
       },
-      component: () => import("./views/Sok")
+      component: Sok
+    },
+    {
+      path: "/sok/:query",
+      meta: {
+        requiresAuth: true,
+        title: 'sok'
+      },
+      component: Sok
     },
     {
       path: "/endre/:id",
@@ -152,6 +161,14 @@ let router = new Router({
         title: 'users'
       },
       component: () => import("./views/Users")
+    },
+    {
+      path: "/admin/visits",
+      meta: {
+        requiresAuth: true,
+        title: 'visits'
+      },
+      component: () => import("./views/PageVisits")
     },
     {
       path: "/*",
