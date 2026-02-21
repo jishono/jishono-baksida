@@ -17,18 +17,18 @@
                 v-model="word"
                 :label="$t('ord.oppslagsord')"
                 :disabled="!$store.getters.isAdmin"
-                outlined
+                variant="outlined"
               />
               <v-select
                 :items="partsOfSpeech"
                 v-model="wordClass"
                 :label="$t('ord.ordklasse')"
-                outlined
+                variant="outlined"
               ></v-select>
               <v-text-field
                 v-model="parts"
                 :label="$t('ord.ledd')"
-                outlined
+                variant="outlined"
                 hint="Bruk * mellom eventuelle ledd. F.eks.: hage*slange"
               />
               <div v-if="conjugations.length > 0 && $store.getters.isAdmin && approveMode">
@@ -44,18 +44,18 @@
                     <v-text-field
                       v-model="conjugation[name]"
                       :label="name"
-                      outlined
+                      variant="outlined"
                     />
                   </div>
                 </div>
                 <div class="text-center">
                   <v-icon
-                    color="green lighten-1"
+                    color="green-lighten-1"
                     v-on:click="pushNewConjugation(wordClass)"
                   >mdi-plus-circle </v-icon>
                   <v-icon
                     v-if="conjugations.length > 1"
-                    color="red lighten-1"
+                    color="red-lighten-1"
                     v-on:click="conjugations.pop()"
                   >mdi-minus-circle </v-icon>
                 </div>
@@ -67,7 +67,7 @@
             <v-btn
               v-if="!approveMode"
               color="green"
-              class="white--text"
+              class="text-white"
               @click="postNewWord"
               :disabled="!valid"
             >
@@ -76,7 +76,7 @@
             <v-btn
               v-if="$store.getters.isAdmin && approveMode"
               color="red"
-              class="white--text"
+              class="text-white"
               @click="rejectWordSuggestion"
             >
               {{ $t("knapper.avvis") }}
@@ -84,7 +84,7 @@
             <v-btn
               v-if="$store.getters.isAdmin && approveMode"
               color="primary"
-              class="white--text"
+              class="text-white"
               @click="acceptWordSuggestion"
             >
               {{ $t("knapper.godkjenn") }}
@@ -99,12 +99,16 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from "../services/JishoDataService";
 
-export default {
+export default defineComponent({
   name: "NyttOppslag",
+
   components: {
   },
+
   data () {
     return {
       approveMode: false,
@@ -118,6 +122,7 @@ export default {
       hasConjugation: ['adj', 'adv', 'det', 'pron', 'subst', 'verb']
     }
   },
+
   methods: {
     getWordSuggestion (wordID) {
       JishoDataService.getWordSuggestion(wordID)
@@ -252,6 +257,7 @@ export default {
       this.conjugations.push(conjugation)
     }
   },
+
   watch: {
     wordClass: function (val) {
       this.conjugations = []
@@ -265,6 +271,7 @@ export default {
       }
     }
   },
+
   mounted () {
     if (this.$route.params.id) {
       this.wordSuggestionID = this.$route.params.id
@@ -273,6 +280,6 @@ export default {
     } else {
       this.word = this.$route.params.oppslag
     }
-  }
-}
+  },
+});
 </script>

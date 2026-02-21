@@ -1,12 +1,19 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import { createVuetify } from 'vuetify'
+import 'vuetify/styles'
 
-Vue.use(Vuetify);
-
-export default new Vuetify({
-    theme: {
-        themes: {
-            light: {
+const vuetify = createVuetify({ theme: {
+    defaultTheme: 'light',
+    themes: {
+        light: {
+            colors: {
+                primary: '#1565c0',
+                secondary: '#b0bec5',
+                accent: '#d50000',
+                error: '#b71c1c',
+            },
+        },
+        dark: {
+            colors: {
                 primary: '#1565c0',
                 secondary: '#b0bec5',
                 accent: '#d50000',
@@ -14,4 +21,6 @@ export default new Vuetify({
             },
         },
     },
-});
+}, })
+
+export { vuetify }

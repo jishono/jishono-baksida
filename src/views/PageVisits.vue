@@ -6,10 +6,8 @@
           :headers="headers"
           :items="visits"
           :header-props="{ sortIcon: null }"
-          dense
-          :options="{
-            itemsPerPage: 50
-          }"
+          density="compact"
+          :items-per-page="50"
         >
         </v-data-table>
       </v-col>
@@ -20,19 +18,23 @@
 
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from '../services/JishoDataService'
 
-export default {
+export default defineComponent({
   name: 'visits',
+
   data () {
     return {
       visits: [],
       headers: [
-        { text: "Dato", value: 'dato', width: '1%', align: "start" },
-        { text: "Sidevisninger", value: 'antall', width: '10%' },
+        { title: "Dato", key: 'dato', width: '1%', align: "start" },
+        { title: "Sidevisninger", key: 'antall', width: '10%' },
       ]
     }
   },
+
   methods: {
     getPageVisits () {
       JishoDataService.getPageVisits()
@@ -41,8 +43,9 @@ export default {
         })
     }
   },
+
   mounted () {
     this.getPageVisits()
-  }
-}
+  },
+});
 </script>

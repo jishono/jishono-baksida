@@ -3,7 +3,7 @@
     v-model="show"
     :timeout="timeout"
     :color="color"
-    top
+    location="top"
   >
     <span v-if="typeof message == 'string'">{{ message }} </span>
     <span v-else>{{ message[$i18n.locale] }}</span>
@@ -11,8 +11,11 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'snackbar',
+
   data () {
     return {
       timeout: 3000,
@@ -21,6 +24,7 @@ export default {
       show: false
     }
   },
+
   computed: {
     snackbar_text () { return this.$store.getters.snackbar_text },
     snackbar_color () { return this.$store.getters.snackbar_color },
@@ -31,14 +35,13 @@ export default {
       return this.$store.getters.snackbar
     }
   },
+
   watch: {
     snackbar (updated_snackbar) {
       this.message = updated_snackbar.message
       this.color = updated_snackbar.color
       this.show = true
     }
-  }
-}
-
-
+  },
+});
 </script>

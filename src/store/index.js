@@ -1,19 +1,16 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import api from '../api'
-import i18n from '@/i18n'
+import { createStore } from 'vuex';
+import api from '../api';
+import i18n from "../i18n.js";
 import JishoDataService from "../services/JishoDataService";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
     username: localStorage.getItem('username') || '',
     user_id: localStorage.getItem('user_id') || null,
     admin: localStorage.getItem('admin') || null,
-    locale: localStorage.getItem('locale') || process.env.VUE_APP_I18N_LOCALE || 'no',
+    locale: localStorage.getItem('locale') || import.meta.env.VITE_I18N_LOCALE || 'no',
     snackbar: {
       text: '',
       color: '',
@@ -49,7 +46,7 @@ export default new Vuex.Store({
     },
     set_locale (state, payload) {
       state.locale = payload
-      i18n.locale = payload
+      i18n.global.locale.value = payload
 
     },
     set_usette_innlegg (state, payload) {

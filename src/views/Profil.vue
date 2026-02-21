@@ -19,7 +19,7 @@
                 v-model="passord.gammelt"
                 :rules="oldPasswordRules"
                 @keyup.enter="dialog = false; sjekkSkjema()"
-                outlined
+                variant="outlined"
                 autofocus
               />
             </v-card-text>
@@ -54,7 +54,7 @@
                   <v-text-field
                     :label="$t('bruker.brukernavn')"
                     v-model="brukerdata.brukernavn"
-                    outlined
+                    variant="outlined"
                     disabled
                   />
                   <v-text-field
@@ -62,15 +62,15 @@
                     :label="$t('bruker.epost')"
                     v-model="brukerdata.epost"
                     :rules="epostRules"
-                    outlined
+                    variant="outlined"
                   />
                   <v-select
                     v-model="brukerdata.locale"
                     :label="$t('bruker.profil.visningsspråk')"
                     :items="sprakvalg"
                     item-value='value'
-                    item-text='text'
-                    outlined
+                    item-title="text"
+                    variant="outlined"
                   ></v-select>
                   <h2 class="mb-3">
                     {{ $t('bruker.profil.endre_passord')}}
@@ -79,13 +79,13 @@
                     type="password"
                     :label="$t('bruker.profil.nytt_passord')"
                     v-model="passord.nytt"
-                    outlined
+                    variant="outlined"
                   />
                   <v-text-field
                     type="password"
                     :label="$t('bruker.registrering.bekreft_passord')"
                     v-model="passord.nyttBekreft"
-                    outlined
+                    variant="outlined"
                   />
                 </v-form>
                 <h2 class="mb-3">
@@ -99,19 +99,19 @@
                   >
                     <v-radio
                       :label="$t('bruker.profil.aldri')"
-                      :value=0
+                      :value="0"
                     ></v-radio>
                     <v-radio
                       :label="$t('bruker.profil.daglig')"
-                      :value=1
+                      :value="1"
                     ></v-radio>
                     <v-radio
                       :label="$t('bruker.profil.hver_uke')"
-                      :value=7
+                      :value="7"
                     ></v-radio>
                     <v-radio
                       :label="$t('bruker.profil.annenhver_uke')"
-                      :value=14
+                      :value="14"
                     ></v-radio>
                   </v-radio-group>
                 </v-row>
@@ -151,10 +151,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from '../services/JishoDataService'
 
-export default {
+export default defineComponent({
   name: 'profil',
+
   data () {
     return {
       dialog: false,
@@ -199,6 +202,7 @@ export default {
       ],
     }
   },
+
   methods: {
     fjernForslag (item) {
       JishoDataService.fjernForslag(item.forslag_id)
@@ -262,11 +266,12 @@ export default {
         })
     },
   },
+
   computed: {
   },
+
   mounted () {
     this.getBrukerdata()
-  }
-}
-
+  },
+});
 </script>

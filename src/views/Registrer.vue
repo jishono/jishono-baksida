@@ -17,7 +17,7 @@
         <v-text-field
           :label="$t('bruker.brukernavn')"
           v-model="username"
-          outlined
+          variant="outlined"
           :rules="username_rules"
           required
         />
@@ -26,7 +26,7 @@
           :label="$t('bruker.epost')"
           v-model="email"
           :rules="email_rules"
-          outlined
+          variant="outlined"
           required
         />
         <v-text-field
@@ -36,7 +36,7 @@
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPassword = !showPassword"
           :rules="password_rules"
-          outlined
+          variant="outlined"
           required
         />
         <v-text-field
@@ -46,13 +46,13 @@
           :append-icon="showPasswordConfirmed ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPasswordConfirmed = !showPasswordConfirmed"
           :rules="password_confirm_rules"
-          outlined
+          variant="outlined"
           required
         />
         <v-text-field
           :label="$t('bruker.registrering.sjekk')"
           v-model="check"
-          outlined
+          variant="outlined"
           :rules="check_rules"
           required
           @keyup.enter="register"
@@ -95,10 +95,13 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from '../services/JishoDataService'
 
-export default {
+export default defineComponent({
   name: 'Registrer',
+
   data () {
     return {
       valid: false,
@@ -134,6 +137,7 @@ export default {
       success_message: '',
     }
   },
+
   methods: {
     register: function () {
       if (this.$refs.form.validate()) {
@@ -162,6 +166,5 @@ export default {
     }
 
   },
-}
-
+});
 </script>

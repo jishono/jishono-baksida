@@ -1,8 +1,17 @@
-<script>
-import { Line } from 'vue-chartjs'
+<template>
+  <Line :data="chartData" :options="options" />
+</template>
 
-export default {
-  extends: Line,
+<script>
+import { defineComponent } from 'vue';
+import { Line } from 'vue-chartjs'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+
+export default defineComponent({
+  components: { Line },
+
   data () {
     return {
       chartData: {
@@ -35,37 +44,39 @@ export default {
         ]
       },
       options: {
-        tooltips: {
+        interaction: {
           intersect: false
         },
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines: {
+          y: {
+            beginAtZero: true,
+            grid: {
               display: true
             }
-          }],
-          xAxes: [{
-            gridLines: {
+          },
+          x: {
+            grid: {
               display: false
             }
-          }]
+          }
         },
-        legend: {
-          display: true
+        plugins: {
+          legend: {
+            display: true
+          }
         },
         responsive: true,
         maintainAspectRatio: false
       }
     }
   },
+
   props: {
     nye_oversettelser: Array,
     nye_forslag: Array,
     antall_kommentarer: Array
   },
+
   methods: {
     getDateArray (start, end) {
       let array = []
@@ -104,15 +115,19 @@ export default {
           kommentarer.push(0)
         }
       }
-      this.chartData.labels = dateArray
-      this.chartData.datasets[0].data = oversettelser
-      this.chartData.datasets[1].data = forslag
-      this.chartData.datasets[2].data = kommentarer
+      this.chartData = {
+        labels: dateArray,
+        datasets: [
+          { ...this.chartData.datasets[0], data: oversettelser },
+          { ...this.chartData.datasets[1], data: forslag },
+          { ...this.chartData.datasets[2], data: kommentarer },
+        ]
+      }
     }
   },
+
   mounted () {
     this.genererChart()
-    this.renderChart(this.chartData, this.options)
-  }
-}
+  },
+});
 </script>

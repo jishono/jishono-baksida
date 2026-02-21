@@ -1,13 +1,11 @@
-import Vue from "vue";
-import Router from "vue-router";
-import store from "./store"
-import i18n from '@/i18n'
-import Sok from "./views/Sok"
+import { createRouter, createWebHistory } from "vue-router";
+import { nextTick } from "vue";
+import i18n from "./i18n";
+import store from "./store";
+import Sok from "./views/Sok.vue";
 
-Vue.use(Router);
-
-let router = new Router({
-  mode: "history",
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: "/sok",
@@ -31,7 +29,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'endre'
       },
-      component: () => import("./views/Endre")
+      component: () => import("./views/Endre.vue")
     },
     {
       path: "/logginn",
@@ -39,7 +37,7 @@ let router = new Router({
         guest: true,
         title: 'logg_inn'
       },
-      component: () => import("./views/LoggInn")
+      component: () => import("./views/LoggInn.vue")
     },
     {
       path: "/registrer",
@@ -47,7 +45,7 @@ let router = new Router({
         guest: true,
         title: 'registrer'
       },
-      component: () => import("./views/Registrer")
+      component: () => import("./views/Registrer.vue")
     },
     {
       path: "/oversett",
@@ -55,7 +53,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'oversett'
       },
-      component: () => import("./views/Oversett")
+      component: () => import("./views/Oversett.vue")
     },
     {
       path: "/forslag",
@@ -64,7 +62,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'forslag'
       },
-      component: () => import("./views/Forslag")
+      component: () => import("./views/Forslag.vue")
     },
     {
       path: "/forslag/:id/kommentarer",
@@ -72,7 +70,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'forslag'
       },
-      component: () => import("./views/Forslag")
+      component: () => import("./views/Forslag.vue")
     },
     {
       path: "/nytt_forslag/:id",
@@ -80,7 +78,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'nytt_forslag'
       },
-      component: () => import("./views/NyttForslag")
+      component: () => import("./views/NyttForslag.vue")
     },
     {
       path: "/statistikk",
@@ -88,7 +86,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'statistikk'
       },
-      component: () => import("./views/Statistikk")
+      component: () => import("./views/Statistikk.vue")
     },
     {
       path: "/instruks",
@@ -96,7 +94,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'instruks'
       },
-      component: () => import("./views/Instruks")
+      component: () => import("./views/Instruks.vue")
     },
     {
       path: "/om",
@@ -104,7 +102,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'om'
       },
-      component: () => import("./views/Om")
+      component: () => import("./views/Om.vue")
     },
     {
       path: "/profil",
@@ -112,7 +110,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'profil'
       },
-      component: () => import("./views/Profil")
+      component: () => import("./views/Profil.vue")
     },
     {
       path: "/veggen",
@@ -120,7 +118,7 @@ let router = new Router({
         requiresAuth: false,
         title: 'veggen'
       },
-      component: () => import("./views/Veggen")
+      component: () => import("./views/Veggen.vue")
     },
     {
       path: "/veggen/:id",
@@ -128,7 +126,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'veggen'
       },
-      component: () => import("./views/Veggen")
+      component: () => import("./views/Veggen.vue")
     },
     {
       path: "/nytt_oppslag/:oppslag",
@@ -136,7 +134,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'new_word'
       },
-      component: () => import("./views/NyttOppslag")
+      component: () => import("./views/NyttOppslag.vue")
     },
     {
       path: "/nytt_oppslag/id/:id",
@@ -144,7 +142,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'new_word'
       },
-      component: () => import("./views/NyttOppslag")
+      component: () => import("./views/NyttOppslag.vue")
     },
     {
       path: "/oppslag_forslag",
@@ -152,7 +150,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'word_suggestion_list'
       },
-      component: () => import("./views/WordSuggestionList")
+      component: () => import("./views/WordSuggestionList.vue")
     },
     {
       path: "/admin/users",
@@ -160,7 +158,7 @@ let router = new Router({
         requiresAuth: true,
         title: 'users'
       },
-      component: () => import("./views/Users")
+      component: () => import("./views/Users.vue")
     },
     {
       path: "/admin/visits",
@@ -168,10 +166,10 @@ let router = new Router({
         requiresAuth: true,
         title: 'visits'
       },
-      component: () => import("./views/PageVisits")
+      component: () => import("./views/PageVisits.vue")
     },
     {
-      path: "/*",
+      path: "/:pathMatch(.*)*",
       redirect: '/'
     },
   ]
@@ -202,8 +200,8 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
   if (to.meta && to.meta.title) {
-    Vue.nextTick(() => {
-      document.title = i18n.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
+    nextTick(() => {
+      document.title = i18n.global.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
     })
   }
 });

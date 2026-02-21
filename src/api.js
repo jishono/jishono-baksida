@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from "./store"
-import i18n from '@/i18n'
+import i18n from "./i18n.js";
+import store from "./store";
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_NODE_HOST,
+  baseURL: import.meta.env.VITE_NODE_HOST,
   headers: {
     "Content-type": "application/json",
   }
@@ -13,7 +13,7 @@ api.interceptors.request.use(
   res => {
     const token = store.getters.token;
     if (token) {
-      res.headers.common["Authorization"] = token;
+      res.headers["Authorization"] = token;
     }
     return res;
   },
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   error => {
     if (!error.response || error.response.status == 502) {
       console.log(error)
-      store.dispatch('show_snackbar', { message: i18n.t('varsler.server_error'), color: 'error' })
+      store.dispatch('show_snackbar', { message: i18n.global.t('varsler.server_error'), color: 'error' })
       return new Promise(() => {})
     } 
       return Promise.reject(error);
