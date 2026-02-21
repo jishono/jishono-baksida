@@ -6,13 +6,12 @@
           :headers="headers"
           :items="suggestions"
           :header-props="{ sortIcon: null }"
-          sort-by="opprettet"
-          :sort-desc="true"
+          :sort-by="[{key: 'opprettet', order: 'desc'}]"
           @click:row="handleRowClick"
         >
           <template v-slot:[`item.status`]="{ item }">
             <v-chip
-              small
+              size="small"
               :color="statusColors[item.status].color"
               text-color="white"
             >
@@ -31,21 +30,24 @@
 
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from '../services/JishoDataService'
 
-export default {
+export default defineComponent({
   name: 'word-suggestion-list',
+
   data () {
     return {
       suggestions: [],
       headers: [
-        { text: this.$t('forslag.id'), value: 'oppslag_forslag_id', width: '2%' },
-        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '10%' },
-        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '10%' },
-        { text: this.$t('ord.ledd'), value: 'ledd', width: '10%' },
-        { text: this.$t('forslag.bruker'), value: 'brukernavn', width: '10%' },
-        { text: this.$t('forslag.status'), value: 'status', width: '10%' },
-        { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
+        { title: this.$t('forslag.id'), key: 'oppslag_forslag_id', width: '2%' },
+        { title: this.$t('ord.oppslagsord'), key: 'oppslag', width: '10%' },
+        { title: this.$t('ord.ordklasse'), key: 'boy_tabell', width: '10%' },
+        { title: this.$t('ord.ledd'), key: 'ledd', width: '10%' },
+        { title: this.$t('forslag.bruker'), key: 'brukernavn', width: '10%' },
+        { title: this.$t('forslag.status'), key: 'status', width: '10%' },
+        { title: this.$t('forslag.dato'), key: 'opprettet', width: '10%' },
       ],
       statusColors: [
         {
@@ -58,11 +60,12 @@ export default {
         },
         {
           text: 'forslag.avvist_admin',
-          color: 'red lighten-1'
+          color: 'red-lighten-1'
         }
       ],
     }
   },
+
   methods: {
     getWordSuggestionsData () {
       JishoDataService.getAllWordSuggestions()
@@ -76,10 +79,9 @@ export default {
         }
     }
   },
+
   mounted () {
     this.getWordSuggestionsData()
-  }
-}
-
-
+  },
+});
 </script>

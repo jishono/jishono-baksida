@@ -1,23 +1,11 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify';
-import store from './store';
-import i18n from './i18n'
-import VueSimpleMarkdown from 'vue-simple-markdown'
-/* import 'vue-simple-markdown/dist/vue-simple-markdown.css' */
+import { createApp } from 'vue';
+import 'vuetify/styles';
+import App from './App.vue';
 import './assets/css/global.css';
+import i18n from './i18n.js';
+import { vuetify } from './plugins/vuetify';
+import router from './router';
+import store from './store';
  
-Vue.use(VueSimpleMarkdown)
 
-Vue.config.productionTip = false
-
-/* import "@/assets/css/global.css" */
-
-new Vue({
-  router,
-  vuetify,
-  store,
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App).use(router).use(vuetify).use(store).use(i18n).mount('#app')

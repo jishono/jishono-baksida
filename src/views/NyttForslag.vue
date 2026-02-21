@@ -6,7 +6,7 @@
     <Boyningstabell
       v-if="$store.getters.boy_ok.includes(currentOppslag.boy_tabell)"
       v-bind:lemma_id="currentOppslag.lemma_id"
-      :boyningsDialog.sync="boyningsDialog"
+      v-model:boyningsDialog="boyningsDialog"
       @outside_click="boyningsDialog = false"
     />
     <v-card
@@ -20,10 +20,10 @@
           color="primary"
           :href="'https://ordbok.uib.no/perl/ordbok.cgi?OPP=' + currentOppslag.oppslag + '&bokmaal=+'"
           target="_blank"
-          outlined
-          small
+          variant="outlined"
+          size="small"
         >
-          <v-icon left>mdi-open-in-new</v-icon>
+          <v-icon start>mdi-open-in-new</v-icon>
           BMO
         </v-btn>
         <v-btn
@@ -31,10 +31,10 @@
           :href="'https://naob.no/s%C3%B8k/' + currentOppslag.oppslag"
           target="_blank"
           class="ml-1"
-          outlined
-          small
+          variant="outlined"
+          size="small"
         >
-          <v-icon left>mdi-open-in-new</v-icon>
+          <v-icon start>mdi-open-in-new</v-icon>
           NAOB
         </v-btn>
       </v-card-title>
@@ -54,7 +54,7 @@
             <v-text-field
               v-model="currentOppslag.definisjon[index].definisjon"
               disabled
-              outlined
+              variant="outlined"
             >
               <template v-slot:label>
                 {{ $t('forslag.eksisterende_definisjon') }} {{index+1}}
@@ -69,7 +69,7 @@
               v-model="nye_forslag[index2]['definisjon']"
               counter
               maxlength="100"
-              outlined
+              variant="outlined"
             >
               <template v-slot:label>
                 {{ $t('forslag.forslag_definisjon') }} {{currentOppslag.definisjon.length + index2+1}}
@@ -81,12 +81,12 @@
                   >mdi-comment-text-outline </v-icon>
                 <div v-if="index2 == nye_forslag.length-1">
                   <v-icon
-                    color="green lighten-1"
+                    color="green-lighten-1"
                     v-on:click="addDef"
                   >mdi-plus-circle </v-icon>
                   <v-icon
                     v-if="nye_forslag.length > 1"
-                    color="red lighten-1"
+                    color="red-lighten-1"
                     v-on:click="removeDef"
                   >mdi-minus-circle </v-icon>
                 </div>
@@ -96,7 +96,7 @@
               v-model="nye_forslag[index2]['kommentar']"
               v-if="nye_forslag[index2]['kommentar'] != null"
               rows="4"
-              outlined
+              variant="outlined"
             >
               <template v-slot:label>
                 {{ $t('kommentar.kommentar') }} til definisjon {{currentOppslag.definisjon.length + index2+1}}
@@ -109,19 +109,20 @@
           v-model="instruksDialog"
           width="800"
         >
-          <template v-slot:activator="{ on }">
+          <template v-slot:activator="{ props }">
             <v-btn
               class="mr-2"
               color="primary"
-              dark
-              v-on="on"
+              v-bind="props"
             >
               {{ $t('knapper.instruks') }}
             </v-btn>
           </template>
-          <InstruksBoks>
-
-          </InstruksBoks>
+          <v-card>
+            <v-card-text>
+              <InstruksBoks />
+            </v-card-text>
+          </v-card>
         </v-dialog>
         <v-btn
           color="primary"
@@ -132,40 +133,36 @@
         <v-spacer></v-spacer>
 
         <v-btn
-          class="hidden-xs-only"
-          dark
+          class="d-none d-sm-flex"
           color="red"
           @click="$router.go(-1)"
         >
           {{ $t('knapper.avbryt') }}
         </v-btn>
         <v-btn
-          class="hidden-xs-only"
-          dark
+          class="d-none d-sm-flex"
           color="green"
           @click="addForslag"
         >
           {{ $t('knapper.foreslå') }}
         </v-btn>
         <v-btn
-          class="hidden-sm-and-up"
-          dark
+          class="d-sm-none"
           color="red"
-          fab
+          icon
           @click="$router.go(-1)"
-          small
+          size="small"
         >
           <v-icon>
             mdi-close
           </v-icon>
         </v-btn>
         <v-btn
-          class="hidden-sm-and-up"
-          dark
+          class="d-sm-none"
           color="green"
-          fab
+          icon
           @click="addForslag"
-          small
+          size="small"
         >
           <v-icon>
             mdi-check
@@ -178,12 +175,15 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
 import JishoDataService from "../services/JishoDataService";
 import Boyningstabell from '../components/Boyningstabell.vue';
 import InstruksBoks from '../components/InstruksBoks.vue';
 
-export default {
+export default defineComponent({
   name: "nytt-forslag",
+
   data () {
     return {
       currentOppslag: null,
@@ -192,10 +192,12 @@ export default {
       instruksDialog: false,
     };
   },
+
   components: {
     Boyningstabell,
     InstruksBoks
   },
+
   methods: {
     getOppslag (id) {
       JishoDataService.get(id)
@@ -243,9 +245,10 @@ export default {
       }
     },
   },
+
   mounted () {
     this.getOppslag(this.$route.params.id);
 
-  }
-};
+  },
+});
 </script>

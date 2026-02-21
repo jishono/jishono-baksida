@@ -1,48 +1,37 @@
 <template>
-  <v-container
-    fluid
-    class="pa-2 ma-0"
-  >
-    <v-dialog
-      v-model="endre_dialog"
-      width="500"
-      v-if="current_forslag"
-    >
+  <v-container fluid class="pa-2 ma-0">
+    <v-dialog v-model="endre_dialog" width="500" v-if="current_forslag">
       <v-card>
-        <v-card-title v-if="$store.getters.isAdmin">{{ $t('forslag.rediger_godkjenn') }}</v-card-title>
-        <v-card-title v-else>{{ $t('forslag.rediger_forslag') }}</v-card-title>
+        <v-card-title v-if="$store.getters.isAdmin">{{
+          $t("forslag.rediger_godkjenn")
+        }}</v-card-title>
+        <v-card-title v-else>{{ $t("forslag.rediger_forslag") }}</v-card-title>
         <v-card-text>
           <v-text-field
             v-model="redigert_forslag"
             counter
             maxlength="100"
-            outlined
+            variant="outlined"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="red"
-            dark
-            @click="endre_dialog = false"
-          >
-            {{ $t('knapper.avbryt') }}
+          <v-btn color="red" @click="endre_dialog = false">
+            {{ $t("knapper.avbryt") }}
           </v-btn>
           <v-btn
             v-if="$store.getters.user_id == current_forslag.user_id"
             color="green"
-            dark
             @click="redigerForslag(current_forslag)"
           >
-            {{ $t('knapper.oppdater') }}
+            {{ $t("knapper.oppdater") }}
           </v-btn>
           <v-btn
             v-if="$store.getters.isAdmin"
             color="green"
-            dark
             @click="godkjennForslag(current_forslag)"
           >
-            {{ $t('knapper.godkjenn') }}
+            {{ $t("knapper.godkjenn") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,31 +46,18 @@
         @close="closeKommentarDialog"
       ></forslag-kommentarer>
     </v-dialog>
-    <v-tabs
-      centered
-      v-model="tab"
-      class="mb-2"
-    >
+    <v-tabs centered v-model="tab" class="mb-2">
       <v-tab>
-        {{ $t('forslag.alle') }}
+        {{ $t("forslag.alle") }}
       </v-tab>
       <v-tab>
-        {{ $t('forslag.mine') }}
+        {{ $t("forslag.mine") }}
       </v-tab>
       <v-tab @click="handleWordlistTabClick">
-        {{ $t('ord.oppslag') }}
-      <!--   <router-link
-          to='/oppslag_forslag'
-          style="text-decoration: none; color: inherit;"
-        >
-          {{ $t('ord.oppslag') }}
-        </router-link> -->
+        {{ $t("ord.oppslag") }}
       </v-tab>
     </v-tabs>
-    <v-row
-      no-gutters
-      v-if="tab == 0"
-    >
+    <v-row no-gutters v-if="tab == 0">
       <v-col align="center">
         <span
           v-for="(statuskode, index) in forslag_status"
@@ -89,11 +65,13 @@
         >
           <v-chip
             class="mt-3 mx-2"
-            small
+            size="small"
             :color="statuskode.color"
-            :outlined="filter_status != index"
-            :dark="filter_status == index"
-            @click="filter_status = index; page = 0"
+            :variant="filter_status != index ? 'outlined' : 'flat'"
+            @click="
+              filter_status = index;
+              page = 1;
+            "
           >
             {{ $t(statuskode.text) }}
           </v-chip>
@@ -104,44 +82,33 @@
       <v-col align="center">
         <v-chip
           class="mt-3 mx-2"
-          small
+          size="small"
           color="primary"
-          :outlined="!filtrer_uleste"
-          :dark="!filtrer_uleste"
+          :variant="!filtrer_uleste ? 'outlined' : 'flat'"
           @click="filtrer_uleste = filtrer_uleste ? false : true"
         >
-          <v-avatar left>
-            <v-icon
-              small
-              v-if="filtrer_uleste"
-            >mdi-checkbox-marked-circle</v-icon>
-            <v-icon
-              small
-              v-else
-            >mdi-checkbox-blank-circle-outline</v-icon>
-          </v-avatar>
-          {{ $t('forslag.uleste_kommentarer') }}
+          <v-icon size="small" v-if="filtrer_uleste" start
+            >mdi-checkbox-marked-circle</v-icon
+          >
+          <v-icon size="small" v-else start
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          {{ $t("forslag.uleste_kommentarer") }}
         </v-chip>
-
         <v-chip
           class="mt-3 mx-2"
-          small
+          size="small"
           color="primary"
-          :outlined="!filtrer_ikke_stemt"
-          :dark="!filtrer_ikke_stemt"
+          :variant="!filtrer_ikke_stemt ? 'outlined' : 'flat'"
           @click="filtrer_ikke_stemt = filtrer_ikke_stemt ? false : true"
         >
-          <v-avatar left>
-            <v-icon
-              small
-              v-if="filtrer_ikke_stemt"
-            >mdi-checkbox-marked-circle</v-icon>
-            <v-icon
-              small
-              v-else
-            >mdi-checkbox-blank-circle-outline</v-icon>
-          </v-avatar>
-          {{ $t('forslag.ikke_stemt') }}
+          <v-icon size="small" v-if="filtrer_ikke_stemt" start
+            >mdi-checkbox-marked-circle</v-icon
+          >
+          <v-icon size="small" v-else start
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          {{ $t("forslag.ikke_stemt") }}
         </v-chip>
       </v-col>
     </v-row>
@@ -155,14 +122,13 @@
       :headers="currentHeaders"
       :search="search"
       :items="filtrerteForslag"
-      :page.sync="page"
-      :footer-props="{
-                      'items-per-page-options': [5, 10, 20, 30, 40, 50]
-                       }"
+      v-model:page="page"
       :items-per-page="20"
-      :header-props="{ sortIcon: null }"
-      :sort-by="filter_status === 0 ? 'opprettet' : 'godkjent_avvist'"
-      :sort-desc="true"
+      :sort-by="
+        filter_status === 0
+          ? [{ key: 'opprettet', order: 'desc' }]
+          : [{ key: 'godkjent_avvist', order: 'desc' }]
+      "
       class="elevation-1"
       mobile-breakpoint="1030"
     >
@@ -170,35 +136,31 @@
         <div style="width: 60px">
           <router-link
             v-if="$store.getters.isAdmin"
-            :to="{path: 'endre/' + item.lemma_id}"
-          >{{ item.lemma_id}}</router-link>
+            :to="{ path: 'endre/' + item.lemma_id }"
+            >{{ item.lemma_id }}</router-link
+          >
           <span v-else>{{ item.lemma_id }}</span>
         </div>
       </template>
       <template v-slot:[`item.oppslag`]="{ item }">
         <router-link
           v-if="$store.getters.isLoggedIn"
-          :to="{path: 'nytt_forslag/' + item.lemma_id}"
+          :to="{ path: 'nytt_forslag/' + item.lemma_id }"
           :title="$t('forslag.nytt_forslag_oppslag')"
-        >{{ item.oppslag}}</router-link>
+          >{{ item.oppslag }}</router-link
+        >
         <span v-else>{{ item.oppslag }}</span>
         <v-tooltip
-          bottom
+          location="bottom"
           v-if="item.eksisterende_definisjoner && item.status == 0"
         >
-          <template v-slot:activator="{ on }">
-            <v-icon
-              color="red"
-              small
-              class="ml-1"
-              v-on="on"
-            >
+          <template v-slot:activator="{ props }">
+            <v-icon color="red" size="small" class="ml-1" v-bind="props">
               mdi-alert-circle
             </v-icon>
           </template>
-          <span>{{ $t('forslag.eksisterende_definisjoner_varsel')}}</span>
+          <span>{{ $t("forslag.eksisterende_definisjoner_varsel") }}</span>
         </v-tooltip>
-
       </template>
 
       <template v-slot:[`item.forslag_definisjon`]="{ item }">
@@ -206,379 +168,417 @@
         <v-btn
           class="float-right"
           icon
-          x-small
-          color="red lighten-1"
+          size="x-small"
+          color="red-lighten-1"
           v-if="item.user_id == $store.getters.user_id && item.status == 0"
           @click="fjernForslag(item)"
         >
-          <v-icon>
-            mdi-delete
-          </v-icon>
+          <v-icon> mdi-delete </v-icon>
         </v-btn>
         <div class="float-right">
-          <span
-            class="text-caption"
-            v-if="item.endret == true"
-          >({{$t('veggen.endret') }})</span>
+          <span class="text-caption" v-if="item.endret == true"
+            >({{ $t("veggen.endret") }})</span
+          >
           <v-btn
             icon
-            x-small
+            size="x-small"
             color="green"
             v-if="$store.getters.isAdmin && item.status == 0"
             @click="openEndreDialog(item)"
           >
-            <v-icon>
-              mdi-check-circle-outline
-            </v-icon>
+            <v-icon> mdi-check-circle-outline </v-icon>
           </v-btn>
           <v-btn
             icon
-            x-small
+            size="x-small"
             color="red"
             v-if="$store.getters.isAdmin && item.status == 0"
             @click="avvisForslag(item)"
           >
-            <v-icon>
-              mdi-close-box
-            </v-icon>
+            <v-icon> mdi-close-box </v-icon>
           </v-btn>
 
           <v-btn
             icon
-            x-small
-            color="red lighten-1"
+            size="x-small"
+            color="red-lighten-1"
             v-if="item.user_id == $store.getters.user_id && item.status == 0"
             @click="openEndreDialog(item)"
           >
-            <v-icon>
-              mdi-pencil-outline
-            </v-icon>
+            <v-icon> mdi-pencil-outline </v-icon>
           </v-btn>
         </div>
       </template>
       <template v-slot:[`item.upvotes`]="{ item }">
-        <div
-          class=""
-          style="width: 175px"
-        >
+        <div class="" style="width: 175px">
           <v-chip
             :color="getColorUp(item)"
+            variant="flat"
             class="mr-1 px-2"
-            text-color="white"
             :disabled="filter_status != 0"
-            small
+            size="small"
             @click="stemForslag(item, 1)"
           >
             <span class="ml-1 mr-2">
-              {{ item.upvotes}}
+              {{ item.upvotes }}
             </span>
-            <v-icon
-              :x-small="$vuetify.breakpoint.mdAndDown"
-              small
-              dark
-            >
-              mdi-thumb-up-outline
-            </v-icon>
+            <v-icon size="small"> mdi-thumb-up-outline </v-icon>
           </v-chip>
           <v-chip
+            variant="flat"
             class="mr-1 px-2"
             :color="getColorDown(item)"
-            text-color="white"
             :disabled="filter_status != 0"
-            small
+            size="small"
             @click="stemForslag(item, 0)"
           >
             <span class="ml-1 mr-2">
-              {{ item.downvotes}}
+              {{ item.downvotes }}
             </span>
-            <v-icon
-              :x-small="$vuetify.breakpoint.mdAndDown"
-              small
-              dark
-            >
-              mdi-thumb-down-outline
-            </v-icon>
+            <v-icon size="small"> mdi-thumb-down-outline </v-icon>
           </v-chip>
           <v-chip
+            variant="flat"
             class="mr-1 px-2"
             :color="kommentarFarge(item.sett)"
-            text-color="white"
-            small
+            size="small"
             @click="openKommentarDialog(item.forslag_id)"
           >
             <span class="ml-1 mr-2">
-              {{ item.antall_kommentarer}}
+              {{ item.antall_kommentarer }}
             </span>
 
-            <v-icon
-              small
-              :x-small="$vuetify.breakpoint.mdAndDown"
-            >
-              mdi-comment-text-outline
-            </v-icon>
+            <v-icon size="small"> mdi-comment-text-outline </v-icon>
           </v-chip>
         </div>
       </template>
       <template v-slot:[`item.status`]="{ item }">
-        <v-chip
-          small
-          :color="forslag_status[item.status].color"
-          text-color="white"
-        >
+        <v-chip size="small" :color="forslag_status[item.status].color">
           {{ $t(forslag_status[item.status].text) }}
         </v-chip>
       </template>
       <template v-slot:[`item.opprettet`]="{ item }">
-        <span v-if="item.status === 0">{{ new Date(item.opprettet).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}</span>
-        <span v-else>{{ new Date(item.godkjent_avvist).toLocaleDateString("nb-NO", { year: 'numeric', month: 'short', day: 'numeric' }) }}</span>
+        <span v-if="item.status === 0">{{
+          new Date(item.opprettet).toLocaleDateString("nb-NO", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        }}</span>
+        <span v-else>{{
+          new Date(item.godkjent_avvist).toLocaleDateString("nb-NO", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        }}</span>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
-import JishoDataService from "../services/JishoDataService";
-import ForslagKommentarer from "../components/ForslagKommentarer";
-import helpers from '../mixins/helpers'
+import { defineComponent } from "vue";
 
-export default {
-  name: 'Forslag',
+import ForslagKommentarer from "../components/ForslagKommentarer.vue";
+import helpers from "../mixins/helpers";
+import JishoDataService from "../services/JishoDataService";
+
+export default defineComponent({
+  name: "Forslag",
   mixins: [helpers],
-  data () {
+
+  data() {
     return {
       tab: 0,
-      page: 0,
+      page: 1,
       endre_dialog: false,
       kommentar_dialog: false,
       current_forslag: null,
       current_forslag_id: Number,
       forslag: [],
-      redigert_forslag: '',
-      search: '',
+      redigert_forslag: "",
+      search: "",
       filtrer_uleste: false,
       filtrer_ikke_stemt: false,
       alle_headers: [
         {
-          text: this.$t('ord.lemma_id'),
-          align: 'start',
-          value: 'lemma_id',
-          width: '1%'
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
         },
-        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '1%' },
-        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '1%' },
-        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '50%' },
-        { text: this.$t('forslag.bruker'), value: 'brukernavn', width: '1%' },
-        { text: this.$t('forslag.stemmer'), value: 'upvotes', width: '1%' },
-        { text: this.$t('forslag.dato'), value: 'opprettet', width: '10%' },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "forslag_definisjon",
+          width: "50%",
+        },
+        { title: this.$t("forslag.bruker"), key: "brukernavn", width: "1%" },
+        { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
+        { title: this.$t("forslag.dato"), key: "opprettet", width: "10%" },
       ],
       mine_headers: [
         {
-          text: this.$t('ord.lemma_id'),
-          align: 'start',
-          value: 'lemma_id',
-          width: '1%'
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
         },
-        { text: this.$t('ord.oppslagsord'), value: 'oppslag', width: '1%' },
-        { text: this.$t('ord.ordklasse'), value: 'boy_tabell', width: '1%' },
-        { text: this.$t('forslag.forslag_definisjon'), value: 'forslag_definisjon', width: '30%' },
-        { text: this.$t('forslag.stemmer'), value: 'upvotes', width: '1%' },
-        { text: this.$t('forslag.status'), value: 'status', width: '1%' },
-        { text: this.$t('forslag.lagt_til'), value: 'opprettet', width: '10%' },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "forslag_definisjon",
+          width: "30%",
+        },
+        { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
+        { title: this.$t("forslag.status"), key: "status", width: "1%" },
+        { title: this.$t("forslag.lagt_til"), key: "opprettet", width: "10%" },
       ],
       forslag_status: [
         {
-          text: 'forslag.under_avstemning',
-          color: 'orange'
+          text: "forslag.under_avstemning",
+          color: "orange",
         },
         {
-          text: 'forslag.godkjent_avstemning',
-          color: 'green lighten-1'
+          text: "forslag.godkjent_avstemning",
+          color: "green-lighten-1",
         },
         {
-          text: 'forslag.godkjent_admin',
-          color: 'green lighten-1'
+          text: "forslag.godkjent_admin",
+          color: "green-lighten-1",
         },
         {
-          text: 'forslag.endret_godkjent',
-          color: 'green lighten-1'
+          text: "forslag.endret_godkjent",
+          color: "green-lighten-1",
         },
         {
-          text: 'forslag.avvist_avstemning',
-          color: 'red lighten-1'
+          text: "forslag.avvist_avstemning",
+          color: "red-lighten-1",
         },
         {
-          text: 'forslag.avvist_admin',
-          color: 'red lighten-1'
-        }
+          text: "forslag.avvist_admin",
+          color: "red-lighten-1",
+        },
       ],
-      filter_status: 0
-    }
+      filter_status: 0,
+    };
   },
+
   components: {
-    ForslagKommentarer
+    ForslagKommentarer,
   },
+
   watch: {
     tab: function (tabValue) {
       if (tabValue === 0) {
-        this.filter_status = 0
-        this.refresh(0)
+        this.filter_status = 0;
+        this.refresh(0);
       } else {
-        this.getMyForslag()
+        this.getMyForslag();
       }
     },
-    filter_status: function(status) {
-      console.log("test")
-      this.refresh(status)
-    }
+    filter_status: function (status) {
+      console.log("test");
+      this.refresh(status);
+    },
   },
+
   computed: {
-    filtrerteForslag () {
-      let filtrerte = this.forslag
-      const user_id = this.$store.getters.user_id
+    filtrerteForslag() {
+      let filtrerte = this.forslag;
+      const user_id = this.$store.getters.user_id;
 
       if (this.filtrer_uleste) {
-        filtrerte = filtrerte.filter(item => item.sett == 0)
+        filtrerte = filtrerte.filter((item) => item.sett == 0);
       }
       if (this.filtrer_ikke_stemt) {
-        filtrerte = filtrerte.filter(item => item.minstemme == null && item.user_id != user_id)
+        filtrerte = filtrerte.filter(
+          (item) => item.minstemme == null && item.user_id != user_id,
+        );
       }
-      return filtrerte
+      return filtrerte;
     },
 
-    currentHeaders () {
+    currentHeaders() {
       if (this.tab === 0) {
-        return this.alle_headers
+        return this.alle_headers;
       } else {
-        return this.mine_headers
+        return this.mine_headers;
       }
     },
   },
+
   methods: {
-    refresh (status=0) {
+    refresh(status = 0) {
       JishoDataService.getAllForslag(status)
-        .then(result => {
-          this.forslag = result.data
+        .then((result) => {
+          this.forslag = result.data;
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-          console.log(error)
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+          console.log(error);
+        });
     },
-    getMyForslag () {
-      const user_id = this.$store.getters.user_id
+    getMyForslag() {
+      const user_id = this.$store.getters.user_id;
       JishoDataService.getMyForslag(user_id)
-        .then(result => {
-          this.forslag = result.data
+        .then((result) => {
+          this.forslag = result.data;
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-          console.log(error)
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+          console.log(error);
+        });
     },
-    stemForslag (item, type) {
+    stemForslag(item, type) {
       JishoDataService.stemForslag(item.forslag_id, { type: type })
         .then((response) => {
-          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.refresh()
+          this.$store.dispatch("show_snackbar", {
+            message: response.data,
+            color: "success",
+          });
+          this.refresh();
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+        });
     },
-    openEndreDialog (item) {
-      this.endre_dialog = true
-      this.current_forslag = item
-      this.redigert_forslag = item.forslag_definisjon.slice()
+    openEndreDialog(item) {
+      this.endre_dialog = true;
+      this.current_forslag = item;
+      this.redigert_forslag = item.forslag_definisjon.slice();
     },
-    openKommentarDialog (forslag_id) {
-      this.kommentar_dialog = true
-      this.current_forslag_id = forslag_id
+    openKommentarDialog(forslag_id) {
+      this.kommentar_dialog = true;
+      this.current_forslag_id = forslag_id;
     },
-    closeKommentarDialog () {
-      this.kommentar_dialog = false
-      this.current_forslag_id = null
-      this.refresh(this.filter_status)
+    closeKommentarDialog() {
+      this.kommentar_dialog = false;
+      this.current_forslag_id = null;
+      this.refresh(this.filter_status);
     },
     handleWordlistTabClick() {
-      this.$router.push('/oppslag_forslag')
+      this.$router.push("/oppslag_forslag");
     },
-    redigerForslag (item) {
+    redigerForslag(item) {
       if (this.redigert_forslag !== this.current_forslag.forslag_definisjon) {
-        JishoDataService.redigerForslag(item.forslag_id, { redigert_forslag: this.redigert_forslag })
+        JishoDataService.redigerForslag(item.forslag_id, {
+          redigert_forslag: this.redigert_forslag,
+        })
           .then((response) => {
-            this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-            this.endre_dialog = false
-            this.refresh()
+            this.$store.dispatch("show_snackbar", {
+              message: response.data,
+              color: "success",
+            });
+            this.endre_dialog = false;
+            this.refresh();
           })
-          .catch(error => {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-          })
+          .catch((error) => {
+            this.$store.dispatch("show_snackbar", {
+              message: error.response.data,
+              color: "error",
+            });
+          });
       }
-      this.current_forslag = null
+      this.current_forslag = null;
     },
 
-    godkjennForslag (item) {
-      this.endre_dialog = false
-      const endret = this.redigert_forslag !== this.current_forslag.forslag_definisjon
-      this.current_forslag = null
-      JishoDataService.godkjennForslag(item.forslag_id, { redigert_forslag: this.redigert_forslag, endret: endret })
+    godkjennForslag(item) {
+      this.endre_dialog = false;
+      const endret =
+        this.redigert_forslag !== this.current_forslag.forslag_definisjon;
+      this.current_forslag = null;
+      JishoDataService.godkjennForslag(item.forslag_id, {
+        redigert_forslag: this.redigert_forslag,
+        endret: endret,
+      })
         .then((response) => {
-          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.refresh()
+          this.$store.dispatch("show_snackbar", {
+            message: response.data,
+            color: "success",
+          });
+          this.refresh();
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+        });
     },
-    avvisForslag (item) {
+    avvisForslag(item) {
       JishoDataService.avvisForslag(item.forslag_id)
         .then((response) => {
-          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.refresh()
+          this.$store.dispatch("show_snackbar", {
+            message: response.data,
+            color: "success",
+          });
+          this.refresh();
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+        });
     },
-    fjernForslag (item) {
+    fjernForslag(item) {
       JishoDataService.fjernForslag(item.forslag_id)
         .then((response) => {
-          this.$store.dispatch('show_snackbar', { message: response.data, color: 'success' })
-          this.refresh()
+          this.$store.dispatch("show_snackbar", {
+            message: response.data,
+            color: "success",
+          });
+          this.refresh();
         })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
-        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+        });
     },
-    getColorUp (item) {
+    getColorUp(item) {
       if (item.minstemme === 1) {
-        return 'green'
+        return "green";
       } else {
-        return 'green lighten-3'
+        return "green-lighten-3";
       }
     },
-    getColorDown (item) {
+    getColorDown(item) {
       if (item.minstemme === 0) {
-        return 'red'
+        return "red";
       } else {
-        return 'red lighten-3'
+        return "red-lighten-3";
       }
     },
-    kommentarFarge (sett) {
+    kommentarFarge(sett) {
       if (sett == true) {
-        return 'orange'
+        return "orange";
       } else {
-        return 'red'
+        return "red";
       }
+    },
+  },
+
+  mounted() {
+    this.refresh();
+    const forslag_id = parseInt(this.$route.params.id);
+    if (forslag_id) {
+      this.openKommentarDialog(forslag_id);
     }
   },
-  mounted () {
-    this.refresh()
-    const forslag_id = parseInt(this.$route.params.id)
-    if (forslag_id) {
-      this.openKommentarDialog(forslag_id)
-    }
-
-  }
-}
+});
 </script>
