@@ -165,47 +165,55 @@
 
       <template v-slot:[`item.forslag_definisjon`]="{ item }">
         <span v-html="addFurigana(item.forslag_definisjon)"></span>
-        <v-btn
-          class="float-right"
-          icon
-          size="x-small"
-          color="red-lighten-1"
-          v-if="item.user_id == $store.getters.user_id && item.status == 0"
-          @click="fjernForslag(item)"
+        <span class="text-caption text-medium-emphasis ml-1" v-if="item.endret == true"
+          >({{ $t("veggen.endret") }})</span
         >
-          <v-icon> mdi-delete </v-icon>
-        </v-btn>
-        <div class="float-right">
-          <span class="text-caption" v-if="item.endret == true"
-            >({{ $t("veggen.endret") }})</span
-          >
+      </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <div class="d-flex align-center" style="white-space: nowrap; gap: 2px">
           <v-btn
-            icon
-            size="x-small"
-            color="green"
             v-if="$store.getters.isAdmin && item.status == 0"
+            variant="plain"
+            density="compact"
+            color="green"
+            class="pa-0"
+            style="min-width: 0"
             @click="openEndreDialog(item)"
           >
-            <v-icon> mdi-check-circle-outline </v-icon>
+            <v-icon size="22">mdi-check-circle-outline</v-icon>
           </v-btn>
           <v-btn
-            icon
-            size="x-small"
-            color="red"
             v-if="$store.getters.isAdmin && item.status == 0"
+            variant="plain"
+            density="compact"
+            color="red"
+            class="pa-0"
+            style="min-width: 0"
             @click="avvisForslag(item)"
           >
-            <v-icon> mdi-close-box </v-icon>
+            <v-icon size="22">mdi-close-box</v-icon>
           </v-btn>
-
           <v-btn
-            icon
-            size="x-small"
-            color="red-lighten-1"
             v-if="item.user_id == $store.getters.user_id && item.status == 0"
+            variant="plain"
+            density="compact"
+            color="orange-darken-1"
+            class="pa-0"
+            style="min-width: 0"
             @click="openEndreDialog(item)"
           >
-            <v-icon> mdi-pencil-outline </v-icon>
+            <v-icon size="22">mdi-pencil-outline</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="item.user_id == $store.getters.user_id && item.status == 0"
+            variant="plain"
+            density="compact"
+            color="red-lighten-1"
+            class="pa-0"
+            style="min-width: 0"
+            @click="fjernForslag(item)"
+          >
+            <v-icon size="22">mdi-delete</v-icon>
           </v-btn>
         </div>
       </template>
@@ -318,6 +326,7 @@ export default defineComponent({
         { title: this.$t("forslag.bruker"), key: "brukernavn", width: "1%" },
         { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
         { title: this.$t("forslag.dato"), key: "opprettet", width: "10%" },
+        { title: "Handlinger", key: "actions", sortable: false, width: "1%" },
       ],
       mine_headers: [
         {
@@ -336,6 +345,7 @@ export default defineComponent({
         { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
         { title: this.$t("forslag.status"), key: "status", width: "1%" },
         { title: this.$t("forslag.lagt_til"), key: "opprettet", width: "10%" },
+        { title: "Handlinger", key: "actions", sortable: false, width: "1%" },
       ],
       forslag_status: [
         {
