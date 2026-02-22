@@ -13,39 +13,36 @@
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
-
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import JishoDataService from '../services/JishoDataService'
+import JishoDataService from "../services/JishoDataService";
 
 export default defineComponent({
-  name: 'visits',
+  name: "visits",
 
-  data () {
+  data() {
     return {
       visits: [],
       headers: [
-        { title: "Dato", key: 'dato', width: '1%', align: "start" },
-        { title: "Sidevisninger", key: 'antall', width: '10%' },
-      ]
-    }
+        { title: "Dato", key: "dato", width: "1%", align: "start" },
+        { title: "Sidevisninger", key: "antall", width: "10%" },
+      ],
+    };
   },
 
   methods: {
-    getPageVisits () {
-      JishoDataService.getPageVisits()
-        .then((response) => {
-          this.visits = response.data.reverse()
-        })
-    }
+    getPageVisits() {
+      JishoDataService.getPageVisits().then((response) => {
+        this.visits = response.data;
+      });
+    },
   },
 
-  mounted () {
-    this.getPageVisits()
+  mounted() {
+    this.getPageVisits();
   },
 });
 </script>
