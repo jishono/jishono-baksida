@@ -17,6 +17,9 @@ export default {
             furigana = furigana[0].replace(/\[|\]/g, "")
             return `<ruby>${kanji}<rp>(</rp><rt>${furigana}</rt><rp>)</rp></ruby>`
         },
+        maruSuji (n) {
+            return `${n}.`;
+        },
         addFurigana (str) {
             let escaped = this.escapeHTML(str)
             if (!escaped.match(/\[/)) {

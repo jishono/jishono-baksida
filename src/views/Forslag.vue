@@ -120,15 +120,12 @@
     ></v-text-field>
     <v-data-table
       :headers="currentHeaders"
-      :search="search"
       :items="filtrerteForslag"
       v-model:page="page"
       :items-per-page="20"
-      :sort-by="
-        filter_status === 0
-          ? [{ key: 'opprettet', order: 'desc' }]
-          : [{ key: 'godkjent_avvist', order: 'desc' }]
-      "
+      :sort-by="[{ key: 'siste_opprettet', order: 'desc' }]"
+      hover
+      @click:row="(e, { item }) => openEndreDialog(item.forslag[0])"
       class="elevation-1"
       mobile-breakpoint="1030"
     >
@@ -137,6 +134,7 @@
           <router-link
             v-if="$store.getters.isAdmin"
             :to="{ path: 'endre/' + item.lemma_id }"
+            @click.stop
             >{{ item.lemma_id }}</router-link
           >
           <span v-else>{{ item.lemma_id }}</span>
@@ -147,12 +145,16 @@
           v-if="$store.getters.isLoggedIn"
           :to="{ path: 'nytt_forslag/' + item.lemma_id }"
           :title="$t('forslag.nytt_forslag_oppslag')"
+          @click.stop
           >{{ item.oppslag }}</router-link
         >
         <span v-else>{{ item.oppslag }}</span>
         <v-tooltip
           location="bottom"
-          v-if="item.eksisterende_definisjoner && item.status == 0"
+          v-if="
+            item.definisjoner.length > 0 &&
+            item.forslag.some((f) => f.status == 0)
+          "
         >
           <template v-slot:activator="{ props }">
             <v-icon color="red" size="small" class="ml-1" v-bind="props">
@@ -162,124 +164,28 @@
           <span>{{ $t("forslag.eksisterende_definisjoner_varsel") }}</span>
         </v-tooltip>
       </template>
-
-      <template v-slot:[`item.forslag_definisjon`]="{ item }">
-        <span v-html="addFurigana(item.forslag_definisjon)"></span>
-        <span class="text-caption text-medium-emphasis ml-1" v-if="item.endret == true"
-          >({{ $t("veggen.endret") }})</span
+      <template v-slot:[`item.definisjoner_og_forslag`]="{ item }">
+        <div
+          v-for="(d, i) in item.definisjoner"
+          :key="'def-' + i"
+          class="text-green-darken-2 py-1"
         >
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <div class="d-flex align-center" style="white-space: nowrap; gap: 2px">
-          <v-btn
-            v-if="$store.getters.isAdmin && item.status == 0"
-            variant="plain"
-            density="compact"
-            color="green"
-            class="pa-0"
-            style="min-width: 0"
-            @click="openEndreDialog(item)"
-          >
-            <v-icon size="22">mdi-check-circle-outline</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="$store.getters.isAdmin && item.status == 0"
-            variant="plain"
-            density="compact"
-            color="red"
-            class="pa-0"
-            style="min-width: 0"
-            @click="avvisForslag(item)"
-          >
-            <v-icon size="22">mdi-close-box</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.user_id == $store.getters.user_id && item.status == 0"
-            variant="plain"
-            density="compact"
-            color="orange-darken-1"
-            class="pa-0"
-            style="min-width: 0"
-            @click="openEndreDialog(item)"
-          >
-            <v-icon size="22">mdi-pencil-outline</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.user_id == $store.getters.user_id && item.status == 0"
-            variant="plain"
-            density="compact"
-            color="red-lighten-1"
-            class="pa-0"
-            style="min-width: 0"
-            @click="fjernForslag(item)"
-          >
-            <v-icon size="22">mdi-delete</v-icon>
-          </v-btn>
+          <span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}
         </div>
-      </template>
-      <template v-slot:[`item.upvotes`]="{ item }">
-        <div class="" style="width: 175px">
-          <v-chip
-            :color="getColorUp(item)"
-            variant="flat"
-            class="mr-1 px-2"
-            :disabled="filter_status != 0"
-            size="small"
-            @click="stemForslag(item, 1)"
+        <div
+          v-for="(f, j) in item.forslag"
+          :key="f.forslag_id"
+          class="text-error py-1"
+          style="cursor: pointer"
+          @click.stop="openEndreDialog(f)"
+        >
+          <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
+          <span
+            class="text-caption text-medium-emphasis ml-1"
+            v-if="f.endret == true"
+            >({{ $t("veggen.endret") }})</span
           >
-            <span class="ml-1 mr-2">
-              {{ item.upvotes }}
-            </span>
-            <v-icon size="small"> mdi-thumb-up-outline </v-icon>
-          </v-chip>
-          <v-chip
-            variant="flat"
-            class="mr-1 px-2"
-            :color="getColorDown(item)"
-            :disabled="filter_status != 0"
-            size="small"
-            @click="stemForslag(item, 0)"
-          >
-            <span class="ml-1 mr-2">
-              {{ item.downvotes }}
-            </span>
-            <v-icon size="small"> mdi-thumb-down-outline </v-icon>
-          </v-chip>
-          <v-chip
-            variant="flat"
-            class="mr-1 px-2"
-            :color="kommentarFarge(item.sett)"
-            size="small"
-            @click="openKommentarDialog(item.forslag_id)"
-          >
-            <span class="ml-1 mr-2">
-              {{ item.antall_kommentarer }}
-            </span>
-
-            <v-icon size="small"> mdi-comment-text-outline </v-icon>
-          </v-chip>
         </div>
-      </template>
-      <template v-slot:[`item.status`]="{ item }">
-        <v-chip size="small" :color="forslag_status[item.status].color">
-          {{ $t(forslag_status[item.status].text) }}
-        </v-chip>
-      </template>
-      <template v-slot:[`item.opprettet`]="{ item }">
-        <span v-if="item.status === 0">{{
-          new Date(item.opprettet).toLocaleDateString("nb-NO", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })
-        }}</span>
-        <span v-else>{{
-          new Date(item.godkjent_avvist).toLocaleDateString("nb-NO", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })
-        }}</span>
       </template>
     </v-data-table>
   </v-container>
@@ -320,13 +226,10 @@ export default defineComponent({
         { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
         {
           title: this.$t("forslag.forslag_definisjon"),
-          key: "forslag_definisjon",
-          width: "50%",
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
         },
-        { title: this.$t("forslag.bruker"), key: "brukernavn", width: "1%" },
-        { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
-        { title: this.$t("forslag.dato"), key: "opprettet", width: "10%" },
-        { title: "Handlinger", key: "actions", sortable: false, width: "1%" },
       ],
       mine_headers: [
         {
@@ -339,13 +242,10 @@ export default defineComponent({
         { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
         {
           title: this.$t("forslag.forslag_definisjon"),
-          key: "forslag_definisjon",
-          width: "30%",
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
         },
-        { title: this.$t("forslag.stemmer"), key: "upvotes", width: "1%" },
-        { title: this.$t("forslag.status"), key: "status", width: "1%" },
-        { title: this.$t("forslag.lagt_til"), key: "opprettet", width: "10%" },
-        { title: "Handlinger", key: "actions", sortable: false, width: "1%" },
       ],
       forslag_status: [
         {
@@ -398,18 +298,35 @@ export default defineComponent({
 
   computed: {
     filtrerteForslag() {
-      let filtrerte = this.forslag;
       const user_id = this.$store.getters.user_id;
+      const searchLower = this.search.toLowerCase().trim();
 
-      if (this.filtrer_uleste) {
-        filtrerte = filtrerte.filter((item) => item.sett == 0);
-      }
-      if (this.filtrer_ikke_stemt) {
-        filtrerte = filtrerte.filter(
-          (item) => item.minstemme == null && item.user_id != user_id,
-        );
-      }
-      return filtrerte;
+      return this.forslag
+        .map((lemma) => {
+          let fs = lemma.forslag;
+          if (this.filtrer_uleste) {
+            fs = fs.filter((f) => f.sett == 0);
+          }
+          if (this.filtrer_ikke_stemt) {
+            fs = fs.filter((f) => f.minstemme == null && f.user_id != user_id);
+          }
+          if (searchLower) {
+            const matchesOppslag = lemma.oppslag
+              .toLowerCase()
+              .includes(searchLower);
+            if (!matchesOppslag) {
+              fs = fs.filter((f) =>
+                f.forslag_definisjon.toLowerCase().includes(searchLower),
+              );
+            }
+          }
+          const siste_opprettet = fs.reduce(
+            (max, f) => (f.opprettet > max ? f.opprettet : max),
+            "",
+          );
+          return { ...lemma, forslag: fs, siste_opprettet };
+        })
+        .filter((lemma) => lemma.forslag.length > 0);
     },
 
     currentHeaders() {
