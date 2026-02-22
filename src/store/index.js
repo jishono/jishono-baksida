@@ -102,7 +102,7 @@ export default createStore({
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    isAdmin: state => state.admin == 1,
+    isAdmin: state => state.admin,
     token: state => state.token,
     username: state => state.username,
     user_id: state => state.user_id,
