@@ -97,7 +97,7 @@
         rows="4"
       ></v-textarea>
       <div v-if="kommentarer">
-        <div v-for="kom in kommentarer" v-bind:key="kom.forslag_kommentar_id">
+        <div v-for="kom in kommentarer" v-bind:key="kom.lemma_kommentar_id">
           <v-card class="mb-4">
             <v-card-title class="headline bg-orange-lighten-3 text-body-2 pa-0">
               <v-col cols="5">
@@ -162,14 +162,13 @@ export default defineComponent({
     forslag_id: function (newVal) {
       if (!newVal) return;
       this.hentForslag();
-      this.hentKommentarer();
     },
   },
 
   methods: {
     postKommentar() {
       if (this.ny_kommentar !== "") {
-        JishoDataService.postForslagKommentar(this.forslag.forslag_id, {
+        JishoDataService.postForslagKommentar(this.forslag.lemma_id, {
           ny_kommentar: this.ny_kommentar,
         })
           .then((response) => {
@@ -194,6 +193,7 @@ export default defineComponent({
       JishoDataService.hentEnkeltForslag(this.forslag_id)
         .then((response) => {
           this.forslag = response.data;
+          this.hentKommentarer();
         })
         .catch((error) => {
           this.$store.dispatch("show_snackbar", {
@@ -203,7 +203,7 @@ export default defineComponent({
         });
     },
     hentKommentarer() {
-      JishoDataService.getForslagKommentarer(this.forslag_id)
+      JishoDataService.getForslagKommentarer(this.forslag.lemma_id)
         .then((response) => {
           this.kommentarer = response.data;
         })
@@ -227,7 +227,6 @@ export default defineComponent({
   },
 
   mounted() {
-    this.hentKommentarer();
     this.hentForslag();
   },
 });
