@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="boyningsDialog" @click:outside="close()">
+  <v-dialog :model-value="boyningsDialog" @click:outside="close()" @update:model-value="close()">
     <v-card>
       <v-table>
         <template v-slot:default>
