@@ -29,6 +29,7 @@ export default defineComponent({
       headers: [
         { title: "Dato", key: "dato", width: "1%", align: "start" },
         { title: "Sidevisninger", key: "antall", width: "10%" },
+        { title: "Unike besøkende", key: "unique_visitors", width: "10%" },
       ],
     };
   },
