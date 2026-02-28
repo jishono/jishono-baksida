@@ -413,10 +413,10 @@ export default defineComponent({
             message: response.data,
             color: "success",
           });
-          if (this.isDialog) {
-            this.$emit("refresh");
-            this.$emit("close");
-          } else {
+          this.$emit("refresh");
+          this.nye_forslag = [{ definisjon: "", kommentar: null, prioritet: null }];
+          this.getOppslag(this.oppslagId);
+          if (!this.isDialog) {
             setTimeout(() => this.$router.push("/forslag"), 2000);
           }
         })
