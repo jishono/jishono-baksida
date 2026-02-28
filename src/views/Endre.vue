@@ -42,7 +42,7 @@
         </v-btn>
         <v-btn
           color="primary"
-          :to="'/nytt_forslag/' + currentOppslag.lemma_id"
+          :to="'/oppslag/' + currentOppslag.lemma_id"
           class="mx-1"
         >
           Nytt forslag

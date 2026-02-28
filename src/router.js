@@ -65,20 +65,12 @@ const router = createRouter({
       component: () => import("./views/Forslag.vue")
     },
     {
-      path: "/forslag/:id/kommentarer",
-      meta: {
-        requiresAuth: false,
-        title: 'forslag'
-      },
-      component: () => import("./views/Forslag.vue")
-    },
-    {
-      path: "/nytt_forslag/:id",
+      path: "/oppslag/:id",
       meta: {
         requiresAuth: true,
         title: 'nytt_forslag'
       },
-      component: () => import("./views/NyttForslag.vue")
+      component: () => import("./views/Oppslag.vue")
     },
     {
       path: "/statistikk",

@@ -134,7 +134,7 @@
                     class="ml-2"
                     size="small"
                     color="green"
-                    :to="'/nytt_forslag/' + currentOppslag.lemma_id"
+                    :to="'/oppslag/' + currentOppslag.lemma_id"
                     >{{ $t("knapper.foreslå") }}</v-btn
                   >
                 </v-card-actions>

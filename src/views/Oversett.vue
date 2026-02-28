@@ -43,7 +43,7 @@
                     <td>{{ item.oppslag }}</td>
                     <td>{{ item.boy_tabell }}</td>
                     <td>
-                      <router-link :to="'/nytt_forslag/' + item.lemma_id">
+                      <router-link :to="'/oppslag/' + item.lemma_id">
                         <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
                       </router-link>
                       <router-link
@@ -86,7 +86,7 @@
                     <td>{{ item.oppslag }}</td>
                     <td>{{ item.boy_tabell }}</td>
                     <td>
-                      <router-link :to="'/nytt_forslag/' + item.lemma_id">
+                      <router-link :to="'/oppslag/' + item.lemma_id">
                         <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
                       </router-link>
                       <router-link

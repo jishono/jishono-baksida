@@ -1,16 +1,16 @@
 <template>
   <v-container fluid class="pa-2 ma-0">
-<v-dialog
+    <v-dialog
       v-model="kommentar_dialog"
-      width="650"
+      width="500"
       @click:outside="closeKommentarDialog"
     >
-      <oppslag-kommentarer
+      <oppslag
         v-if="current_lemma_id"
-        v-bind:lemma_id="current_lemma_id"
+        :lemma_id="current_lemma_id"
         @close="closeKommentarDialog"
         @refresh="refresh(filter_status)"
-      ></oppslag-kommentarer>
+      ></oppslag>
     </v-dialog>
     <v-tabs centered v-model="tab" class="mb-2">
       <v-tab>
@@ -109,7 +109,7 @@
       <template v-slot:[`item.oppslag`]="{ item }">
         <router-link
           v-if="$store.getters.isLoggedIn"
-          :to="{ path: 'nytt_forslag/' + item.lemma_id }"
+          :to="{ path: 'oppslag/' + item.lemma_id }"
           :title="$t('forslag.nytt_forslag_oppslag')"
           @click.stop
           >{{ item.oppslag }}</router-link
@@ -170,7 +170,7 @@
 <script>
 import { defineComponent } from "vue";
 
-import OppslagKommentarer from "../components/OppslagKommentarer.vue";
+import Oppslag from "./Oppslag.vue";
 import helpers from "../mixins/helpers";
 import JishoDataService from "../services/JishoDataService";
 
@@ -253,7 +253,7 @@ export default defineComponent({
   },
 
   components: {
-    OppslagKommentarer,
+    Oppslag,
   },
 
   watch: {
