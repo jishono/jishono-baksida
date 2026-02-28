@@ -261,21 +261,14 @@
           <div v-for="kom in kommentarer" :key="kom.lemma_kommentar_id">
             <v-card class="mb-4">
               <v-card-title
-                class="headline bg-orange-lighten-3 text-body-2 pa-0"
+                class="headline bg-orange-lighten-3 text-body-2 pa-3 d-flex align-center"
               >
-                <v-col cols="5">
-                  <v-avatar :color="randomFarge(kom.brukernavn)" size="32">
-                    <span class="text-white">{{
-                      initialer(kom.brukernavn)
-                    }}</span>
-                  </v-avatar>
-                  <span class="font-weight-black ml-1">{{
-                    kom.brukernavn
-                  }}</span>
-                </v-col>
-                <v-col align="end">
-                  {{ new Date(kom.opprettet).toLocaleString("da-DK") }}
-                </v-col>
+                <v-avatar :color="randomFarge(kom.brukernavn)" size="32">
+                  <span class="text-white">{{ initialer(kom.brukernavn) }}</span>
+                </v-avatar>
+                <span class="font-weight-black ml-2">{{ kom.brukernavn }}</span>
+                <v-spacer></v-spacer>
+                <span class="text-medium-emphasis">{{ new Date(kom.opprettet).toLocaleString("da-DK") }}</span>
               </v-card-title>
               <v-card-text class="pa-3">
                 <vue-markdown
