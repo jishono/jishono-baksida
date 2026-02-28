@@ -1,50 +1,16 @@
 <template>
   <v-container fluid class="pa-2 ma-0">
-    <v-dialog v-model="endre_dialog" width="500" v-if="current_forslag">
-      <v-card>
-        <v-card-title v-if="$store.getters.isAdmin">{{
-          $t("forslag.rediger_godkjenn")
-        }}</v-card-title>
-        <v-card-title v-else>{{ $t("forslag.rediger_forslag") }}</v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="redigert_forslag"
-            counter
-            maxlength="100"
-            variant="outlined"
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="red" @click="endre_dialog = false">
-            {{ $t("knapper.avbryt") }}
-          </v-btn>
-          <v-btn
-            v-if="$store.getters.user_id == current_forslag.user_id"
-            color="green"
-            @click="redigerForslag(current_forslag)"
-          >
-            {{ $t("knapper.oppdater") }}
-          </v-btn>
-          <v-btn
-            v-if="$store.getters.isAdmin"
-            color="green"
-            @click="godkjennForslag(current_forslag)"
-          >
-            {{ $t("knapper.godkjenn") }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog
+<v-dialog
       v-model="kommentar_dialog"
-      width="500"
+      width="650"
       @click:outside="closeKommentarDialog"
     >
-      <forslag-kommentarer
-        v-bind:forslag_id="this.current_forslag_id"
+      <oppslag-kommentarer
+        v-if="current_lemma_id"
+        v-bind:lemma_id="current_lemma_id"
         @close="closeKommentarDialog"
-      ></forslag-kommentarer>
+        @refresh="refresh(filter_status)"
+      ></oppslag-kommentarer>
     </v-dialog>
     <v-tabs centered v-model="tab" class="mb-2">
       <v-tab>
@@ -125,7 +91,7 @@
       :items-per-page="20"
       :sort-by="[{ key: 'siste_opprettet', order: 'desc' }]"
       hover
-      @click:row="(e, { item }) => openEndreDialog(item.forslag[0])"
+      @click:row="(e, { item }) => openKommentarDialog(item)"
       class="elevation-1"
       mobile-breakpoint="1030"
     >
@@ -176,8 +142,6 @@
           v-for="(f, j) in item.forslag"
           :key="f.forslag_id"
           class="text-error py-1"
-          style="cursor: pointer"
-          @click.stop="openEndreDialog(f)"
         >
           <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
           <span
@@ -187,6 +151,18 @@
           >
         </div>
       </template>
+      <template v-slot:[`item.kommentarer`]="{ item }">
+        <v-chip
+          variant="flat"
+          size="small"
+          :color="item.usett > 0 ? 'red' : 'orange'"
+          class="px-2"
+          @click.stop="openKommentarDialog(item)"
+        >
+          <span class="mr-1">{{ item.antall_kommentarer }}</span>
+          <v-icon size="small">mdi-comment-text-outline</v-icon>
+        </v-chip>
+      </template>
     </v-data-table>
   </v-container>
 </template>
@@ -194,7 +170,7 @@
 <script>
 import { defineComponent } from "vue";
 
-import ForslagKommentarer from "../components/ForslagKommentarer.vue";
+import OppslagKommentarer from "../components/OppslagKommentarer.vue";
 import helpers from "../mixins/helpers";
 import JishoDataService from "../services/JishoDataService";
 
@@ -206,12 +182,9 @@ export default defineComponent({
     return {
       tab: 0,
       page: 1,
-      endre_dialog: false,
       kommentar_dialog: false,
-      current_forslag: null,
-      current_forslag_id: Number,
+      current_lemma_id: null,
       forslag: [],
-      redigert_forslag: "",
       search: "",
       filtrer_uleste: false,
       filtrer_ikke_stemt: false,
@@ -230,6 +203,7 @@ export default defineComponent({
           sortable: false,
           width: "70%",
         },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
       ],
       mine_headers: [
         {
@@ -246,6 +220,7 @@ export default defineComponent({
           sortable: false,
           width: "70%",
         },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
       ],
       forslag_status: [
         {
@@ -278,7 +253,7 @@ export default defineComponent({
   },
 
   components: {
-    ForslagKommentarer,
+    OppslagKommentarer,
   },
 
   watch: {
@@ -366,146 +341,24 @@ export default defineComponent({
           console.log(error);
         });
     },
-    stemForslag(item, type) {
-      JishoDataService.stemForslag(item.forslag_id, { type: type })
-        .then((response) => {
-          this.$store.dispatch("show_snackbar", {
-            message: response.data,
-            color: "success",
-          });
-          this.refresh();
-        })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
-            message: error.response.data,
-            color: "error",
-          });
-        });
-    },
-    openEndreDialog(item) {
-      this.endre_dialog = true;
-      this.current_forslag = item;
-      this.redigert_forslag = item.forslag_definisjon.slice();
-    },
-    openKommentarDialog(forslag_id) {
-      this.kommentar_dialog = true;
-      this.current_forslag_id = forslag_id;
+    openKommentarDialog(lemma) {
+      this.current_lemma_id = lemma.lemma_id;
+      this.$nextTick(() => {
+        this.kommentar_dialog = true;
+      });
     },
     closeKommentarDialog() {
       this.kommentar_dialog = false;
-      this.current_forslag_id = null;
+      this.current_lemma_id = null;
       this.refresh(this.filter_status);
     },
     handleWordlistTabClick() {
       this.$router.push("/oppslag_forslag");
     },
-    redigerForslag(item) {
-      if (this.redigert_forslag !== this.current_forslag.forslag_definisjon) {
-        JishoDataService.redigerForslag(item.forslag_id, {
-          redigert_forslag: this.redigert_forslag,
-        })
-          .then((response) => {
-            this.$store.dispatch("show_snackbar", {
-              message: response.data,
-              color: "success",
-            });
-            this.endre_dialog = false;
-            this.refresh();
-          })
-          .catch((error) => {
-            this.$store.dispatch("show_snackbar", {
-              message: error.response.data,
-              color: "error",
-            });
-          });
-      }
-      this.current_forslag = null;
-    },
-
-    godkjennForslag(item) {
-      this.endre_dialog = false;
-      const endret =
-        this.redigert_forslag !== this.current_forslag.forslag_definisjon;
-      this.current_forslag = null;
-      JishoDataService.godkjennForslag(item.forslag_id, {
-        redigert_forslag: this.redigert_forslag,
-        endret: endret,
-      })
-        .then((response) => {
-          this.$store.dispatch("show_snackbar", {
-            message: response.data,
-            color: "success",
-          });
-          this.refresh();
-        })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
-            message: error.response.data,
-            color: "error",
-          });
-        });
-    },
-    avvisForslag(item) {
-      JishoDataService.avvisForslag(item.forslag_id)
-        .then((response) => {
-          this.$store.dispatch("show_snackbar", {
-            message: response.data,
-            color: "success",
-          });
-          this.refresh();
-        })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
-            message: error.response.data,
-            color: "error",
-          });
-        });
-    },
-    fjernForslag(item) {
-      JishoDataService.fjernForslag(item.forslag_id)
-        .then((response) => {
-          this.$store.dispatch("show_snackbar", {
-            message: response.data,
-            color: "success",
-          });
-          this.refresh();
-        })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
-            message: error.response.data,
-            color: "error",
-          });
-        });
-    },
-    getColorUp(item) {
-      if (item.minstemme === 1) {
-        return "green";
-      } else {
-        return "green-lighten-3";
-      }
-    },
-    getColorDown(item) {
-      if (item.minstemme === 0) {
-        return "red";
-      } else {
-        return "red-lighten-3";
-      }
-    },
-    kommentarFarge(sett) {
-      if (sett == true) {
-        return "orange";
-      } else {
-        return "red";
-      }
-    },
   },
 
   mounted() {
     this.refresh();
-    const forslag_id = parseInt(this.$route.params.id);
-    if (forslag_id) {
-      this.openKommentarDialog(forslag_id);
-    }
   },
 });
 </script>
