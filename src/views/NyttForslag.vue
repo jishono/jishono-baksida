@@ -70,9 +70,6 @@
               {{ $t("forslag.forslag_definisjon") }}
             </template>
             <template v-slot:append>
-              <v-icon color="orange" v-on:click="toggleComment(index2)"
-                >mdi-comment-text-outline
-              </v-icon>
               <div v-if="index2 == nye_forslag.length - 1">
                 <v-icon color="green-lighten-1" v-on:click="addDef"
                   >mdi-plus-circle
@@ -86,17 +83,43 @@
               </div>
             </template>
           </v-text-field>
-          <v-textarea
-            v-model="nye_forslag[index2]['kommentar']"
-            v-if="nye_forslag[index2]['kommentar'] != null"
-            rows="4"
-            variant="outlined"
-          >
-            <template v-slot:label>
-              {{ $t("kommentar.kommentar") }} til
-              {{ maruSuji(currentOppslag.definisjon.length + index2 + 1) }}
-            </template>
-          </v-textarea>
+        </div>
+
+        <div class="d-flex align-center justify-space-between mb-2 mt-4">
+          <span class="text-h6">{{ $t("kommentar.kommentarer") }}</span>
+          <v-btn color="green" size="small" @click="postKommentar">
+            {{ $t("kommentar.post_kommentar") }}
+          </v-btn>
+        </div>
+        <v-textarea
+          variant="outlined"
+          :label="$t('kommentar.ny_kommentar')"
+          v-model="ny_kommentar"
+          rows="4"
+        ></v-textarea>
+        <div v-if="kommentarer.length">
+          <div v-for="kom in kommentarer" :key="kom.lemma_kommentar_id">
+            <v-card class="mb-4">
+              <v-card-title class="headline bg-orange-lighten-3 text-body-2 pa-0">
+                <v-col cols="5">
+                  <v-avatar :color="randomFarge(kom.brukernavn)" size="32">
+                    <span class="text-white">{{ initialer(kom.brukernavn) }}</span>
+                  </v-avatar>
+                  <span class="font-weight-black ml-1">{{ kom.brukernavn }}</span>
+                </v-col>
+                <v-col align="end">
+                  {{ new Date(kom.opprettet).toLocaleString("da-DK") }}
+                </v-col>
+              </v-card-title>
+              <v-card-text class="pa-3">
+                <vue-markdown
+                  class="linjeskift"
+                  :source="kom.kommentar"
+                  :plugins="[markdownItEmoji]"
+                ></vue-markdown>
+              </v-card-text>
+            </v-card>
+          </div>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -149,6 +172,8 @@
 <script>
 import { defineComponent } from "vue";
 
+import VueMarkdown from "vue-markdown-render";
+import { full as markdownItEmoji } from "markdown-it-emoji";
 import Boyningstabell from "../components/Boyningstabell.vue";
 import InstruksBoks from "../components/InstruksBoks.vue";
 import helpers from "../mixins/helpers";
@@ -164,12 +189,16 @@ export default defineComponent({
       nye_forslag: [{ definisjon: "", kommentar: null, prioritet: null }],
       boyningsDialog: false,
       instruksDialog: false,
+      ny_kommentar: "",
+      kommentarer: [],
+      markdownItEmoji,
     };
   },
 
   components: {
     Boyningstabell,
     InstruksBoks,
+    VueMarkdown,
   },
 
   methods: {
@@ -177,10 +206,46 @@ export default defineComponent({
       JishoDataService.get(id)
         .then((response) => {
           this.currentOppslag = response.data;
+          this.hentKommentarer();
         })
         .catch((e) => {
           console.log(e);
         });
+    },
+    hentKommentarer() {
+      JishoDataService.getForslagKommentarer(this.currentOppslag.lemma_id)
+        .then((response) => {
+          this.kommentarer = response.data;
+        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+        });
+    },
+    postKommentar() {
+      if (this.ny_kommentar !== "") {
+        JishoDataService.postForslagKommentar(this.currentOppslag.lemma_id, {
+          ny_kommentar: this.ny_kommentar,
+        })
+          .then((response) => {
+            this.$store.dispatch("show_snackbar", {
+              message: response.data,
+              color: "success",
+            });
+            this.ny_kommentar = "";
+            this.hentKommentarer();
+          })
+          .catch((error) => {
+            this.$store.dispatch("show_snackbar", {
+              message: error.response.data,
+              color: "error",
+            });
+            this.ny_kommentar = "";
+            this.hentKommentarer();
+          });
+      }
     },
     addForslag() {
       this.checkEmpty();
@@ -213,13 +278,6 @@ export default defineComponent({
     },
     removeDef() {
       this.nye_forslag.pop();
-    },
-    toggleComment(index) {
-      if (this.nye_forslag[index].kommentar === null) {
-        this.nye_forslag[index].kommentar = "";
-      } else {
-        this.nye_forslag[index].kommentar = null;
-      }
     },
     checkEmpty() {
       if (this.nye_forslag.length > 0 && this.nye_forslag[0] != "") {
