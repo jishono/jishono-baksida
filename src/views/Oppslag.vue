@@ -75,7 +75,10 @@
         </div>
       </v-card-title>
       <v-card-text>
-        <div class="mt-8">
+        <div class="mt-4">
+          <div class="text-subtitle-1 font-weight-bold mb-2">
+            {{ $t("forslag.eksisterende_definisjoner") }}
+          </div>
           <div
             v-for="(def, index) in currentOppslag.definisjon"
             v-bind:key="index"
@@ -88,9 +91,11 @@
             >
               <template v-slot:label>
                 {{ maruSuji(index + 1) }}
-                {{ $t("forslag.eksisterende_definisjon") }}
               </template>
             </v-text-field>
+          </div>
+          <div class="text-subtitle-1 font-weight-bold mb-2">
+            {{ $t("forslag.forslag") }}
           </div>
           <div
             v-for="(f, j) in currentOppslag.forslag ?? []"
@@ -103,8 +108,7 @@
               class="field-forslag"
             >
               <template v-slot:label>
-                {{ currentOppslag.definisjon.length + j + 1 }}.
-                {{ f.brukernavn }}
+                {{ currentOppslag.definisjon.length + j + 1 }}. {{ f.brukernavn }}
                 <span v-if="f.endret"> ({{ $t("veggen.endret") }})</span>
               </template>
               <template v-slot:append>
@@ -264,11 +268,15 @@
                 class="headline bg-orange-lighten-3 text-body-2 pa-3 d-flex align-center"
               >
                 <v-avatar :color="randomFarge(kom.brukernavn)" size="32">
-                  <span class="text-white">{{ initialer(kom.brukernavn) }}</span>
+                  <span class="text-white">{{
+                    initialer(kom.brukernavn)
+                  }}</span>
                 </v-avatar>
                 <span class="font-weight-black ml-2">{{ kom.brukernavn }}</span>
                 <v-spacer></v-spacer>
-                <span class="text-medium-emphasis">{{ new Date(kom.opprettet).toLocaleString("da-DK") }}</span>
+                <span class="text-medium-emphasis">{{
+                  new Date(kom.opprettet).toLocaleString("da-DK")
+                }}</span>
               </v-card-title>
               <v-card-text class="pa-3">
                 <vue-markdown
@@ -407,7 +415,9 @@ export default defineComponent({
             color: "success",
           });
           this.$emit("refresh");
-          this.nye_forslag = [{ definisjon: "", kommentar: null, prioritet: null }];
+          this.nye_forslag = [
+            { definisjon: "", kommentar: null, prioritet: null },
+          ];
           this.getOppslag(this.oppslagId);
           if (!this.isDialog) {
             setTimeout(() => this.$router.push("/forslag"), 2000);
