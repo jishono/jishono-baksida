@@ -108,7 +108,8 @@
               class="field-forslag"
             >
               <template v-slot:label>
-                {{ currentOppslag.definisjon.length + j + 1 }}. {{ f.brukernavn }}
+                {{ currentOppslag.definisjon.length + j + 1 }}.
+                {{ f.brukernavn }}
                 <span v-if="f.endret"> ({{ $t("veggen.endret") }})</span>
               </template>
               <template v-slot:append>
@@ -249,11 +250,8 @@
           </div>
         </div>
 
-        <div class="d-flex align-center justify-space-between mb-2 mt-4">
+        <div class="mt-4 mb-2">
           <span class="text-h6">{{ $t("kommentar.kommentarer") }}</span>
-          <v-btn color="green" size="small" @click="postKommentar">
-            {{ $t("kommentar.post_kommentar") }}
-          </v-btn>
         </div>
         <v-textarea
           variant="outlined"
@@ -261,7 +259,12 @@
           v-model="ny_kommentar"
           rows="4"
         ></v-textarea>
-        <div v-if="kommentarer.length">
+        <div class="d-flex justify-end">
+          <v-btn color="green" size="small" @click="postKommentar">
+            {{ $t("kommentar.post_kommentar") }}
+          </v-btn>
+        </div>
+        <div v-if="kommentarer.length" class="mt-8">
           <div v-for="kom in kommentarer" :key="kom.lemma_kommentar_id">
             <v-card class="mb-4">
               <v-card-title
