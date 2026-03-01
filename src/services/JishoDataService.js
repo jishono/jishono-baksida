@@ -108,7 +108,7 @@ class JishoDataService {
     return api.post(`/bruker/${id}/oppdater`, data)
   }
   hentVegginnlegg(id) {
-    return api.get(`/veggen/innlegg/${id}`)
+    return api.get(id ? `/veggen/innlegg/${id}` : `/veggen/innlegg`)
   }
   postVegginnlegg(data) {
     return api.post(`/veggen/nytt_innlegg`, data)
