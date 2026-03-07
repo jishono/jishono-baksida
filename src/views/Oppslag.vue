@@ -97,10 +97,10 @@
             :key="f.forslag_id"
           >
             <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1">
-              <div class="d-flex align-baseline">
+              <div class="d-flex align-center">
                 <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ currentOppslag.definisjon.length + j + 1 }}.</span>
                 <span style="font-size: 1.15rem; line-height: 1.6" v-html="addFurigana(f.forslag_definisjon)"></span>
-                <v-chip v-if="f.endret" size="x-small" variant="outlined" color="orange" class="ml-2">{{ $t("veggen.endret") }}</v-chip>
+                <v-chip v-if="f.endret" size="x-small" variant="flat" color="orange-darken-2" class="ml-2 text-white">{{ $t("veggen.endret") }}</v-chip>
               </div>
               <div class="d-flex align-center" style="gap: 4px">
                 <v-tooltip :text="f.brukernavn" location="top">
