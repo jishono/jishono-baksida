@@ -76,116 +76,109 @@
       </v-card-title>
       <v-card-text>
         <div class="mt-4">
-          <div class="text-subtitle-1 font-weight-bold mb-2">
+          <v-divider class="mt-6 mb-2" />
+          <div class="text-overline text-medium-emphasis mb-2">
             {{ $t("forslag.eksisterende_definisjoner") }}
           </div>
           <div
             v-for="(def, index) in currentOppslag.definisjon"
             v-bind:key="index"
+            class="definisjon-rad d-flex align-baseline mb-1 py-1 pl-3"
           >
-            <v-text-field
-              v-model="currentOppslag.definisjon[index].definisjon"
-              disabled
-              variant="outlined"
-              class="field-definisjon"
-            >
-              <template v-slot:label>
-                {{ maruSuji(index + 1) }}
-              </template>
-            </v-text-field>
+            <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(index + 1) }}</span>
+            <span style="font-size: 1.15rem; line-height: 1.6">{{ def.definisjon }}</span>
           </div>
-          <div class="text-subtitle-1 font-weight-bold mb-2">
+          <v-divider class="mt-6 mb-2" />
+          <div class="text-overline text-medium-emphasis mb-2">
             {{ $t("forslag.forslag") }}
           </div>
           <div
             v-for="(f, j) in currentOppslag.forslag ?? []"
             :key="f.forslag_id"
           >
-            <v-text-field
-              :model-value="f.forslag_definisjon"
-              disabled
-              variant="outlined"
-              class="field-forslag"
-            >
-              <template v-slot:label>
-                {{ currentOppslag.definisjon.length + j + 1 }}.
-                {{ f.brukernavn }}
-                <span v-if="f.endret"> ({{ $t("veggen.endret") }})</span>
-              </template>
-              <template v-slot:append>
-                <div class="d-flex align-center" style="gap: 4px">
-                  <v-chip
-                    :color="getColorUp(f)"
-                    variant="flat"
-                    size="small"
-                    class="px-2"
-                    :disabled="f.status != 0"
-                    @click.stop="stemForslag(f, 1)"
-                  >
-                    <span class="mr-1">{{ f.upvotes }}</span>
-                    <v-icon size="small">mdi-thumb-up-outline</v-icon>
-                  </v-chip>
-                  <v-chip
-                    :color="getColorDown(f)"
-                    variant="flat"
-                    size="small"
-                    class="px-2"
-                    :disabled="f.status != 0"
-                    @click.stop="stemForslag(f, 0)"
-                  >
-                    <span class="mr-1">{{ f.downvotes }}</span>
-                    <v-icon size="small">mdi-thumb-down-outline</v-icon>
-                  </v-chip>
-                  <template v-if="f.status == 0">
-                    <v-btn
-                      v-if="$store.getters.isAdmin"
-                      variant="plain"
-                      density="compact"
-                      color="green"
-                      class="pa-0"
-                      style="min-width: 0"
-                      @click="openEdit(f)"
-                    >
-                      <v-icon size="22">mdi-check-circle-outline</v-icon>
-                    </v-btn>
-                    <v-btn
-                      v-if="$store.getters.isAdmin"
-                      variant="plain"
-                      density="compact"
-                      color="red"
-                      class="pa-0"
-                      style="min-width: 0"
-                      @click="avvisForslag(f)"
-                    >
-                      <v-icon size="22">mdi-close-box</v-icon>
-                    </v-btn>
-                    <v-btn
-                      v-if="$store.getters.user_id == f.user_id"
-                      variant="plain"
-                      density="compact"
-                      color="orange-darken-1"
-                      class="pa-0"
-                      style="min-width: 0"
-                      @click="openEdit(f)"
-                    >
-                      <v-icon size="22">mdi-pencil-outline</v-icon>
-                    </v-btn>
-                    <v-btn
-                      v-if="$store.getters.user_id == f.user_id"
-                      variant="plain"
-                      density="compact"
-                      color="red-lighten-1"
-                      class="pa-0"
-                      style="min-width: 0"
-                      @click="fjernForslag(f)"
-                    >
-                      <v-icon size="22">mdi-delete</v-icon>
-                    </v-btn>
+            <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1">
+              <div class="d-flex align-baseline">
+                <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ currentOppslag.definisjon.length + j + 1 }}.</span>
+                <span style="font-size: 1.15rem; line-height: 1.6" v-html="addFurigana(f.forslag_definisjon)"></span>
+                <v-chip v-if="f.endret" size="x-small" variant="outlined" color="orange" class="ml-2">{{ $t("veggen.endret") }}</v-chip>
+              </div>
+              <div class="d-flex align-center" style="gap: 4px">
+                <v-tooltip :text="f.brukernavn" location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" size="20" color="grey" class="mr-1">mdi-account-circle-outline</v-icon>
                   </template>
-                </div>
-              </template>
-            </v-text-field>
-            <div v-if="editing_forslag_id === f.forslag_id" class="mt-n4 mb-2">
+                </v-tooltip>
+                <v-chip
+                  :color="getColorUp(f)"
+                  variant="flat"
+                  size="small"
+                  class="px-2"
+                  :disabled="f.status != 0"
+                  @click.stop="stemForslag(f, 1)"
+                >
+                  <span class="mr-1">{{ f.upvotes }}</span>
+                  <v-icon size="small">mdi-thumb-up-outline</v-icon>
+                </v-chip>
+                <v-chip
+                  :color="getColorDown(f)"
+                  variant="flat"
+                  size="small"
+                  class="px-2"
+                  :disabled="f.status != 0"
+                  @click.stop="stemForslag(f, 0)"
+                >
+                  <span class="mr-1">{{ f.downvotes }}</span>
+                  <v-icon size="small">mdi-thumb-down-outline</v-icon>
+                </v-chip>
+                <template v-if="f.status == 0">
+                  <v-btn
+                    v-if="$store.getters.isAdmin"
+                    variant="plain"
+                    density="compact"
+                    color="green"
+                    class="pa-0"
+                    style="min-width: 0"
+                    @click="openEdit(f)"
+                  >
+                    <v-icon size="22">mdi-check-circle-outline</v-icon>
+                  </v-btn>
+                  <v-btn
+                    v-if="$store.getters.isAdmin"
+                    variant="plain"
+                    density="compact"
+                    color="red"
+                    class="pa-0"
+                    style="min-width: 0"
+                    @click="avvisForslag(f)"
+                  >
+                    <v-icon size="22">mdi-close-box</v-icon>
+                  </v-btn>
+                  <v-btn
+                    v-if="$store.getters.user_id == f.user_id"
+                    variant="plain"
+                    density="compact"
+                    color="orange-darken-1"
+                    class="pa-0"
+                    style="min-width: 0"
+                    @click="openEdit(f)"
+                  >
+                    <v-icon size="22">mdi-pencil-outline</v-icon>
+                  </v-btn>
+                  <v-btn
+                    v-if="$store.getters.user_id == f.user_id"
+                    variant="plain"
+                    density="compact"
+                    color="red-lighten-1"
+                    class="pa-0"
+                    style="min-width: 0"
+                    @click="fjernForslag(f)"
+                  >
+                    <v-icon size="22">mdi-delete</v-icon>
+                  </v-btn>
+                </template>
+              </div>
+            </div>
+            <div v-if="editing_forslag_id === f.forslag_id" class="mb-2">
               <v-text-field
                 v-model="redigert_forslag"
                 counter
@@ -215,7 +208,7 @@
             </div>
           </div>
 
-          <div
+          <div class="mt-6"
             v-for="(ny_def, index2) in nye_forslag"
             v-bind:key="index2 + 100"
           >
@@ -557,23 +550,23 @@ export default defineComponent({
 </script>
 
 <style scoped>
-:deep(.v-field--disabled) {
-  opacity: 1;
+.definisjon-rad {
+  border-left: 3px solid #4caf50;
+  border-radius: 4px;
+  transition: background-color 0.15s;
 }
-:deep(.v-input--disabled .v-input__append) {
-  pointer-events: all;
-  opacity: 1;
+.definisjon-rad:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
-:deep(.field-definisjon .v-label) {
-  color: #388e3c;
+.forslag-rad {
+  padding-left: 12px;
+  padding-right: 4px;
+  border-left: 3px solid #ef5350;
+  border-radius: 4px;
+  transition: background-color 0.15s;
 }
-:deep(.field-definisjon .v-field__outline div) {
-  border-color: #388e3c;
-}
-:deep(.field-forslag .v-label) {
-  color: #f44336;
-}
-:deep(.field-forslag .v-field__outline div) {
-  border-color: #f44336;
+.forslag-rad:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 </style>
+
