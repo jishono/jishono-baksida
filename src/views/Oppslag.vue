@@ -324,7 +324,7 @@ export default defineComponent({
     lemma_id(newVal) {
       if (!newVal) return;
       this.ny_kommentar = "";
-      this.nye_forslag = [{ definisjon: "", kommentar: null, prioritet: null }];
+      this.nye_forslag = [{ definisjon: "", prioritet: null }];
       this.editing_forslag_id = null;
       this.redigert_forslag = "";
       this.getOppslag(newVal);
@@ -334,7 +334,7 @@ export default defineComponent({
   data() {
     return {
       currentOppslag: null,
-      nye_forslag: [{ definisjon: "", kommentar: null, prioritet: null }],
+      nye_forslag: [{ definisjon: "", prioritet: null }],
       boyningsDialog: false,
       instruksDialog: false,
       ny_kommentar: "",
@@ -415,7 +415,7 @@ export default defineComponent({
           });
           this.$emit("refresh");
           this.nye_forslag = [
-            { definisjon: "", kommentar: null, prioritet: null },
+            { definisjon: "", prioritet: null },
           ];
           this.getOppslag(this.oppslagId);
           if (!this.isDialog) {
