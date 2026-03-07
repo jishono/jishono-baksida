@@ -222,7 +222,7 @@
                 {{
                   maruSuji(
                     currentOppslag.definisjon.length +
-                      (currentOppslag.forslag?.length ?? 0) +
+                      (currentOppslag.forslag?.filter(f => f.status === 0).length ?? 0) +
                       index2 +
                       1,
                   )
