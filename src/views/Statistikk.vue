@@ -2,11 +2,11 @@
   <v-container>
     <v-row no-gutters justify="center">
       <v-col lg="9" cols="12">
-        <v-card v-if="oppslag_info" class="ma-2">
+        <v-card class="ma-2">
           <v-card-title>
             {{ $t("statistikk.diverse") }}
           </v-card-title>
-          <v-card-text>
+          <v-card-text v-if="oppslag_info">
             <v-table density="compact">
               <template v-slot:default>
                 <thead>
@@ -27,32 +27,43 @@
               </template>
             </v-table>
           </v-card-text>
+          <v-card-text v-else class="text-center">
+            <v-progress-circular size="30" color="primary" indeterminate />
+          </v-card-text>
         </v-card>
-        <v-card v-if="nye_oversettelser && nye_forslag && antall_kommentarer" class="ma-2" height="450">
+        <v-card class="ma-2" height="450">
           <v-card-title> {{ $t("statistikk.siste_30") }}</v-card-title>
           <line-chart
+            v-if="nye_oversettelser && nye_forslag && antall_kommentarer"
             v-bind:nye_oversettelser="nye_oversettelser"
             v-bind:nye_forslag="nye_forslag"
             v-bind:antall_kommentarer="antall_kommentarer"
           >
           </line-chart>
+          <v-card-text v-else class="text-center">
+            <v-progress-circular size="30" color="primary" indeterminate />
+          </v-card-text>
         </v-card>
-        <v-card v-if="translated_by_day" class="ma-2" height="450">
+        <v-card class="ma-2" height="450">
           <v-card-title>
             {{ $t("statistikk.ord_med_oversettelser") }}</v-card-title
           >
           <line-chart-history
+            v-if="translated_by_day"
             v-bind:WordsWithTranslations="translated_by_day"
           >
           </line-chart-history>
+          <v-card-text v-else class="text-center">
+            <v-progress-circular size="30" color="primary" indeterminate />
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col lg="3" cols="12">
-        <v-card v-if="brukeroversettelser" class="ma-2">
+        <v-card class="ma-2">
           <v-card-title>
             {{ $t("statistikk.brukere") }}
           </v-card-title>
-          <v-card-text>
+          <v-card-text v-if="brukeroversettelser">
             <v-table density="compact">
               <template v-slot:default>
                 <thead>
@@ -74,6 +85,9 @@
                 </tbody>
               </template>
             </v-table>
+          </v-card-text>
+          <v-card-text v-else class="text-center">
+            <v-progress-circular size="30" color="primary" indeterminate />
           </v-card-text>
         </v-card>
       </v-col>
