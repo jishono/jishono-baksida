@@ -115,20 +115,6 @@
           >{{ item.oppslag }}</router-link
         >
         <span v-else>{{ item.oppslag }}</span>
-        <v-tooltip
-          location="bottom"
-          v-if="
-            item.definisjoner.length > 0 &&
-            item.forslag.some((f) => f.status == 0)
-          "
-        >
-          <template v-slot:activator="{ props }">
-            <v-icon color="red" size="small" class="ml-1" v-bind="props">
-              mdi-alert-circle
-            </v-icon>
-          </template>
-          <span>{{ $t("forslag.eksisterende_definisjoner_varsel") }}</span>
-        </v-tooltip>
       </template>
       <template v-slot:[`item.definisjoner_og_forslag`]="{ item }">
         <div
