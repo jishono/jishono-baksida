@@ -397,7 +397,7 @@ export default defineComponent({
     addForslag() {
       this.checkEmpty();
       const nDef = this.currentOppslag.definisjon.length;
-      const nForslag = (this.currentOppslag.forslag || []).length;
+      const nForslag = (this.currentOppslag.forslag || []).filter(f => f.status === 0).length;
       for (let i = 0; i < this.nye_forslag.length; i++) {
         this.nye_forslag[i].prioritet = nDef + nForslag + i + 1;
       }
