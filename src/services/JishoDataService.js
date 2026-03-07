@@ -95,8 +95,23 @@ class JishoDataService {
   getRequests () {
     return api.get(`/requests`);
   }
-  getStatistikk () {
-    return api.get(`/statistikk`);
+  getBrukeroversettelser () {
+    return api.get(`/statistikk/brukeroversettelser`);
+  }
+  getOppslagInfo () {
+    return api.get(`/statistikk/oppslag`);
+  }
+  getNyeOversettelser () {
+    return api.get(`/statistikk/nye-oversettelser`);
+  }
+  getNyeForslag () {
+    return api.get(`/statistikk/nye-forslag`);
+  }
+  getAntallKommentarer () {
+    return api.get(`/statistikk/kommentarer`);
+  }
+  getTranslatedByDay () {
+    return api.get(`/statistikk/oversatt-per-dag`);
   }
   getBruker(id) {
     return api.get(`/bruker/${id}`)

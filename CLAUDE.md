@@ -50,6 +50,10 @@ Copy `.env` for local development. Key variable:
 
 Route paths, variable names, method names, and store keys use Norwegian. UI strings go in the locale JSON files under `src/locales/`.
 
+## Git
+
+Do not include `Co-Authored-By` lines in commit messages.
+
 ## Deployment
 
 `public/_redirects` handles SPA routing (Netlify-style redirect). Production build targets `https://api.jisho.no` via `.env.production`.

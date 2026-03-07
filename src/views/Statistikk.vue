@@ -1,8 +1,8 @@
 <template>
-  <v-container v-if="statistikk">
+  <v-container>
     <v-row no-gutters justify="center">
       <v-col lg="9" cols="12">
-        <v-card class="ma-2">
+        <v-card v-if="oppslag_info" class="ma-2">
           <v-card-title>
             {{ $t("statistikk.diverse") }}
           </v-card-title>
@@ -17,7 +17,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="item in statistikk.oppslag_info"
+                    v-for="item in oppslag_info"
                     :key="item.tittel"
                   >
                     <td>{{ $t("statistikk." + item.tittel) }}</td>
@@ -28,27 +28,27 @@
             </v-table>
           </v-card-text>
         </v-card>
-        <v-card class="ma-2" height="450">
+        <v-card v-if="nye_oversettelser && nye_forslag && antall_kommentarer" class="ma-2" height="450">
           <v-card-title> {{ $t("statistikk.siste_30") }}</v-card-title>
           <line-chart
-            v-bind:nye_oversettelser="this.statistikk.nye_oversettelser"
-            v-bind:nye_forslag="this.statistikk.nye_forslag"
-            v-bind:antall_kommentarer="this.statistikk.antall_kommentarer"
+            v-bind:nye_oversettelser="nye_oversettelser"
+            v-bind:nye_forslag="nye_forslag"
+            v-bind:antall_kommentarer="antall_kommentarer"
           >
           </line-chart>
         </v-card>
-        <v-card class="ma-2" height="450">
+        <v-card v-if="translated_by_day" class="ma-2" height="450">
           <v-card-title>
             {{ $t("statistikk.ord_med_oversettelser") }}</v-card-title
           >
           <line-chart-history
-            v-bind:WordsWithTranslations="this.statistikk.translated_by_day"
+            v-bind:WordsWithTranslations="translated_by_day"
           >
           </line-chart-history>
         </v-card>
       </v-col>
       <v-col lg="3" cols="12">
-        <v-card class="ma-2">
+        <v-card v-if="brukeroversettelser" class="ma-2">
           <v-card-title>
             {{ $t("statistikk.brukere") }}
           </v-card-title>
@@ -65,7 +65,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="item in statistikk.brukeroversettelser"
+                    v-for="item in brukeroversettelser"
                     :key="item.brukernavn"
                   >
                     <td>{{ item.brukernavn }}</td>
@@ -78,17 +78,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row no-gutters justify="center">
-      <v-col> </v-col>
-    </v-row>
   </v-container>
-  <div class="text-center mt-8" v-else>
-    <v-progress-circular
-      size="40"
-      color="primary"
-      indeterminate
-    ></v-progress-circular>
-  </div>
 </template>
 
 <script>
@@ -103,7 +93,12 @@ export default defineComponent({
 
   data() {
     return {
-      statistikk: null,
+      brukeroversettelser: null,
+      oppslag_info: null,
+      nye_oversettelser: null,
+      nye_forslag: null,
+      antall_kommentarer: null,
+      translated_by_day: null,
     };
   },
 
@@ -115,13 +110,29 @@ export default defineComponent({
   methods: {},
 
   mounted() {
-    JishoDataService.getStatistikk()
-      .then((response) => {
-        this.statistikk = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    JishoDataService.getBrukeroversettelser()
+      .then((response) => { this.brukeroversettelser = response.data; })
+      .catch((error) => { console.log(error); });
+
+    JishoDataService.getOppslagInfo()
+      .then((response) => { this.oppslag_info = response.data; })
+      .catch((error) => { console.log(error); });
+
+    JishoDataService.getNyeOversettelser()
+      .then((response) => { this.nye_oversettelser = response.data; })
+      .catch((error) => { console.log(error); });
+
+    JishoDataService.getNyeForslag()
+      .then((response) => { this.nye_forslag = response.data; })
+      .catch((error) => { console.log(error); });
+
+    JishoDataService.getAntallKommentarer()
+      .then((response) => { this.antall_kommentarer = response.data; })
+      .catch((error) => { console.log(error); });
+
+    JishoDataService.getTranslatedByDay()
+      .then((response) => { this.translated_by_day = response.data; })
+      .catch((error) => { console.log(error); });
   },
 });
 </script>
