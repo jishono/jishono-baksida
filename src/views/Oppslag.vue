@@ -93,7 +93,7 @@
             {{ $t("forslag.forslag") }}
           </div>
           <div
-            v-for="(f, j) in currentOppslag.forslag ?? []"
+            v-for="(f, j) in (currentOppslag.forslag ?? []).filter(f => f.status === 0)"
             :key="f.forslag_id"
           >
             <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1">
