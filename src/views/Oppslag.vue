@@ -59,7 +59,10 @@
               </v-btn>
             </template>
             <v-card>
-              <v-card-text>
+              <div class="d-flex justify-end pa-2 pb-0">
+                <v-icon @click="instruksDialog = false" style="cursor: pointer">mdi-close</v-icon>
+              </div>
+              <v-card-text class="pt-0">
                 <InstruksBoks />
               </v-card-text>
             </v-card>
