@@ -209,6 +209,24 @@
         >
         </v-checkbox>
         <v-checkbox
+          class="pa-0 ma-0"
+          density="compact"
+          hide-details
+          :label="$t('sok.med_ai')"
+          v-model="meduten.medai"
+          @change="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
+          class="pa-0 ma-0"
+          density="compact"
+          hide-details
+          :label="$t('sok.uten_ai')"
+          v-model="meduten.utenai"
+          @change="sokOppslag()"
+        >
+        </v-checkbox>
+        <v-checkbox
           v-if="$store.getters.isAdmin"
           class="pa-0 ma-0"
           density="compact"
@@ -278,6 +296,8 @@ export default defineComponent({
         utenut: false,
         kunwiki: false,
         utenwiki: false,
+        medai: false,
+        utenai: false,
       },
       pos: {
         adj: false,
@@ -347,6 +367,8 @@ export default defineComponent({
           this.meduten.kunwiki,
           this.meduten.utenwiki,
           this.kun_skjult,
+          this.meduten.medai,
+          this.meduten.utenai,
           string,
         );
         this.oppslagsliste = response.data;
