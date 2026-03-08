@@ -22,6 +22,9 @@
       <v-tab @click="handleWordlistTabClick">
         {{ $t("ord.oppslag") }}
       </v-tab>
+      <v-tab @click="getAiForslag">
+        AI
+      </v-tab>
     </v-tabs>
     <v-row no-gutters v-if="tab == 0">
       <v-col align="center">
@@ -44,7 +47,7 @@
         </span>
       </v-col>
     </v-row>
-    <v-row no-gutters>
+    <v-row no-gutters v-if="tab !== 3">
       <v-col align="center">
         <v-chip
           class="mt-3 mx-2"
@@ -207,6 +210,23 @@ export default defineComponent({
         },
         { title: "", key: "kommentarer", sortable: false, width: "1%" },
       ],
+      ai_headers: [
+        {
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
+        },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
+        },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+      ],
       forslag_status: [
         {
           text: "forslag.under_avstemning",
@@ -246,6 +266,8 @@ export default defineComponent({
       if (tabValue === 0) {
         this.filter_status = 0;
         this.refresh(0);
+      } else if (tabValue === 3) {
+        this.getAiForslag();
       } else {
         this.getMyForslag();
       }
@@ -258,8 +280,15 @@ export default defineComponent({
 
   computed: {
     filtrerteForslag() {
-      const user_id = this.$store.getters.user_id;
       const searchLower = this.search.toLowerCase().trim();
+
+      if (this.tab === 3) {
+        return this.forslag.filter((lemma) =>
+          searchLower ? lemma.oppslag.toLowerCase().includes(searchLower) : true,
+        );
+      }
+
+      const user_id = this.$store.getters.user_id;
 
       return this.forslag
         .map((lemma) => {
@@ -292,6 +321,8 @@ export default defineComponent({
     currentHeaders() {
       if (this.tab === 0) {
         return this.alle_headers;
+      } else if (this.tab === 3) {
+        return this.ai_headers;
       } else {
         return this.mine_headers;
       }
@@ -336,6 +367,19 @@ export default defineComponent({
       this.kommentar_dialog = false;
       this.current_lemma_id = null;
       this.refresh(this.filter_status);
+    },
+    getAiForslag() {
+      JishoDataService.getAiForslag()
+        .then((result) => {
+          this.forslag = result.data;
+        })
+        .catch((error) => {
+          this.$store.dispatch("show_snackbar", {
+            message: error.response.data,
+            color: "error",
+          });
+          console.log(error);
+        });
     },
     handleWordlistTabClick() {
       this.$router.push("/oppslag_forslag");

@@ -65,6 +65,9 @@ class JishoDataService {
   getMyForslag (user_id) {
     return api.get(`/forslag/user/${user_id}`);
   }
+  getAiForslag () {
+    return api.get(`/oppslag/ai`);
+  }
   hentEnkeltForslag (id) {
     return api.get(`/forslag/${id}`);
   }
