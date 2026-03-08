@@ -96,14 +96,17 @@
       mobile-breakpoint="1030"
     >
       <template v-slot:[`item.lemma_id`]="{ item }">
-        <div style="width: 60px">
+        <div style="width: 60px" class="d-flex align-center">
+          <span>{{ item.lemma_id }}</span>
           <router-link
             v-if="$store.getters.isAdmin"
             :to="{ path: 'endre/' + item.lemma_id }"
             @click.stop
-            >{{ item.lemma_id }}</router-link
+            class="ml-1"
+            style="text-decoration: none; line-height: 1"
           >
-          <span v-else>{{ item.lemma_id }}</span>
+            <v-icon size="14" color="grey" class="wrench-icon">mdi-wrench</v-icon>
+          </router-link>
         </div>
       </template>
       <template v-slot:[`item.oppslag`]="{ item }">
@@ -344,3 +347,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.wrench-icon:hover {
+  color: rgb(var(--v-theme-primary)) !important;
+  transform: scale(1.3);
+  transition: color 0.15s, transform 0.15s;
+}
+</style>

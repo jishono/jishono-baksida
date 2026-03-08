@@ -23,6 +23,9 @@
         <div class="text-h3">{{ currentOppslag.oppslag }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">
           {{ ordklasseNavn(currentOppslag.boy_tabell) }} · #{{ currentOppslag.lemma_id }}
+          <router-link :to="'/endre/' + currentOppslag.lemma_id" class="ml-1" style="text-decoration: none">
+            <v-icon size="16" color="grey">mdi-wrench</v-icon>
+          </router-link>
         </div>
         <div class="d-flex flex-wrap mt-2" style="gap: 4px">
           <v-btn
