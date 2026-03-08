@@ -86,20 +86,21 @@
           <div
             v-for="(def, index) in currentOppslag.definisjon"
             v-bind:key="index"
-            class="definisjon-rad d-flex align-baseline mb-1 py-1 pl-3"
+            class="definisjon-rad d-flex align-center mb-1 py-1 pl-3"
           >
             <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(index + 1) }}</span>
             <span style="font-size: 1.15rem; line-height: 1.6" class="flex-grow-1">{{ def.definisjon }}</span>
-            <v-btn
-              variant="plain"
-              density="compact"
-              color="orange-darken-1"
-              class="pa-0 ml-1"
-              style="min-width: 0"
+            <v-chip
+              size="small"
+              variant="flat"
+              color="red"
+              class="ml-2 text-white"
+              style="cursor: pointer"
               @click="startErstatt(def, index)"
             >
-              <v-icon size="20">mdi-swap-horizontal</v-icon>
-            </v-btn>
+              <v-icon start size="14">mdi-swap-horizontal</v-icon>
+              {{ $t("forslag.erstatt_definisjon") }}
+            </v-chip>
           </div>
           <v-divider class="mt-6 mb-2" />
           <div class="text-overline text-medium-emphasis mb-2">
