@@ -107,14 +107,7 @@
         </div>
       </template>
       <template v-slot:[`item.oppslag`]="{ item }">
-        <router-link
-          v-if="$store.getters.isLoggedIn"
-          :to="{ path: 'oppslag/' + item.lemma_id }"
-          :title="$t('forslag.nytt_forslag_oppslag')"
-          @click.stop
-          >{{ item.oppslag }}</router-link
-        >
-        <span v-else>{{ item.oppslag }}</span>
+        {{ item.oppslag }}
       </template>
       <template v-slot:[`item.definisjoner_og_forslag`]="{ item }">
         <div
