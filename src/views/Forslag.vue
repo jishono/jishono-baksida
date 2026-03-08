@@ -9,7 +9,7 @@
         v-if="current_lemma_id"
         :lemma_id="current_lemma_id"
         @close="closeKommentarDialog"
-        @refresh="refresh(filter_status)"
+        @refresh="refreshCurrentTab"
       ></oppslag>
     </v-dialog>
     <v-tabs centered v-model="tab" class="mb-2">
@@ -366,7 +366,16 @@ export default defineComponent({
     closeKommentarDialog() {
       this.kommentar_dialog = false;
       this.current_lemma_id = null;
-      this.refresh(this.filter_status);
+      this.refreshCurrentTab();
+    },
+    refreshCurrentTab() {
+      if (this.tab === 2) {
+        this.getAiForslag();
+      } else if (this.tab === 1) {
+        this.getMyForslag();
+      } else {
+        this.refresh(this.filter_status);
+      }
     },
     getAiForslag() {
       JishoDataService.getAiForslag()
