@@ -89,7 +89,17 @@
             class="definisjon-rad d-flex align-baseline mb-1 py-1 pl-3"
           >
             <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(index + 1) }}</span>
-            <span style="font-size: 1.15rem; line-height: 1.6">{{ def.definisjon }}</span>
+            <span style="font-size: 1.15rem; line-height: 1.6" class="flex-grow-1">{{ def.definisjon }}</span>
+            <v-btn
+              variant="plain"
+              density="compact"
+              color="orange-darken-1"
+              class="pa-0 ml-1"
+              style="min-width: 0"
+              @click="startErstatt(def, index)"
+            >
+              <v-icon size="20">mdi-swap-horizontal</v-icon>
+            </v-btn>
           </div>
           <v-divider class="mt-6 mb-2" />
           <div class="text-overline text-medium-emphasis mb-2">
@@ -100,8 +110,12 @@
             :key="f.forslag_id"
           >
             <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1">
-              <div class="d-flex align-center">
-                <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ currentOppslag.definisjon.length + j + 1 }}.</span>
+              <div class="d-flex align-center flex-wrap">
+                <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ f.replaces_def_id ? maruSuji(getDefIndex(f.replaces_def_id) + 1) : (currentOppslag.definisjon.length + nyForslagIndex(j) + 1 + '.') }}</span>
+                <template v-if="f.replaces_def_id">
+                  <span style="font-size: 1.05rem; text-decoration: line-through; opacity: 0.5" class="mr-2">{{ getDefText(f.replaces_def_id) }}</span>
+                  <v-icon size="16" class="mr-2 text-medium-emphasis">mdi-arrow-right</v-icon>
+                </template>
                 <span style="font-size: 1.15rem; line-height: 1.6" v-html="addFurigana(f.forslag_definisjon)"></span>
                 <v-chip v-if="f.endret" size="x-small" variant="flat" color="orange-darken-2" class="ml-2 text-white">{{ $t("veggen.endret") }}</v-chip>
               </div>
@@ -211,9 +225,44 @@
             </div>
           </div>
 
+          <div v-if="erstatter_def" class="mt-6 erstatt-boks pa-3 rounded">
+            <div class="d-flex align-center justify-space-between mb-2">
+              <span class="text-overline text-medium-emphasis">{{ $t("forslag.erstatt_definisjon") }}</span>
+              <v-btn variant="plain" density="compact" class="pa-0" style="min-width: 0" @click="avbrytErstatt">
+                <v-icon size="20">mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <div class="mb-3 pl-3" style="border-left: 3px solid #ef5350">
+              <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(erstatter_def._index + 1) }}</span>
+              <span style="font-size: 1.15rem; text-decoration: line-through; opacity: 0.6">{{ erstatter_def.definisjon }}</span>
+            </div>
+            <v-text-field
+              v-model="nye_forslag[0]['definisjon']"
+              counter
+              maxlength="100"
+              variant="outlined"
+            >
+              <template v-slot:label>
+                {{ maruSuji(erstatter_def._index + 1) }}
+                {{ $t("forslag.forslag_definisjon") }}
+              </template>
+              <template v-slot:append>
+                <v-btn
+                  color="green"
+                  size="small"
+                  variant="outlined"
+                  @click="addForslag"
+                >
+                  {{ $t("knapper.foreslå") }}
+                </v-btn>
+              </template>
+            </v-text-field>
+          </div>
+
           <div class="mt-6"
             v-for="(ny_def, index2) in nye_forslag"
             v-bind:key="index2 + 100"
+            v-show="!erstatter_def"
           >
             <v-text-field
               v-model="nye_forslag[index2]['definisjon']"
@@ -225,7 +274,7 @@
                 {{
                   maruSuji(
                     currentOppslag.definisjon.length +
-                      (currentOppslag.forslag?.filter(f => f.status === 0).length ?? 0) +
+                      (currentOppslag.forslag?.filter(f => f.status === 0 && !f.replaces_def_id).length ?? 0) +
                       index2 +
                       1,
                   )
@@ -327,6 +376,7 @@ export default defineComponent({
       this.nye_forslag = [{ definisjon: "", prioritet: null }];
       this.editing_forslag_id = null;
       this.redigert_forslag = "";
+      this.erstatter_def = null;
       this.getOppslag(newVal);
     },
   },
@@ -342,6 +392,7 @@ export default defineComponent({
       markdownItEmoji,
       editing_forslag_id: null,
       redigert_forslag: "",
+      erstatter_def: null,
     };
   },
 
@@ -397,12 +448,40 @@ export default defineComponent({
           });
       }
     },
+    nyForslagIndex(j) {
+      const pending = (this.currentOppslag.forslag ?? []).filter(f => f.status === 0);
+      let count = 0;
+      for (let i = 0; i < j; i++) {
+        if (!pending[i].replaces_def_id) count++;
+      }
+      return count;
+    },
+    getDefIndex(def_id) {
+      return this.currentOppslag.definisjon.findIndex(d => d.def_id === def_id);
+    },
+    getDefText(def_id) {
+      const def = this.currentOppslag.definisjon.find(d => d.def_id === def_id);
+      return def ? def.definisjon : '';
+    },
+    startErstatt(def, index) {
+      this.erstatter_def = { ...def, _index: index };
+      this.nye_forslag = [{ definisjon: "", prioritet: null }];
+    },
+    avbrytErstatt() {
+      this.erstatter_def = null;
+      this.nye_forslag = [{ definisjon: "", prioritet: null }];
+    },
     addForslag() {
       this.checkEmpty();
       const nDef = this.currentOppslag.definisjon.length;
-      const nForslag = (this.currentOppslag.forslag || []).filter(f => f.status === 0).length;
+      const nForslag = (this.currentOppslag.forslag || []).filter(f => f.status === 0 && !f.replaces_def_id).length;
       for (let i = 0; i < this.nye_forslag.length; i++) {
-        this.nye_forslag[i].prioritet = nDef + nForslag + i + 1;
+        if (this.erstatter_def) {
+          this.nye_forslag[i].prioritet = this.erstatter_def._index + 1;
+          this.nye_forslag[i].replaces_def_id = this.erstatter_def.def_id;
+        } else {
+          this.nye_forslag[i].prioritet = nDef + nForslag + i + 1;
+        }
       }
       JishoDataService.addForslag(this.currentOppslag.lemma_id, {
         nye_forslag: this.nye_forslag,
@@ -414,6 +493,7 @@ export default defineComponent({
             color: "success",
           });
           this.$emit("refresh");
+          this.erstatter_def = null;
           this.nye_forslag = [
             { definisjon: "", prioritet: null },
           ];
@@ -570,6 +650,10 @@ export default defineComponent({
 }
 .forslag-rad:hover {
   background-color: rgba(0, 0, 0, 0.04);
+}
+.erstatt-boks {
+  border: 1px dashed #ef5350;
+  background-color: rgba(239, 83, 80, 0.04);
 }
 </style>
 
