@@ -93,17 +93,34 @@
           >
             <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(index + 1) }}</span>
             <span style="font-size: 1.15rem; line-height: 1.6" class="flex-grow-1">{{ def.definisjon }}</span>
-            <v-chip
-              size="small"
-              variant="flat"
-              color="red"
-              class="ml-2 text-white"
-              style="cursor: pointer"
-              @click="startErstatt(def, index)"
+            <v-tooltip
+              :text="def.source === 'USER' ? $t('forslag.kilde_bruker', { brukernavn: def.brukernavn }) : def.source === 'WIKI' ? $t('forslag.kilde_wiki') : $t('forslag.kilde_ai')"
+              location="top"
             >
-              <v-icon start size="14">mdi-swap-horizontal</v-icon>
-              {{ $t("forslag.erstatt_definisjon") }}
-            </v-chip>
+              <template v-slot:activator="{ props: sourceProps }">
+                <v-icon
+                  v-bind="sourceProps"
+                  size="18"
+                  color="grey"
+                  class="mr-1"
+                >{{ def.source === 'USER' ? 'mdi-account-circle-outline' : def.source === 'WIKI' ? 'mdi-wikipedia' : 'mdi-robot-outline' }}</v-icon>
+              </template>
+            </v-tooltip>
+            <v-tooltip :text="$t('forslag.erstatt_definisjon')" location="top">
+              <template v-slot:activator="{ props }">
+                <v-chip
+                  v-bind="props"
+                  size="small"
+                  variant="flat"
+                  color="red"
+                  class="ml-2 text-white"
+                  style="cursor: pointer"
+                  @click="startErstatt(def, index)"
+                >
+                  <v-icon size="14">mdi-swap-horizontal</v-icon>
+                </v-chip>
+              </template>
+            </v-tooltip>
           </div>
           <v-divider class="mt-6 mb-2" />
           <div class="text-overline text-medium-emphasis mb-2">
