@@ -125,8 +125,16 @@
           class="text-green-darken-2 py-1 d-flex align-center"
         >
           <span><span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}</span>
-          <v-icon v-if="d.source === 'AI'" size="16" class="ml-4 source-icon" color="blue" title="AI">mdi-robot-outline</v-icon>
-          <v-icon v-else-if="d.source === 'WIKI'" size="16" class="ml-4 source-icon" color="blue" title="Wikipedia">mdi-wikipedia</v-icon>
+          <v-tooltip v-if="d.source === 'AI'" :text="$t('forslag.kilde_ai')" location="top">
+            <template v-slot:activator="{ props: sourceProps }">
+              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="blue">mdi-robot-outline</v-icon>
+            </template>
+          </v-tooltip>
+          <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
+            <template v-slot:activator="{ props: sourceProps }">
+              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="blue">mdi-wikipedia</v-icon>
+            </template>
+          </v-tooltip>
         </div>
         <div
           v-for="(f, j) in item.forslag"
