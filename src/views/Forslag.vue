@@ -109,6 +109,9 @@
       <template v-slot:[`item.oppslag`]="{ item }">
         {{ item.oppslag }}
       </template>
+      <template v-slot:[`item.boy_tabell`]="{ item }">
+        {{ ordklasseNavn(item.boy_tabell) }}
+      </template>
       <template v-slot:[`item.definisjoner_og_forslag`]="{ item }">
         <div
           v-for="(d, i) in item.definisjoner"

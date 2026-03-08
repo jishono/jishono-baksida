@@ -20,6 +20,12 @@ export default {
         maruSuji (n) {
             return `${n}.`;
         },
+        ordklasseNavn (tag) {
+            if (!tag) return ''
+            const key = `ord.ordklasser.${tag.replace(/ /g, '_')}`
+            const translated = this.$t(key)
+            return translated !== key ? translated : tag
+        },
         addFurigana (str) {
             let escaped = this.escapeHTML(str)
             if (!escaped.match(/\[/)) {

@@ -73,11 +73,11 @@
             <v-expansion-panel-title v-slot="{ open }" @click="setActiveOppslag(oppslag, index)">
               <div v-if="open" class="d-flex justify-space-between w-100">
                 <div class="title font-weight-black">{{ oppslag.oppslag }}</div>
-                <div>{{ oppslag.boy_tabell }}</div>
+                <div>{{ ordklasseNavn(oppslag.boy_tabell) }}</div>
               </div>
               <div v-else class="d-flex justify-space-between w-100">
                 <span class="font-weight-bold">{{ oppslag.oppslag }}</span>
-                <span>{{ oppslag.boy_tabell }}</span>
+                <span>{{ ordklasseNavn(oppslag.boy_tabell) }}</span>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text v-if="currentOppslag">
@@ -228,7 +228,7 @@
             class="pa-0 ma-0"
             density="compact"
             hide-details
-            :label="ordklasse"
+            :label="ordklasseNavn(ordklasse)"
             v-model="pos[ordklasse]"
             @change="sokOppslag()"
           >
@@ -245,6 +245,7 @@ import { defineComponent } from "vue";
 import _ from "lodash";
 import Boyningstabell from "../components/Boyningstabell.vue";
 import JishoDataService from "../services/JishoDataService";
+import helpers from "../mixins/helpers";
 
 export default defineComponent({
   name: "Sok",
@@ -252,6 +253,8 @@ export default defineComponent({
   components: {
     Boyningstabell,
   },
+
+  mixins: [helpers],
 
   data() {
     return {

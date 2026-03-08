@@ -83,7 +83,7 @@
                 disabled
               />
               <v-text-field
-                v-model="currentOppslag.boy_tabell"
+                :model-value="ordklasseNavn(currentOppslag.boy_tabell)"
                 :label="$t('ord.ordklasse')"
                 variant="outlined"
                 disabled
@@ -190,9 +190,12 @@ import VueMarkdown from "vue-markdown-render";
 import { full as markdownItEmoji } from "markdown-it-emoji";
 import Boyningstabell from "../components/Boyningstabell.vue";
 import JishoDataService from "../services/JishoDataService";
+import helpers from "../mixins/helpers";
 
 export default defineComponent({
   name: "Endre",
+
+  mixins: [helpers],
 
   components: {
     Boyningstabell,

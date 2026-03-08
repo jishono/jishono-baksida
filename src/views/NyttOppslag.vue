@@ -102,9 +102,12 @@
 import { defineComponent } from 'vue';
 
 import JishoDataService from "../services/JishoDataService";
+import helpers from "../mixins/helpers";
 
 export default defineComponent({
   name: "NyttOppslag",
+
+  mixins: [helpers],
 
   components: {
   },
@@ -118,7 +121,7 @@ export default defineComponent({
       wordClass: '',
       parts: '',
       conjugations: [],
-      partsOfSpeech: ['adj', 'adv', 'det', 'egennavn', 'forkorting', 'interjeksjon', 'konjunksjon', 'partikkelverb', 'prefiks', 'pron', 'subjunksjon', 'subst', 'symbol', 'uttrykk', 'verb'],
+      partsOfSpeechTags: ['adj', 'adv', 'det', 'egennavn', 'forkorting', 'interjeksjon', 'konjunksjon', 'partikkelverb', 'prefiks', 'pron', 'subjunksjon', 'subst', 'symbol', 'uttrykk', 'verb'],
       hasConjugation: ['adj', 'adv', 'det', 'pron', 'subst', 'verb']
     }
   },
@@ -255,6 +258,15 @@ export default defineComponent({
         }
       }
       this.conjugations.push(conjugation)
+    }
+  },
+
+  computed: {
+    partsOfSpeech () {
+      return this.partsOfSpeechTags.map(tag => ({
+        title: this.ordklasseNavn(tag),
+        value: tag
+      }))
     }
   },
 

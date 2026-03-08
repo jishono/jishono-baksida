@@ -9,6 +9,9 @@
           :sort-by="[{key: 'opprettet', order: 'desc'}]"
           @click:row="handleRowClick"
         >
+          <template v-slot:[`item.boy_tabell`]="{ item }">
+            {{ ordklasseNavn(item.boy_tabell) }}
+          </template>
           <template v-slot:[`item.status`]="{ item }">
             <v-chip
               size="small"
@@ -33,9 +36,12 @@
 import { defineComponent } from 'vue';
 
 import JishoDataService from '../services/JishoDataService'
+import helpers from '../mixins/helpers'
 
 export default defineComponent({
   name: 'word-suggestion-list',
+
+  mixins: [helpers],
 
   data () {
     return {

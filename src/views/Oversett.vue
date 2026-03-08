@@ -41,7 +41,7 @@
                 <tbody>
                   <tr v-for="item in anbefalinger" :key="item.lemma_id">
                     <td>{{ item.oppslag }}</td>
-                    <td>{{ item.boy_tabell }}</td>
+                    <td>{{ ordklasseNavn(item.boy_tabell) }}</td>
                     <td>
                       <router-link :to="'/oppslag/' + item.lemma_id">
                         <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
@@ -84,7 +84,7 @@
                 <tbody>
                   <tr v-for="item in requests" :key="item.lemma_id">
                     <td>{{ item.oppslag }}</td>
-                    <td>{{ item.boy_tabell }}</td>
+                    <td>{{ ordklasseNavn(item.boy_tabell) }}</td>
                     <td>
                       <router-link :to="'/oppslag/' + item.lemma_id">
                         <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
@@ -112,8 +112,11 @@
 import { defineComponent } from "vue";
 
 import JishoDataService from "../services/JishoDataService";
+import helpers from "../mixins/helpers";
 
 export default defineComponent({
+  mixins: [helpers],
+
   data() {
     return {
       tab: null,
