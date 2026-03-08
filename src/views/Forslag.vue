@@ -276,10 +276,10 @@ export default defineComponent({
       if (tabValue === 0) {
         this.filter_status = 0;
         this.refresh(0);
+      } else if (tabValue === 1) {
+        this.refresh(this.filter_status);
       } else if (tabValue === 2) {
         this.getAiForslag();
-      } else {
-        this.getMyForslag();
       }
     },
     filter_status: function (status) {
@@ -302,7 +302,10 @@ export default defineComponent({
 
       return this.forslag
         .map((lemma) => {
-          let fs = lemma.forslag;
+          let fs = lemma.forslag ?? [];
+          if (this.tab === 1) {
+            fs = fs.filter((f) => f.user_id == user_id);
+          }
           if (this.filtrer_uleste) {
             fs = fs.filter((f) => f.sett == 0);
           }
@@ -325,7 +328,7 @@ export default defineComponent({
           );
           return { ...lemma, forslag: fs, siste_opprettet };
         })
-        .filter((lemma) => lemma.forslag.length > 0);
+        .filter((lemma) => lemma.forslag?.length > 0);
     },
 
     currentHeaders() {
@@ -353,20 +356,6 @@ export default defineComponent({
           console.log(error);
         });
     },
-    getMyForslag() {
-      const user_id = this.$store.getters.user_id;
-      JishoDataService.getMyForslag(user_id)
-        .then((result) => {
-          this.forslag = result.data;
-        })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
-            message: error.response.data,
-            color: "error",
-          });
-          console.log(error);
-        });
-    },
     openKommentarDialog(lemma) {
       this.current_lemma_id = lemma.lemma_id;
       this.$nextTick(() => {
@@ -381,8 +370,6 @@ export default defineComponent({
     refreshCurrentTab() {
       if (this.tab === 2) {
         this.getAiForslag();
-      } else if (this.tab === 1) {
-        this.getMyForslag();
       } else {
         this.refresh(this.filter_status);
       }
