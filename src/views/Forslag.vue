@@ -19,11 +19,11 @@
       <v-tab>
         {{ $t("forslag.mine") }}
       </v-tab>
-      <v-tab @click="handleWordlistTabClick">
-        {{ $t("ord.oppslag") }}
-      </v-tab>
       <v-tab @click="getAiForslag">
         AI
+      </v-tab>
+      <v-tab @click="handleWordlistTabClick">
+        {{ $t("ord.oppslag") }}
       </v-tab>
     </v-tabs>
     <v-row no-gutters v-if="tab == 0">
@@ -47,7 +47,7 @@
         </span>
       </v-col>
     </v-row>
-    <v-row no-gutters v-if="tab !== 3">
+    <v-row no-gutters v-if="tab !== 2">
       <v-col align="center">
         <v-chip
           class="mt-3 mx-2"
@@ -266,7 +266,7 @@ export default defineComponent({
       if (tabValue === 0) {
         this.filter_status = 0;
         this.refresh(0);
-      } else if (tabValue === 3) {
+      } else if (tabValue === 2) {
         this.getAiForslag();
       } else {
         this.getMyForslag();
@@ -282,7 +282,7 @@ export default defineComponent({
     filtrerteForslag() {
       const searchLower = this.search.toLowerCase().trim();
 
-      if (this.tab === 3) {
+      if (this.tab === 2) {
         return this.forslag.filter((lemma) =>
           searchLower ? lemma.oppslag.toLowerCase().includes(searchLower) : true,
         );
@@ -321,7 +321,7 @@ export default defineComponent({
     currentHeaders() {
       if (this.tab === 0) {
         return this.alle_headers;
-      } else if (this.tab === 3) {
+      } else if (this.tab === 2) {
         return this.ai_headers;
       } else {
         return this.mine_headers;
