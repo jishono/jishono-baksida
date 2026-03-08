@@ -50,6 +50,7 @@ export default defineComponent({
         scales: {
           y: {
             beginAtZero: true,
+            suggestedMax: 10,
             grid: {
               display: true
             }
