@@ -451,6 +451,10 @@ export default defineComponent({
       JishoDataService.get(id)
         .then((response) => {
           this.currentOppslag = response.data;
+          this.currentOppslag.definisjon.sort((a, b) => a.prioritet - b.prioritet);
+          if (this.currentOppslag.forslag) {
+            this.currentOppslag.forslag.sort((a, b) => a.prioritet - b.prioritet);
+          }
           this.hentKommentarer();
         })
         .catch((e) => {
