@@ -499,9 +499,6 @@ export default defineComponent({
             { definisjon: "", prioritet: null },
           ];
           this.getOppslag(this.oppslagId);
-          if (!this.isDialog) {
-            setTimeout(() => this.$router.push("/forslag"), 2000);
-          }
         })
         .catch((error) => {
           this.$store.dispatch("show_snackbar", {
