@@ -132,7 +132,7 @@
           </v-tooltip>
           <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
             <template v-slot:activator="{ props: sourceProps }">
-              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="blue">mdi-wikipedia</v-icon>
+              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="black">mdi-wikipedia</v-icon>
             </template>
           </v-tooltip>
         </div>
