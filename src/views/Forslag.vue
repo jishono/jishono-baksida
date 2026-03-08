@@ -122,9 +122,11 @@
         <div
           v-for="(d, i) in item.definisjoner"
           :key="'def-' + i"
-          class="text-green-darken-2 py-1"
+          class="text-green-darken-2 py-1 d-flex align-center"
         >
-          <span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}
+          <span><span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}</span>
+          <v-icon v-if="d.source === 'AI'" size="16" class="ml-4 source-icon" color="blue" title="AI">mdi-robot-outline</v-icon>
+          <v-icon v-else-if="d.source === 'WIKI'" size="16" class="ml-4 source-icon" color="blue" title="Wikipedia">mdi-wikipedia</v-icon>
         </div>
         <div
           v-for="(f, j) in item.forslag"
@@ -415,6 +417,10 @@ export default defineComponent({
   transform: scale(1.15);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
+.source-icon {
+  flex-shrink: 0;
+}
+
 .kommentar-chip :deep(.v-chip__content),
 .kommentar-chip :deep(.v-icon) {
   color: white !important;

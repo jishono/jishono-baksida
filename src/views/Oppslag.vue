@@ -101,7 +101,7 @@
                 <v-icon
                   v-bind="sourceProps"
                   size="18"
-                  color="grey"
+                  :color="def.source === 'USER' ? 'grey' : 'blue'"
                   class="mr-1"
                 >{{ def.source === 'USER' ? 'mdi-account-circle-outline' : def.source === 'WIKI' ? 'mdi-wikipedia' : 'mdi-robot-outline' }}</v-icon>
               </template>
