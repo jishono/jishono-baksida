@@ -136,6 +136,8 @@
     "kilde_bruker": "{brukernavn}",
     "kilde_wiki": "Wikipedia",
     "kilde_ai": "AI生成",
+    "ai_godkjent_av": "承認者: {brukernavn}",
+    "ai_ingen_godkjenninger": "AI翻訳を承認する",
     "eksisterende_definisjoner_varsel": "見出語に一つ以上の意味が既に登録されています。",
     "nytt_forslag_oppslag": "同じ見出語に新しい提案",
     "rediger_forslag": "提案を編集",

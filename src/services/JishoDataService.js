@@ -149,6 +149,12 @@ class JishoDataService {
   getPageVisits() {
     return api.get(`/pagevisits`)
   }
+  addAiApproval(def_id) {
+    return api.post(`/definisjon/${def_id}/ai-approval`)
+  }
+  removeAiApproval(def_id) {
+    return api.delete(`/definisjon/${def_id}/ai-approval`)
+  }
 }
 
 export default new JishoDataService();

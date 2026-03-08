@@ -106,6 +106,29 @@
                 >{{ def.source === 'USER' ? 'mdi-account-circle-outline' : def.source === 'WIKI' ? 'mdi-wikipedia' : 'mdi-robot-outline' }}</v-icon>
               </template>
             </v-tooltip>
+            <v-tooltip
+              v-if="def.source === 'AI'"
+              location="top"
+            >
+              <template v-slot:default>
+                <div>{{ $t('forslag.ai_ingen_godkjenninger') }}</div>
+                <div v-if="def.ai_approvals && def.ai_approvals.length">{{ $t('forslag.ai_godkjent_av', { brukernavn: def.ai_approvals.map(a => a.username).join(', ') }) }}</div>
+              </template>
+              <template v-slot:activator="{ props: approvalProps }">
+                <v-chip
+                  v-bind="approvalProps"
+                  size="small"
+                  :color="hasMyApproval(def) ? 'green-darken-1' : 'green-lighten-3'"
+                  variant="flat"
+                  class="ml-1"
+                  style="cursor: pointer"
+                  @click.stop="toggleAiApproval(def)"
+                >
+                  <v-icon size="12" class="mr-1">mdi-thumb-up</v-icon>
+                  {{ def.ai_approvals ? def.ai_approvals.length : 0 }}
+                </v-chip>
+              </template>
+            </v-tooltip>
             <v-tooltip :text="$t('forslag.erstatt_definisjon')" location="top">
               <template v-slot:activator="{ props }">
                 <v-chip
@@ -628,6 +651,25 @@ export default defineComponent({
             color: "error",
           });
         });
+    },
+    hasMyApproval(def) {
+      if (!def.ai_approvals) return false;
+      return def.ai_approvals.some(a => a.user_id == this.$store.getters.user_id);
+    },
+    toggleAiApproval(def) {
+      if (this.hasMyApproval(def)) {
+        JishoDataService.removeAiApproval(def.def_id)
+          .then(() => this.getOppslag(this.oppslagId))
+          .catch((error) => {
+            this.$store.dispatch("show_snackbar", { message: error.response.data, color: "error" });
+          });
+      } else {
+        JishoDataService.addAiApproval(def.def_id)
+          .then(() => this.getOppslag(this.oppslagId))
+          .catch((error) => {
+            this.$store.dispatch("show_snackbar", { message: error.response.data, color: "error" });
+          });
+      }
     },
     getColorUp(f) {
       return f.minstemme === 1 ? "green" : "green-lighten-3";
