@@ -139,13 +139,13 @@
       <template v-slot:[`item.kommentarer`]="{ item }">
         <v-chip
           variant="flat"
-          size="small"
+          size="default"
           :color="item.usett > 0 ? 'red' : 'orange'"
-          class="px-2"
+          class="px-2 kommentar-chip"
           @click.stop="openKommentarDialog(item)"
         >
           <span class="mr-1">{{ item.antall_kommentarer }}</span>
-          <v-icon size="small">mdi-comment-text-outline</v-icon>
+          <v-icon size="small">mdi-comment-text</v-icon>
         </v-chip>
       </template>
     </v-data-table>
@@ -353,5 +353,17 @@ export default defineComponent({
   color: rgb(var(--v-theme-primary)) !important;
   transform: scale(1.3);
   transition: color 0.15s, transform 0.15s;
+}
+
+.kommentar-chip {
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.kommentar-chip:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.kommentar-chip :deep(.v-chip__content),
+.kommentar-chip :deep(.v-icon) {
+  color: white !important;
 }
 </style>
