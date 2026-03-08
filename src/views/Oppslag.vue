@@ -280,7 +280,7 @@
                       1,
                   )
                 }}
-                {{ $t("forslag.forslag_definisjon") }}
+                {{ $t("forslag.forslag_ny_definisjon") }}
               </template>
               <template v-slot:append>
                 <v-btn
