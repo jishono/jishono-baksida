@@ -109,9 +109,11 @@
         <div
           v-for="(f, j) in item.forslag"
           :key="f.forslag_id"
-          class="text-error py-1"
+          class="text-error py-1 d-flex align-center"
         >
-          <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
+          <span class="text-caption font-weight-bold mr-1">{{ f.prioritet }}.</span>
+          <v-icon v-if="f.replaces_def_id" size="14" class="mr-1 flex-shrink-0" color="error">mdi-swap-horizontal</v-icon>
+          <span v-html="addFurigana(f.forslag_definisjon)"></span>
           <span
             class="text-caption text-medium-emphasis ml-1"
             v-if="f.endret == true"
@@ -202,9 +204,11 @@
             <div
               v-for="(f, j) in item.forslag"
               :key="f.forslag_id"
-              class="text-error py-1"
+              class="text-error py-1 d-flex align-center"
             >
-              <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
+              <span class="text-caption font-weight-bold mr-1">{{ f.prioritet }}.</span>
+              <v-icon v-if="f.replaces_def_id" size="14" class="mr-1 flex-shrink-0" color="error">mdi-swap-horizontal</v-icon>
+              <span v-html="addFurigana(f.forslag_definisjon)"></span>
               <span
                 class="text-caption text-medium-emphasis ml-1"
                 v-if="f.endret == true"
