@@ -88,7 +88,86 @@
       label="Søk"
     ></v-text-field>
 
+    <!-- Desktop: table -->
+    <v-data-table
+      v-if="$vuetify.display.mdAndUp"
+      :headers="currentHeaders"
+      :items="filtrerteForslag"
+      v-model:page="page"
+      :items-per-page="20"
+      :sort-by="[{ key: 'siste_opprettet', order: 'desc' }]"
+      hover
+      @click:row="(e, { item }) => openKommentarDialog(item)"
+      class="elevation-1"
+    >
+      <template v-slot:[`item.lemma_id`]="{ item }">
+        <div style="width: 60px" class="d-flex align-center">
+          <span>{{ item.lemma_id }}</span>
+          <router-link
+            v-if="$store.getters.isAdmin"
+            :to="{ path: 'endre/' + item.lemma_id }"
+            @click.stop
+            class="ml-1"
+            style="text-decoration: none; line-height: 1"
+          >
+            <v-icon size="14" color="grey" class="wrench-icon">mdi-wrench</v-icon>
+          </router-link>
+        </div>
+      </template>
+      <template v-slot:[`item.oppslag`]="{ item }">
+        {{ item.oppslag }}
+      </template>
+      <template v-slot:[`item.boy_tabell`]="{ item }">
+        {{ ordklasseNavn(item.boy_tabell) }}
+      </template>
+      <template v-slot:[`item.definisjoner_og_forslag`]="{ item }">
+        <div
+          v-for="(d, i) in item.definisjoner"
+          :key="'def-' + i"
+          class="text-green-darken-2 py-1 d-flex align-center"
+        >
+          <span><span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}</span>
+          <v-tooltip v-if="d.source === 'AI'" :text="$t('forslag.kilde_ai')" location="top">
+            <template v-slot:activator="{ props: sourceProps }">
+              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="blue">mdi-robot-outline</v-icon>
+            </template>
+          </v-tooltip>
+          <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
+            <template v-slot:activator="{ props: sourceProps }">
+              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="black">mdi-wikipedia</v-icon>
+            </template>
+          </v-tooltip>
+        </div>
+        <div
+          v-for="(f, j) in item.forslag"
+          :key="f.forslag_id"
+          class="text-error py-1"
+        >
+          <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
+          <span
+            class="text-caption text-medium-emphasis ml-1"
+            v-if="f.endret == true"
+            >({{ $t("veggen.endret") }})</span
+          >
+        </div>
+      </template>
+      <template v-slot:[`item.kommentarer`]="{ item }">
+        <v-chip
+          variant="flat"
+          size="default"
+          :color="item.usett > 0 ? 'red' : 'orange'"
+          class="px-2 kommentar-chip"
+          @click.stop="openKommentarDialog(item)"
+        >
+          <span class="mr-1">{{ item.antall_kommentarer }}</span>
+          <v-icon size="small">mdi-comment-text</v-icon>
+        </v-chip>
+      </template>
+    </v-data-table>
+
+    <!-- Mobile: cards -->
     <v-data-iterator
+      v-else
       :items="filtrerteForslag"
       v-model:page="page"
       :items-per-page="20"
@@ -216,6 +295,57 @@ export default defineComponent({
       search: "",
       filtrer_uleste: false,
       filtrer_ikke_stemt: false,
+      alle_headers: [
+        {
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
+        },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
+        },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+      ],
+      mine_headers: [
+        {
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
+        },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
+        },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+      ],
+      ai_headers: [
+        {
+          title: this.$t("ord.lemma_id"),
+          align: "start",
+          key: "lemma_id",
+          width: "1%",
+        },
+        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
+        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        {
+          title: this.$t("forslag.forslag_definisjon"),
+          key: "definisjoner_og_forslag",
+          sortable: false,
+          width: "70%",
+        },
+        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+      ],
       forslag_status: [
         {
           text: "forslag.under_avstemning",
@@ -308,6 +438,16 @@ export default defineComponent({
           return { ...lemma, forslag: fs, siste_opprettet };
         })
         .filter((lemma) => lemma.forslag?.length > 0);
+    },
+
+    currentHeaders() {
+      if (this.tab === 0) {
+        return this.alle_headers;
+      } else if (this.tab === 2) {
+        return this.ai_headers;
+      } else {
+        return this.mine_headers;
+      }
     },
   },
 
