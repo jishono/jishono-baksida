@@ -12,7 +12,7 @@
         @refresh="refreshCurrentTab"
       ></oppslag>
     </v-dialog>
-    <div class="d-flex align-center mb-2">
+    <div class="d-flex flex-column flex-sm-row align-center mb-2">
       <v-tabs v-model="tab">
         <v-tab>
           {{ $t("forslag.alle") }}
@@ -24,7 +24,7 @@
           AI
         </v-tab>
       </v-tabs>
-      <div v-if="tab !== 2" class="d-flex align-center ml-auto flex-shrink-0">
+      <div v-if="tab !== 2" class="d-flex align-center mt-3 mt-sm-0 ml-sm-auto flex-shrink-0">
         <v-chip
           class="mx-1"
           size="small"
