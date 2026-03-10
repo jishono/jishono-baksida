@@ -6,7 +6,7 @@
     "sok": "Søk",
     "statistikk": "Statistikk",
     "instruks": "Instruks",
-    "om": "Om Baksida",
+    "om": "Om",
     "profil": "Profil",
     "logg_ut": "Logg ut",
     "registrer": "Registrer",
@@ -18,7 +18,8 @@
     "new_word": "Nytt oppslag",
     "edit_approve": "Rediger og godkjenn nytt oppslag",
     "word_suggestion_list": "Oppslagsforslag",
-    "visits": "Sidebesøk"
+    "visits": "Sidebesøk",
+    "ai_approval": "AI-forslag"
   },
   "ord": {
     "lemma_id": "Lemma-ID",
@@ -237,6 +238,14 @@
       "liste": "<ul> <li> Per Gunnar Paulsen (hovedansvarlig, redaktør/admin på baksida, kode) </li> <li>Petter Mæhlum (redaktør/admin på baksida)</li> <li> Patrick Auri (kode, design) </li> <li> Stian Frøystein (server) </li> <li> Takaaki Yoshikawa (kode, japansk innhold) </li> </ul>",
       "kontakt": "Alle spørsmål om prosjektet kan rettes til admin (alfakrøll) jisho.no"
     }
+  },
+  "ai_approval": {
+    "title": "Godkjenn AI-definisjoner",
+    "previous": "Forrige",
+    "next": "Neste",
+    "open": "Endre",
+    "empty": "Ingen AI-definisjoner å godkjenne",
+    "progress": "{current} av {total}"
   },
   "instruks": {
     "tittel": "Instruks for oversetting",

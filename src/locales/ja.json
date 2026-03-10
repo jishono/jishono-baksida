@@ -18,7 +18,8 @@
     "new_word": "新しい見出し語",
     "edit_approve": "見出し語の編集と承諾",
     "word_suggestion_list": "見出し語の提案",
-    "visits": "ページビュー"
+    "visits": "ページビュー",
+    "ai_approval": "AI承認"
   },
   "ord": {
     "lemma_id": "見出語ID",
@@ -237,6 +238,14 @@
       "liste": "<ul> <li> Per Gunnar Paulsen (主要責任者、編集者兼Baksida管理者、コーディング担当) </li> <li>Petter Mæhlum (編集者兼Baksida管理者)</li> <li> Patrick Auri (コーディング担当、デザイン担当) </li> <li> Stian Frøystein (サーバー担当) </li> <li> Takaaki Yoshikawa (コーディング担当、Baksidaの日本語訳担当) </li> </ul>",
       "kontakt": "プロジェクトへのご質問は admin (アットマーク) jisho.no　までお寄せください。"
     }
+  },
+  "ai_approval": {
+    "title": "AI定義の承認",
+    "previous": "前へ",
+    "next": "次へ",
+    "open": "提案",
+    "empty": "承認待ちのAI定義はありません",
+    "progress": "{total}件中{current}件目"
   },
   "instruks": {
     "tittel": "翻訳の手引き",

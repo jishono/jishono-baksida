@@ -172,6 +172,14 @@ export default defineComponent({
           adminOnly: false,
         },
         {
+          title: "ai_approval",
+          icon: "mdi-robot-outline",
+          route: "/ai-approval",
+          loggedIn: true,
+          loggedOut: false,
+          adminOnly: false,
+        },
+        {
           title: "statistikk",
           icon: "mdi-chart-bar",
           route: "/statistikk",

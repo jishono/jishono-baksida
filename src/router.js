@@ -145,6 +145,14 @@ const router = createRouter({
       component: () => import("./views/WordSuggestionList.vue")
     },
     {
+      path: "/ai-approval",
+      meta: {
+        requiresAuth: true,
+        title: 'ai_approval'
+      },
+      component: () => import("./views/AiApproval.vue")
+    },
+    {
       path: "/admin/users",
       meta: {
         requiresAuth: true,
