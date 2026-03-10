@@ -171,7 +171,7 @@ export default defineComponent({
     async loadBatch() {
       this.loading = true;
       try {
-        const response = await JishoDataService.getAiForslag();
+        const response = await JishoDataService.getRandomAiTranslations();
         this.batch = response.data.map((o) => {
           o.definisjon.sort((a, b) => a.prioritet - b.prioritet);
           return o;

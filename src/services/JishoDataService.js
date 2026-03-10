@@ -66,6 +66,9 @@ class JishoDataService {
     return api.get(`/forslag/user/${user_id}`);
   }
   getAiForslag () {
+    return api.get(`/oppslag/ai`);
+  }
+  getRandomAiTranslations () {
     return api.get(`/random-ai-translations`);
   }
   hentEnkeltForslag (id) {
