@@ -119,12 +119,12 @@
                   size="small"
                   :color="hasMyApproval(def) ? 'green-darken-1' : 'green-lighten-3'"
                   variant="flat"
-                  class="ml-1"
+                  class="ml-1 px-2"
                   style="cursor: pointer"
                   @click.stop="toggleAiApproval(def)"
                 >
-                  <v-icon size="12" class="mr-1">mdi-thumb-up</v-icon>
-                  {{ def.ai_approvals ? def.ai_approvals.length : 0 }}
+                  <span class="mr-1">{{ def.ai_approvals ? def.ai_approvals.length : 0 }}</span>
+                  <v-icon size="16">mdi-thumb-up-outline</v-icon>
                 </v-chip>
               </template>
             </v-tooltip>
@@ -178,17 +178,6 @@
                 >
                   <span class="mr-1">{{ f.upvotes }}</span>
                   <v-icon size="16">mdi-thumb-up-outline</v-icon>
-                </v-chip>
-                <v-chip
-                  :color="getColorDown(f)"
-                  variant="flat"
-                  size="small"
-                  class="px-2"
-                  :disabled="f.status != 0"
-                  @click.stop="stemForslag(f, 0)"
-                >
-                  <span class="mr-1">{{ f.downvotes }}</span>
-                  <v-icon size="16">mdi-thumb-down-outline</v-icon>
                 </v-chip>
                 <template v-if="f.status == 0">
                   <v-btn
@@ -677,10 +666,7 @@ export default defineComponent({
     getColorUp(f) {
       return f.minstemme === 1 ? "green" : "green-lighten-3";
     },
-    getColorDown(f) {
-      return f.minstemme === 0 ? "red" : "red-lighten-3";
-    },
-    checkEmpty() {
+checkEmpty() {
       if (this.nye_forslag.length > 0 && this.nye_forslag[0] != "") {
         if (this.nye_forslag[this.nye_forslag.length - 1] == "") {
           this.nye_forslag.pop();
