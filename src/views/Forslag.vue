@@ -87,7 +87,10 @@
       append-icon="mdi-magnify"
       label="Søk"
     ></v-text-field>
+
+    <!-- Desktop: table -->
     <v-data-table
+      v-if="$vuetify.display.width >= 720"
       :headers="currentHeaders"
       :items="filtrerteForslag"
       v-model:page="page"
@@ -96,7 +99,6 @@
       hover
       @click:row="(e, { item }) => openKommentarDialog(item)"
       class="elevation-1"
-      mobile-breakpoint="1030"
     >
       <template v-slot:[`item.lemma_id`]="{ item }">
         <div style="width: 60px" class="d-flex align-center">
@@ -162,6 +164,113 @@
         </v-chip>
       </template>
     </v-data-table>
+
+    <!-- Mobile: cards -->
+    <v-data-iterator
+      v-else
+      :items="filtrerteForslag"
+      v-model:page="page"
+      :items-per-page="20"
+      :sort-by="[{ key: 'siste_opprettet', order: 'desc' }]"
+    >
+      <template v-slot:default="{ items }">
+        <v-card
+          v-for="{ raw: item } in items"
+          :key="item.lemma_id"
+          class="mb-2"
+          hover
+          @click="openKommentarDialog(item)"
+        >
+          <v-card-item>
+            <template v-slot:prepend>
+              <div class="d-flex align-center mr-2">
+                <span class="text-caption text-medium-emphasis">{{ item.lemma_id }}</span>
+                <router-link
+                  v-if="$store.getters.isAdmin"
+                  :to="{ path: 'endre/' + item.lemma_id }"
+                  @click.stop
+                  class="ml-1"
+                  style="text-decoration: none; line-height: 1"
+                >
+                  <v-icon size="14" color="grey" class="wrench-icon">mdi-wrench</v-icon>
+                </router-link>
+              </div>
+            </template>
+            <v-card-title class="pa-0 text-body-1 font-weight-bold">{{ item.oppslag }}</v-card-title>
+            <v-card-subtitle class="pa-0">{{ ordklasseNavn(item.boy_tabell) }}</v-card-subtitle>
+            <template v-slot:append>
+              <v-chip
+                variant="flat"
+                size="default"
+                :color="item.usett > 0 ? 'red' : 'orange'"
+                class="px-2 kommentar-chip"
+                @click.stop="openKommentarDialog(item)"
+              >
+                <span class="mr-1">{{ item.antall_kommentarer }}</span>
+                <v-icon size="small">mdi-comment-text</v-icon>
+              </v-chip>
+            </template>
+          </v-card-item>
+          <v-card-text class="pt-1 pb-2">
+            <div
+              v-for="(d, i) in item.definisjoner"
+              :key="'def-' + i"
+              class="text-green-darken-2 py-1 d-flex align-center"
+            >
+              <span>
+                <span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}
+              </span>
+              <v-tooltip v-if="d.source === 'AI'" :text="$t('forslag.kilde_ai')" location="top">
+                <template v-slot:activator="{ props: sourceProps }">
+                  <v-icon v-bind="sourceProps" size="16" class="ml-2 source-icon" color="blue">mdi-robot-outline</v-icon>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
+                <template v-slot:activator="{ props: sourceProps }">
+                  <v-icon v-bind="sourceProps" size="16" class="ml-2 source-icon" color="black">mdi-wikipedia</v-icon>
+                </template>
+              </v-tooltip>
+            </div>
+            <div
+              v-for="(f, j) in item.forslag"
+              :key="f.forslag_id"
+              class="text-error py-1"
+            >
+              <span class="text-caption font-weight-bold mr-1">{{ item.definisjoner.length + j + 1 }}.</span><span v-html="addFurigana(f.forslag_definisjon)"></span>
+              <span
+                class="text-caption text-medium-emphasis ml-1"
+                v-if="f.endret == true"
+                >({{ $t("veggen.endret") }})</span
+              >
+            </div>
+          </v-card-text>
+        </v-card>
+      </template>
+
+      <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
+        <div class="d-flex align-center justify-center pa-2">
+          <v-btn
+            icon
+            size="small"
+            variant="text"
+            :disabled="page <= 1"
+            @click="prevPage"
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+          <span class="text-body-2 mx-3">{{ page }} / {{ pageCount }}</span>
+          <v-btn
+            icon
+            size="small"
+            variant="text"
+            :disabled="page >= pageCount"
+            @click="nextPage"
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-data-iterator>
   </v-container>
 </template>
 
