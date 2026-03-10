@@ -95,12 +95,12 @@
                   hasMyApproval(def) ? 'green-darken-1' : 'green-lighten-3'
                 "
                 variant="flat"
-                class="ml-2"
-                style="cursor: pointer"
+                class="ml-2 flex-shrink-0"
+                style="cursor: pointer; align-self: center"
                 @click.stop="toggleAiApproval(def)"
               >
-                <v-icon size="12" class="mr-1">mdi-thumb-up</v-icon>
-                {{ def.ai_approvals ? def.ai_approvals.length : 0 }}
+                <span class="mr-1">{{ def.ai_approvals ? def.ai_approvals.length : 0 }}</span>
+                <v-icon size="16">mdi-thumb-up-outline</v-icon>
               </v-chip>
             </template>
           </v-tooltip>
