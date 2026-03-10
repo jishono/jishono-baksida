@@ -7,9 +7,8 @@
       @outside_click="boyningsDialog = false"
     />
     <v-card
-      width="500"
       class="mx-auto"
-      :style="isDialog ? 'max-height: 90vh; overflow-y: auto' : ''"
+      :style="{ maxWidth: '500px', width: '100%', ...(isDialog ? { maxHeight: '90vh', overflowY: 'auto' } : {}) }"
     >
       <v-card-title class="pb-0">
         <div class="d-flex justify-end" style="min-height: 24px">
@@ -23,7 +22,7 @@
         <div class="text-h3">{{ currentOppslag.oppslag }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">
           {{ ordklasseNavn(currentOppslag.boy_tabell) }} · #{{ currentOppslag.lemma_id }}
-          <router-link :to="'/endre/' + currentOppslag.lemma_id" class="ml-1" style="text-decoration: none">
+          <router-link :to="'/endre/' + currentOppslag.lemma_id" class="ml-2" style="text-decoration: none; padding-left: 4px">
             <v-icon size="16" color="grey">mdi-wrench</v-icon>
           </router-link>
         </div>
@@ -50,7 +49,7 @@
           >
             <v-icon start>mdi-open-in-new</v-icon>NAOB
           </v-btn>
-          <v-dialog v-model="instruksDialog" width="800">
+          <v-dialog v-model="instruksDialog" :width="$vuetify.display.mdAndUp ? 800 : '100%'">
             <template v-slot:activator="{ props }">
               <v-btn
                 color="primary"
@@ -153,7 +152,7 @@
             v-for="(f, j) in (currentOppslag.forslag ?? []).filter(f => f.status === 0)"
             :key="f.forslag_id"
           >
-            <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1">
+            <div class="forslag-rad d-flex align-center justify-space-between mb-1 py-1 flex-wrap" style="row-gap: 4px">
               <div class="d-flex align-center flex-wrap">
                 <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ f.replaces_def_id ? maruSuji(getDefIndex(f.replaces_def_id) + 1) : (currentOppslag.definisjon.length + nyForslagIndex(j) + 1 + '.') }}</span>
                 <template v-if="f.replaces_def_id">
@@ -163,7 +162,7 @@
                 <span style="font-size: 1.15rem; line-height: 1.6" v-html="addFurigana(f.forslag_definisjon)"></span>
                 <v-chip v-if="f.endret" size="x-small" variant="flat" color="orange-darken-2" class="ml-2 text-white">{{ $t("veggen.endret") }}</v-chip>
               </div>
-              <div class="d-flex align-center" style="gap: 4px">
+              <div class="d-flex align-center flex-shrink-0" style="gap: 4px">
                 <v-tooltip :text="f.brukernavn" location="top">
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props" size="20" color="grey" class="mr-1">mdi-account-circle-outline</v-icon>
@@ -178,7 +177,7 @@
                   @click.stop="stemForslag(f, 1)"
                 >
                   <span class="mr-1">{{ f.upvotes }}</span>
-                  <v-icon size="small">mdi-thumb-up-outline</v-icon>
+                  <v-icon size="16">mdi-thumb-up-outline</v-icon>
                 </v-chip>
                 <v-chip
                   :color="getColorDown(f)"
@@ -189,7 +188,7 @@
                   @click.stop="stemForslag(f, 0)"
                 >
                   <span class="mr-1">{{ f.downvotes }}</span>
-                  <v-icon size="small">mdi-thumb-down-outline</v-icon>
+                  <v-icon size="16">mdi-thumb-down-outline</v-icon>
                 </v-chip>
                 <template v-if="f.status == 0">
                   <v-btn

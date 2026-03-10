@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="oppslagDialog" width="540">
+    <v-dialog v-model="oppslagDialog" :fullscreen="!$vuetify.display.smAndUp" :width="$vuetify.display.smAndUp ? 540 : undefined">
       <Oppslag :lemma_id="oppslagDialogId" @close="oppslagDialog = false" />
     </v-dialog>
     <div
@@ -9,7 +9,7 @@
     >
       {{ $t("ai_approval.empty") }}
     </div>
-    <v-card v-else-if="currentOppslag" width="500" height="520" class="mx-auto mt-4 d-flex flex-column">
+    <v-card v-else-if="currentOppslag" class="mx-auto mt-4 d-flex flex-column" style="max-width: 500px; width: 100%; height: 520px">
       <v-card-title class="pb-0">
         <div class="text-h3">{{ currentOppslag.oppslag }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">
@@ -40,7 +40,7 @@
           >
             <v-icon start>mdi-open-in-new</v-icon>NAOB
           </v-btn>
-          <v-dialog v-model="instruksDialog" width="800">
+          <v-dialog v-model="instruksDialog" :width="$vuetify.display.mdAndUp ? 800 : '100%'">
             <template v-slot:activator="{ props }">
               <v-btn color="primary" variant="outlined" size="small" v-bind="props">
                 {{ $t("knapper.instruks") }}
@@ -106,9 +106,10 @@
           </v-tooltip>
         </div>
       </v-card-text>
-      <v-card-actions class="justify-space-between px-4 pb-4 pt-10">
+      <v-card-actions class="justify-space-between px-4 pb-4 pt-2 flex-wrap">
         <v-btn :disabled="currentIndex === 0" @click="currentIndex--">
-          <v-icon start>mdi-arrow-left</v-icon>{{ $t("ai_approval.previous") }}
+          <v-icon :start="$vuetify.display.smAndUp">mdi-arrow-left</v-icon>
+          <span class="d-none d-sm-inline">{{ $t("ai_approval.previous") }}</span>
         </v-btn>
         <v-btn
           color="orange"
@@ -116,10 +117,11 @@
           class="text-white"
           @click="openOppslag(currentOppslag.lemma_id)"
         >
-          <v-icon start>mdi-exclamation</v-icon>{{ $t("ai_approval.open") }}
+          <v-icon start color="white">mdi-alert-circle</v-icon>{{ $t("ai_approval.open") }}
         </v-btn>
         <v-btn @click="next()">
-          {{ $t("ai_approval.next") }}<v-icon end>mdi-arrow-right</v-icon>
+          <span class="d-none d-sm-inline">{{ $t("ai_approval.next") }}</span>
+          <v-icon :end="$vuetify.display.smAndUp">mdi-arrow-right</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -128,10 +130,10 @@
 
 <script>
 import { defineComponent } from "vue";
+import InstruksBoks from "../components/InstruksBoks.vue";
 import helpers from "../mixins/helpers.js";
 import JishoDataService from "../services/JishoDataService.js";
 import Oppslag from "./Oppslag.vue";
-import InstruksBoks from "../components/InstruksBoks.vue";
 
 export default defineComponent({
   name: "AiApproval",
