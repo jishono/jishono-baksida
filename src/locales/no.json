@@ -57,11 +57,12 @@
     "instruks": "instruks",
     "avbryt": "avbryt",
     "oppdater": "oppdater",
-    "godkjenn": "godkjenn",
+    "godkjenn": "Godkjenn",
     "svar": "Svar",
     "lenke": "Direktelenke",
     "slett": "Slett",
     "avvis": "Avvis",
+    "lukk": "Lukk",
     "new_word": "NYTT OPPSLAG"
   },
   "varsler": {
@@ -161,7 +162,8 @@
     "endret_godkjent": "Endret og godkjent av admin",
     "godkjent_admin": "Godkjent av admin",
     "godkjent_avstemning": "Godkjent ved avstemning",
-    "under_avstemning": "Til avstemning"
+    "under_avstemning": "Til avstemning",
+    "stem_opp": "Godkjenn"
   },
   "sok": {
     "sokefelt": "Søk etter ord/oppslag",

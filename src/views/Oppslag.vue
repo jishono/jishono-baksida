@@ -12,18 +12,26 @@
     >
       <v-card-title class="pb-0">
         <div class="d-flex justify-end" style="min-height: 24px">
-          <v-icon
-            v-if="isDialog"
-            @click="$emit('close')"
-            style="cursor: pointer"
-            >mdi-close</v-icon
-          >
+          <v-tooltip v-if="isDialog" :text="$t('knapper.lukk')" location="top">
+            <template v-slot:activator="{ props }">
+              <v-icon
+                v-bind="props"
+                @click="$emit('close')"
+                style="cursor: pointer"
+                >mdi-close</v-icon
+              >
+            </template>
+          </v-tooltip>
         </div>
         <div class="text-h3">{{ currentOppslag.oppslag }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">
           {{ ordklasseNavn(currentOppslag.boy_tabell) }} · #{{ currentOppslag.lemma_id }}
           <router-link :to="'/endre/' + currentOppslag.lemma_id" class="ml-2" style="text-decoration: none; padding-left: 4px">
-            <v-icon size="16" color="grey">mdi-wrench</v-icon>
+            <v-tooltip :text="$t('knapper.endre')" location="top">
+              <template v-slot:activator="{ props }">
+                <v-icon v-bind="props" size="16" color="grey">mdi-wrench</v-icon>
+              </template>
+            </v-tooltip>
           </router-link>
         </div>
         <div class="d-flex flex-wrap mt-2" style="gap: 4px">
@@ -62,7 +70,11 @@
             </template>
             <v-card>
               <div class="d-flex justify-end pa-2 pb-0">
-                <v-icon @click="instruksDialog = false" style="cursor: pointer">mdi-close</v-icon>
+                <v-tooltip :text="$t('knapper.lukk')" location="top">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" @click="instruksDialog = false" style="cursor: pointer">mdi-close</v-icon>
+                  </template>
+                </v-tooltip>
               </div>
               <v-card-text class="pt-0">
                 <InstruksBoks />
@@ -168,62 +180,83 @@
                     <v-icon v-bind="props" size="20" color="grey" class="mr-1">mdi-account-circle-outline</v-icon>
                   </template>
                 </v-tooltip>
-                <v-chip
-                  :color="getColorUp(f)"
-                  variant="flat"
-                  size="small"
-                  class="px-2"
-                  :disabled="f.status != 0"
-                  @click.stop="stemForslag(f, 1)"
-                >
-                  <span class="mr-1">{{ f.upvotes }}</span>
-                  <v-icon size="16">mdi-thumb-up-outline</v-icon>
-                </v-chip>
+                <v-tooltip :text="$t('forslag.stem_opp')" location="top">
+                  <template v-slot:activator="{ props: upvoteProps }">
+                    <v-chip
+                      v-bind="upvoteProps"
+                      :color="getColorUp(f)"
+                      variant="flat"
+                      size="small"
+                      class="px-2"
+                      :disabled="f.status != 0"
+                      @click.stop="stemForslag(f, 1)"
+                    >
+                      <span class="mr-1">{{ f.upvotes }}</span>
+                      <v-icon size="16">mdi-thumb-up-outline</v-icon>
+                    </v-chip>
+                  </template>
+                </v-tooltip>
                 <template v-if="f.status == 0">
-                  <v-btn
-                    v-if="$store.getters.isAdmin"
-                    variant="plain"
-                    density="compact"
-                    color="green"
-                    class="pa-0"
-                    style="min-width: 0"
-                    @click="openEdit(f)"
-                  >
-                    <v-icon size="22">mdi-check-circle-outline</v-icon>
-                  </v-btn>
-                  <v-btn
-                    v-if="$store.getters.isAdmin"
-                    variant="plain"
-                    density="compact"
-                    color="red"
-                    class="pa-0"
-                    style="min-width: 0"
-                    @click="avvisForslag(f)"
-                  >
-                    <v-icon size="22">mdi-close-box</v-icon>
-                  </v-btn>
-                  <v-btn
-                    v-if="$store.getters.user_id == f.user_id"
-                    variant="plain"
-                    density="compact"
-                    color="orange-darken-1"
-                    class="pa-0"
-                    style="min-width: 0"
-                    @click="openEdit(f)"
-                  >
-                    <v-icon size="22">mdi-pencil-outline</v-icon>
-                  </v-btn>
-                  <v-btn
-                    v-if="$store.getters.user_id == f.user_id"
-                    variant="plain"
-                    density="compact"
-                    color="red-lighten-1"
-                    class="pa-0"
-                    style="min-width: 0"
-                    @click="fjernForslag(f)"
-                  >
-                    <v-icon size="22">mdi-delete</v-icon>
-                  </v-btn>
+                  <v-tooltip v-if="$store.getters.isAdmin" :text="$t('knapper.godkjenn')" location="top">
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        variant="plain"
+                        density="compact"
+                        color="green"
+                        class="pa-0"
+                        style="min-width: 0"
+                        @click="openEdit(f)"
+                      >
+                        <v-icon size="22">mdi-check-circle-outline</v-icon>
+                      </v-btn>
+                    </template>
+                  </v-tooltip>
+                  <v-tooltip v-if="$store.getters.isAdmin" :text="$t('knapper.avvis')" location="top">
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        variant="plain"
+                        density="compact"
+                        color="red"
+                        class="pa-0"
+                        style="min-width: 0"
+                        @click="avvisForslag(f)"
+                      >
+                        <v-icon size="22">mdi-close-box</v-icon>
+                      </v-btn>
+                    </template>
+                  </v-tooltip>
+                  <v-tooltip v-if="$store.getters.user_id == f.user_id" :text="$t('knapper.endre')" location="top">
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        variant="plain"
+                        density="compact"
+                        color="orange-darken-1"
+                        class="pa-0"
+                        style="min-width: 0"
+                        @click="openEdit(f)"
+                      >
+                        <v-icon size="22">mdi-pencil-outline</v-icon>
+                      </v-btn>
+                    </template>
+                  </v-tooltip>
+                  <v-tooltip v-if="$store.getters.user_id == f.user_id" :text="$t('knapper.slett')" location="top">
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        v-bind="props"
+                        variant="plain"
+                        density="compact"
+                        color="red-lighten-1"
+                        class="pa-0"
+                        style="min-width: 0"
+                        @click="fjernForslag(f)"
+                      >
+                        <v-icon size="22">mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                  </v-tooltip>
                 </template>
               </div>
             </div>
@@ -260,9 +293,13 @@
           <div v-if="erstatter_def" class="mt-6 erstatt-boks pa-3 rounded">
             <div class="d-flex align-center justify-space-between mb-2">
               <span class="text-overline text-medium-emphasis">{{ $t("forslag.erstatt_definisjon") }}</span>
-              <v-btn variant="plain" density="compact" class="pa-0" style="min-width: 0" @click="avbrytErstatt">
-                <v-icon size="20">mdi-close</v-icon>
-              </v-btn>
+              <v-tooltip :text="$t('knapper.lukk')" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" variant="plain" density="compact" class="pa-0" style="min-width: 0" @click="avbrytErstatt">
+                    <v-icon size="20">mdi-close</v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
             </div>
             <div class="mb-3 pl-3" style="border-left: 3px solid #ef5350">
               <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(erstatter_def._index + 1) }}</span>

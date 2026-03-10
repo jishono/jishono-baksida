@@ -62,6 +62,7 @@
     "lenke": "直結URL",
     "slett": "削除",
     "avvis": "却下",
+    "lukk": "閉じる",
     "new_word": "新しい見出し語"
   },
   "varsler": {
@@ -161,7 +162,8 @@
     "endret_godkjent": "管理者により変更・承認済",
     "godkjent_admin": "管理者により承認済",
     "godkjent_avstemning": "投票により承認済",
-    "under_avstemning": "投票待ち"
+    "under_avstemning": "投票待ち",
+    "stem_opp": "賛成票"
   },
   "sok": {
     "sokefelt": "単語や見出語を検索",
