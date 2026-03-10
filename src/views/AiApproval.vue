@@ -172,11 +172,17 @@ export default defineComponent({
       this.loading = true;
       try {
         const response = await JishoDataService.getRandomAiTranslations();
-        this.batch = response.data.map((o) => {
+        const newItems = response.data.map((o) => {
           o.definisjon.sort((a, b) => a.prioritet - b.prioritet);
           return o;
         });
-        this.currentIndex = 0;
+        if (this.batch.length === 0) {
+          this.batch = newItems;
+          this.currentIndex = 0;
+        } else {
+          this.batch.push(...newItems);
+          this.currentIndex++;
+        }
       } catch (error) {
         this.$store.dispatch("show_snackbar", {
           message: error.response?.data,
