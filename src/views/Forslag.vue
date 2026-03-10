@@ -90,7 +90,7 @@
 
     <!-- Desktop: table -->
     <v-data-table
-      v-if="$vuetify.display.mdAndUp"
+      v-if="$vuetify.display.width >= 720"
       :headers="currentHeaders"
       :items="filtrerteForslag"
       v-model:page="page"
