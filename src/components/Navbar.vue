@@ -84,6 +84,9 @@
           <v-list-item to="/admin/visits">
             <v-list-item-title>Sidebesøk</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/oppslag_forslag">
+            <v-list-item-title>Oppslag</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>

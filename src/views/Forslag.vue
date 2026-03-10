@@ -12,75 +12,43 @@
         @refresh="refreshCurrentTab"
       ></oppslag>
     </v-dialog>
-    <v-tabs centered v-model="tab" class="mb-2">
-      <v-tab>
-        {{ $t("forslag.alle") }}
-      </v-tab>
-      <v-tab>
-        {{ $t("forslag.mine") }}
-      </v-tab>
-      <v-tab @click="getAiForslag">
-        AI
-      </v-tab>
-      <v-tab @click="handleWordlistTabClick">
-        {{ $t("ord.oppslag") }}
-      </v-tab>
-    </v-tabs>
-    <v-row no-gutters v-if="tab == 0">
-      <v-col align="center">
-        <span
-          v-for="(statuskode, index) in forslag_status"
-          :key="statuskode.text"
-        >
-          <v-chip
-            class="mt-3 mx-2"
-            size="small"
-            :color="statuskode.color"
-            :variant="filter_status != index ? 'outlined' : 'flat'"
-            @click="
-              filter_status = index;
-              page = 1;
-            "
-          >
-            {{ $t(statuskode.text) }}
-          </v-chip>
-        </span>
-      </v-col>
-    </v-row>
-    <v-row no-gutters v-if="tab !== 2">
-      <v-col align="center">
+    <div class="d-flex align-center mb-2">
+      <v-tabs v-model="tab">
+        <v-tab>
+          {{ $t("forslag.alle") }}
+        </v-tab>
+        <v-tab>
+          {{ $t("forslag.mine") }}
+        </v-tab>
+        <v-tab @click="getAiForslag">
+          AI
+        </v-tab>
+      </v-tabs>
+      <div v-if="tab !== 2" class="d-flex align-center ml-auto flex-shrink-0">
         <v-chip
-          class="mt-3 mx-2"
+          class="mx-1"
           size="small"
           color="primary"
           :variant="!filtrer_uleste ? 'outlined' : 'flat'"
           @click="filtrer_uleste = filtrer_uleste ? false : true"
         >
-          <v-icon size="small" v-if="filtrer_uleste" start
-            >mdi-checkbox-marked-circle</v-icon
-          >
-          <v-icon size="small" v-else start
-            >mdi-checkbox-blank-circle-outline</v-icon
-          >
+          <v-icon size="small" v-if="filtrer_uleste" start>mdi-checkbox-marked-circle</v-icon>
+          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
           {{ $t("forslag.uleste_kommentarer") }}
         </v-chip>
         <v-chip
-          class="mt-3 mx-2"
+          class="mx-1"
           size="small"
           color="primary"
           :variant="!filtrer_ikke_stemt ? 'outlined' : 'flat'"
           @click="filtrer_ikke_stemt = filtrer_ikke_stemt ? false : true"
         >
-          <v-icon size="small" v-if="filtrer_ikke_stemt" start
-            >mdi-checkbox-marked-circle</v-icon
-          >
-          <v-icon size="small" v-else start
-            >mdi-checkbox-blank-circle-outline</v-icon
-          >
+          <v-icon size="small" v-if="filtrer_ikke_stemt" start>mdi-checkbox-marked-circle</v-icon>
+          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
           {{ $t("forslag.ikke_stemt") }}
         </v-chip>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
 
     <v-text-field
       v-model="search"
@@ -346,33 +314,6 @@ export default defineComponent({
         },
         { title: "", key: "kommentarer", sortable: false, width: "1%" },
       ],
-      forslag_status: [
-        {
-          text: "forslag.under_avstemning",
-          color: "orange",
-        },
-        {
-          text: "forslag.godkjent_avstemning",
-          color: "green-lighten-1",
-        },
-        {
-          text: "forslag.godkjent_admin",
-          color: "green-lighten-1",
-        },
-        {
-          text: "forslag.endret_godkjent",
-          color: "green-lighten-1",
-        },
-        {
-          text: "forslag.avvist_avstemning",
-          color: "red-lighten-1",
-        },
-        {
-          text: "forslag.avvist_admin",
-          color: "red-lighten-1",
-        },
-      ],
-      filter_status: 0,
     };
   },
 
@@ -382,18 +323,11 @@ export default defineComponent({
 
   watch: {
     tab: function (tabValue) {
-      if (tabValue === 0) {
-        this.filter_status = 0;
-        this.refresh(0);
-      } else if (tabValue === 1) {
-        this.refresh(this.filter_status);
+      if (tabValue === 0 || tabValue === 1) {
+        this.refresh();
       } else if (tabValue === 2) {
         this.getAiForslag();
       }
-    },
-    filter_status: function (status) {
-      console.log("test");
-      this.refresh(status);
     },
   },
 
@@ -452,8 +386,8 @@ export default defineComponent({
   },
 
   methods: {
-    refresh(status = 0) {
-      JishoDataService.getAllForslag(status)
+    refresh() {
+      JishoDataService.getAllForslag(0)
         .then((result) => {
           this.forslag = result.data;
         })
@@ -480,7 +414,7 @@ export default defineComponent({
       if (this.tab === 2) {
         this.getAiForslag();
       } else {
-        this.refresh(this.filter_status);
+        this.refresh();
       }
     },
     getAiForslag() {
@@ -495,9 +429,6 @@ export default defineComponent({
           });
           console.log(error);
         });
-    },
-    handleWordlistTabClick() {
-      this.$router.push("/oppslag_forslag");
     },
   },
 
