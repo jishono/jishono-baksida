@@ -104,57 +104,59 @@
           >
             <span class="text-medium-emphasis font-weight-bold mr-2" style="font-size: 1.15rem">{{ maruSuji(index + 1) }}</span>
             <span style="font-size: 1.15rem; line-height: 1.6" class="flex-grow-1">{{ def.definisjon }}</span>
-            <v-tooltip
-              :text="def.source === 'USER' ? $t('forslag.kilde_bruker', { brukernavn: def.brukernavn }) : def.source === 'WIKI' ? $t('forslag.kilde_wiki') : $t('forslag.kilde_ai')"
-              location="top"
-            >
-              <template v-slot:activator="{ props: sourceProps }">
-                <v-icon
-                  v-bind="sourceProps"
-                  size="18"
-                  :color="def.source === 'USER' ? 'grey' : def.source === 'WIKI' ? 'black' : 'blue'"
-                  class="mr-1"
-                >{{ def.source === 'USER' ? 'mdi-account-circle-outline' : def.source === 'WIKI' ? 'mdi-wikipedia' : 'mdi-robot-outline' }}</v-icon>
-              </template>
-            </v-tooltip>
-            <v-tooltip
-              v-if="def.source === 'AI'"
-              location="top"
-            >
-              <template v-slot:default>
-                <div>{{ $t('forslag.ai_ingen_godkjenninger') }}</div>
-                <div v-if="def.ai_approvals && def.ai_approvals.length">{{ $t('forslag.ai_godkjent_av', { brukernavn: def.ai_approvals.map(a => a.username).join(', ') }) }}</div>
-              </template>
-              <template v-slot:activator="{ props: approvalProps }">
-                <v-chip
-                  v-bind="approvalProps"
-                  size="small"
-                  :color="hasMyApproval(def) ? 'green-darken-1' : 'green-lighten-3'"
-                  variant="flat"
-                  class="ml-1 px-2"
-                  style="cursor: pointer"
-                  @click.stop="toggleAiApproval(def)"
-                >
-                  <span class="mr-1">{{ def.ai_approvals ? def.ai_approvals.length : 0 }}</span>
-                  <v-icon size="16">mdi-thumb-up-outline</v-icon>
-                </v-chip>
-              </template>
-            </v-tooltip>
-            <v-tooltip :text="$t('forslag.erstatt_definisjon')" location="top">
-              <template v-slot:activator="{ props }">
-                <v-chip
-                  v-bind="props"
-                  size="small"
-                  variant="flat"
-                  color="red"
-                  class="ml-2 text-white"
-                  style="cursor: pointer"
-                  @click="startErstatt(def, index)"
-                >
-                  <v-icon size="14">mdi-swap-horizontal</v-icon>
-                </v-chip>
-              </template>
-            </v-tooltip>
+            <div class="d-flex align-center flex-shrink-0" style="gap: 2px">
+              <v-tooltip
+                :text="def.source === 'USER' ? $t('forslag.kilde_bruker', { brukernavn: def.brukernavn }) : def.source === 'WIKI' ? $t('forslag.kilde_wiki') : $t('forslag.kilde_ai')"
+                location="top"
+              >
+                <template v-slot:activator="{ props: sourceProps }">
+                  <v-icon
+                    v-bind="sourceProps"
+                    size="18"
+                    :color="def.source === 'USER' ? 'grey' : def.source === 'WIKI' ? 'black' : 'blue'"
+                    class="mr-1"
+                  >{{ def.source === 'USER' ? 'mdi-account-circle-outline' : def.source === 'WIKI' ? 'mdi-wikipedia' : 'mdi-robot-outline' }}</v-icon>
+                </template>
+              </v-tooltip>
+              <v-tooltip
+                v-if="def.source === 'AI'"
+                location="top"
+              >
+                <template v-slot:default>
+                  <div>{{ $t('forslag.ai_ingen_godkjenninger') }}</div>
+                  <div v-if="def.ai_approvals && def.ai_approvals.length">{{ $t('forslag.ai_godkjent_av', { brukernavn: def.ai_approvals.map(a => a.username).join(', ') }) }}</div>
+                </template>
+                <template v-slot:activator="{ props: approvalProps }">
+                  <v-chip
+                    v-bind="approvalProps"
+                    size="small"
+                    :color="hasMyApproval(def) ? 'green-darken-1' : 'green-lighten-3'"
+                    variant="flat"
+                    class="ml-1 px-2"
+                    style="cursor: pointer"
+                    @click.stop="toggleAiApproval(def)"
+                  >
+                    <span class="mr-1" style="min-width: 1em; text-align: right; display: inline-block">{{ def.ai_approvals ? def.ai_approvals.length : 0 }}</span>
+                    <v-icon size="16">mdi-thumb-up-outline</v-icon>
+                  </v-chip>
+                </template>
+              </v-tooltip>
+              <v-tooltip :text="$t('forslag.erstatt_definisjon')" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-chip
+                    v-bind="props"
+                    size="small"
+                    variant="flat"
+                    color="red"
+                    class="ml-2 text-white"
+                    style="cursor: pointer"
+                    @click="startErstatt(def, index)"
+                  >
+                    <v-icon size="14">mdi-swap-horizontal</v-icon>
+                  </v-chip>
+                </template>
+              </v-tooltip>
+            </div>
           </div>
           <v-divider class="mt-6 mb-2" />
           <div class="text-overline text-medium-emphasis mb-2">
@@ -191,7 +193,7 @@
                       :disabled="f.status != 0"
                       @click.stop="stemForslag(f, 1)"
                     >
-                      <span class="mr-1">{{ f.upvotes }}</span>
+                      <span class="mr-1" style="min-width: 1em; text-align: right; display: inline-block">{{ f.upvotes }}</span>
                       <v-icon size="16">mdi-thumb-up-outline</v-icon>
                     </v-chip>
                   </template>
