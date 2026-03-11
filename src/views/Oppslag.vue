@@ -8,7 +8,7 @@
     />
     <v-card
       class="mx-auto"
-      :style="{ maxWidth: '500px', width: '100%', ...(isDialog ? { maxHeight: '90vh', overflowY: 'auto' } : {}) }"
+      :style="{ maxWidth: '650px', width: '100%', ...(isDialog ? { maxHeight: '90vh', overflowY: 'auto' } : {}) }"
     >
       <v-card-title class="pb-0">
         <div class="d-flex justify-end" style="min-height: 24px">
