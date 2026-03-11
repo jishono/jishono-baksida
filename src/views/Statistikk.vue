@@ -44,19 +44,6 @@
             <v-progress-circular size="30" color="primary" indeterminate />
           </v-card-text>
         </v-card>
-        <v-card class="ma-2" height="450">
-          <v-card-title>
-            {{ $t("statistikk.ord_med_oversettelser") }}</v-card-title
-          >
-          <line-chart-history
-            v-if="translated_by_day"
-            v-bind:WordsWithTranslations="translated_by_day"
-          >
-          </line-chart-history>
-          <v-card-text v-else class="text-center">
-            <v-progress-circular size="30" color="primary" indeterminate />
-          </v-card-text>
-        </v-card>
       </v-col>
       <v-col lg="3" cols="12">
         <v-card class="ma-2">
@@ -99,7 +86,6 @@
 import { defineComponent } from "vue";
 
 import LineChart from "../components/LineChart.vue";
-import LineChartHistory from "../components/LineChartHistory.vue";
 import JishoDataService from "../services/JishoDataService";
 
 export default defineComponent({
@@ -112,13 +98,11 @@ export default defineComponent({
       nye_oversettelser: null,
       nye_forslag: null,
       antall_kommentarer: null,
-      translated_by_day: null,
     };
   },
 
   components: {
     LineChart,
-    LineChartHistory,
   },
 
   computed: {
@@ -153,9 +137,6 @@ export default defineComponent({
       .then((response) => { this.antall_kommentarer = response.data; })
       .catch((error) => { console.log(error); });
 
-    JishoDataService.getTranslatedByDay()
-      .then((response) => { this.translated_by_day = response.data; })
-      .catch((error) => { console.log(error); });
   },
 });
 </script>
