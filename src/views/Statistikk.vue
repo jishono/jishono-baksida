@@ -6,7 +6,7 @@
           <v-card-title>
             {{ $t("statistikk.diverse") }}
           </v-card-title>
-          <v-card-text v-if="oppslag_info">
+          <v-card-text v-if="oppslag_info_sorted">
             <v-table density="compact">
               <template v-slot:default>
                 <thead>
@@ -17,7 +17,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="item in oppslag_info"
+                    v-for="item in oppslag_info_sorted"
                     :key="item.tittel"
                   >
                     <td>{{ $t("statistikk." + item.tittel) }}</td>
@@ -119,6 +119,15 @@ export default defineComponent({
   components: {
     LineChart,
     LineChartHistory,
+  },
+
+  computed: {
+    oppslag_info_sorted() {
+      if (!this.oppslag_info) return null;
+      return [...this.oppslag_info].sort((a, b) =>
+        a.tittel === "ord_med" ? -1 : b.tittel === "ord_med" ? 1 : 0
+      );
+    },
   },
 
   methods: {},
