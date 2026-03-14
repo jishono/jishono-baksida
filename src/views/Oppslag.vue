@@ -540,7 +540,7 @@ export default defineComponent({
     },
     startErstatt(def, index) {
       this.erstatter_def = { ...def, _index: index };
-      this.nye_forslag = [{ definisjon: "", prioritet: null }];
+      this.nye_forslag = [{ definisjon: def.definisjon, prioritet: null }];
     },
     avbrytErstatt() {
       this.erstatter_def = null;
