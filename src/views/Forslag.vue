@@ -23,7 +23,6 @@
         <v-tab @click="getAiForslag"> AI </v-tab>
       </v-tabs>
       <div
-        v-if="tab !== 2"
         class="d-flex align-center mt-3 mt-sm-0 ml-sm-auto flex-shrink-0"
       >
         <v-chip
@@ -435,12 +434,6 @@ export default defineComponent({
     filtrerteForslag() {
       const searchLower = this.search.toLowerCase().trim();
 
-      if (this.tab === 2) {
-        return this.forslag.filter(lemma =>
-          searchLower ? lemma.oppslag.toLowerCase().includes(searchLower) : true
-        );
-      }
-
       const user_id = this.$store.getters.user_id;
 
       return this.forslag
@@ -471,7 +464,7 @@ export default defineComponent({
           );
           return { ...lemma, forslag: fs, siste_opprettet };
         })
-        .filter(lemma => lemma.forslag?.length > 0)
+        .filter(lemma => this.tab === 2 || lemma.forslag?.length > 0)
         .filter(
           lemma => !this.filtrer_har_kommentarer || lemma.antall_kommentarer > 0
         );
