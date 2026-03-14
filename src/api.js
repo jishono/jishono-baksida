@@ -1,20 +1,20 @@
-import axios from "axios";
-import i18n from "./i18n.js";
-import store from "./store";
-import router from "./router";
+import axios from 'axios';
+import i18n from './i18n.js';
+import store from './store';
+import router from './router';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_NODE_HOST,
   headers: {
-    "Content-type": "application/json",
-  }
-})
+    'Content-type': 'application/json',
+  },
+});
 
 api.interceptors.request.use(
   res => {
     const token = store.getters.token;
     if (token) {
-      res.headers["Authorization"] = token;
+      res.headers['Authorization'] = token;
     }
     return res;
   },
@@ -24,19 +24,24 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  res => { return res },
+  res => {
+    return res;
+  },
   error => {
     if (error.response?.status === 401) {
-      store.dispatch('logout')
-      router.push('/logginn')
-      return new Promise(() => {})
+      store.dispatch('logout');
+      router.push('/logginn');
+      return new Promise(() => {});
     }
     if (!error.response || error.response.status == 502) {
-      console.log(error)
-      store.dispatch('show_snackbar', { message: i18n.global.t('varsler.server_error'), color: 'error' })
-      return new Promise(() => {})
+      console.log(error);
+      store.dispatch('show_snackbar', {
+        message: i18n.global.t('varsler.server_error'),
+        color: 'error',
+      });
+      return new Promise(() => {});
     }
-      return Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 

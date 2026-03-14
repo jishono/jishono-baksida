@@ -1,15 +1,23 @@
 <template>
   <div>
-    <v-dialog v-model="oppslagDialog" :fullscreen="!$vuetify.display.smAndUp" :width="$vuetify.display.smAndUp ? 540 : undefined">
+    <v-dialog
+      v-model="oppslagDialog"
+      :fullscreen="!$vuetify.display.smAndUp"
+      :width="$vuetify.display.smAndUp ? 540 : undefined"
+    >
       <Oppslag :lemma_id="oppslagDialogId" @close="oppslagDialog = false" />
     </v-dialog>
     <div
       v-if="batch.length === 0 && !loading"
       class="text-center mt-10 text-medium-emphasis"
     >
-      {{ $t("ai_approval.empty") }}
+      {{ $t('ai_approval.empty') }}
     </div>
-    <v-card v-else-if="currentOppslag" class="mx-auto mt-4 d-flex flex-column" style="max-width: 500px; width: 100%; height: 520px">
+    <v-card
+      v-else-if="currentOppslag"
+      class="mx-auto mt-4 d-flex flex-column"
+      style="max-width: 500px; width: 100%; height: 520px"
+    >
       <v-card-title class="pb-0">
         <div class="text-h3">{{ currentOppslag.oppslag }}</div>
         <div class="text-body-2 text-medium-emphasis mt-1">
@@ -40,15 +48,25 @@
           >
             <v-icon start>mdi-open-in-new</v-icon>NAOB
           </v-btn>
-          <v-dialog v-model="instruksDialog" :width="$vuetify.display.mdAndUp ? 800 : '100%'">
+          <v-dialog
+            v-model="instruksDialog"
+            :width="$vuetify.display.mdAndUp ? 800 : '100%'"
+          >
             <template v-slot:activator="{ props }">
-              <v-btn color="primary" variant="outlined" size="small" v-bind="props">
-                {{ $t("knapper.instruks") }}
+              <v-btn
+                color="primary"
+                variant="outlined"
+                size="small"
+                v-bind="props"
+              >
+                {{ $t('knapper.instruks') }}
               </v-btn>
             </template>
             <v-card>
               <div class="d-flex justify-end pa-2 pb-0">
-                <v-icon @click="instruksDialog = false" style="cursor: pointer">mdi-close</v-icon>
+                <v-icon @click="instruksDialog = false" style="cursor: pointer"
+                  >mdi-close</v-icon
+                >
               </div>
               <v-card-text class="pt-0">
                 <InstruksBoks />
@@ -76,13 +94,13 @@
           ></span>
           <v-tooltip location="top">
             <template v-slot:default>
-              <div>{{ $t("forslag.ai_ingen_godkjenninger") }}</div>
+              <div>{{ $t('forslag.ai_ingen_godkjenninger') }}</div>
               <div v-if="def.ai_approvals && def.ai_approvals.length">
                 {{
-                  $t("forslag.ai_godkjent_av", {
+                  $t('forslag.ai_godkjent_av', {
                     brukernavn: def.ai_approvals
-                      .map((a) => a.username)
-                      .join(", "),
+                      .map(a => a.username)
+                      .join(', '),
                   })
                 }}
               </div>
@@ -99,7 +117,9 @@
                 style="cursor: pointer; align-self: center"
                 @click.stop="toggleAiApproval(def)"
               >
-                <span class="mr-1">{{ def.ai_approvals ? def.ai_approvals.length : 0 }}</span>
+                <span class="mr-1">{{
+                  def.ai_approvals ? def.ai_approvals.length : 0
+                }}</span>
                 <v-icon size="16">mdi-thumb-up-outline</v-icon>
               </v-chip>
             </template>
@@ -109,7 +129,9 @@
       <v-card-actions class="justify-space-between px-4 pb-4 pt-2 flex-wrap">
         <v-btn :disabled="currentIndex === 0" @click="currentIndex--">
           <v-icon :start="$vuetify.display.smAndUp">mdi-arrow-left</v-icon>
-          <span class="d-none d-sm-inline">{{ $t("ai_approval.previous") }}</span>
+          <span class="d-none d-sm-inline">{{
+            $t('ai_approval.previous')
+          }}</span>
         </v-btn>
         <v-btn
           color="orange"
@@ -117,10 +139,11 @@
           class="text-white"
           @click="openOppslag(currentOppslag.lemma_id)"
         >
-          <v-icon start color="white">mdi-alert-circle</v-icon>{{ $t("ai_approval.open") }}
+          <v-icon start color="white">mdi-alert-circle</v-icon
+          >{{ $t('ai_approval.open') }}
         </v-btn>
         <v-btn @click="next()">
-          <span class="d-none d-sm-inline">{{ $t("ai_approval.next") }}</span>
+          <span class="d-none d-sm-inline">{{ $t('ai_approval.next') }}</span>
           <v-icon :end="$vuetify.display.smAndUp">mdi-arrow-right</v-icon>
         </v-btn>
       </v-card-actions>
@@ -129,14 +152,14 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import InstruksBoks from "../components/InstruksBoks.vue";
-import helpers from "../mixins/helpers.js";
-import JishoDataService from "../services/JishoDataService.js";
-import Oppslag from "./Oppslag.vue";
+import { defineComponent } from 'vue';
+import InstruksBoks from '../components/InstruksBoks.vue';
+import helpers from '../mixins/helpers.js';
+import JishoDataService from '../services/JishoDataService.js';
+import Oppslag from './Oppslag.vue';
 
 export default defineComponent({
-  name: "AiApproval",
+  name: 'AiApproval',
   mixins: [helpers],
   components: { Oppslag, InstruksBoks },
 
@@ -158,7 +181,7 @@ export default defineComponent({
     aiDefs() {
       if (!this.currentOppslag) return [];
       return (this.currentOppslag.definisjon ?? []).filter(
-        (d) => d.source === "AI",
+        d => d.source === 'AI'
       );
     },
   },
@@ -172,7 +195,7 @@ export default defineComponent({
       this.loading = true;
       try {
         const response = await JishoDataService.getRandomAiTranslations();
-        const newItems = response.data.map((o) => {
+        const newItems = response.data.map(o => {
           o.definisjon.sort((a, b) => a.prioritet - b.prioritet);
           return o;
         });
@@ -184,9 +207,9 @@ export default defineComponent({
           this.currentIndex++;
         }
       } catch (error) {
-        this.$store.dispatch("show_snackbar", {
+        this.$store.dispatch('show_snackbar', {
           message: error.response?.data,
-          color: "error",
+          color: 'error',
         });
       } finally {
         this.loading = false;
@@ -202,26 +225,26 @@ export default defineComponent({
     hasMyApproval(def) {
       if (!def.ai_approvals) return false;
       return def.ai_approvals.some(
-        (a) => a.user_id == this.$store.getters.user_id,
+        a => a.user_id == this.$store.getters.user_id
       );
     },
     toggleAiApproval(def) {
       if (this.hasMyApproval(def)) {
         JishoDataService.removeAiApproval(def.def_id)
           .then(() => this.refreshCurrent())
-          .catch((error) => {
-            this.$store.dispatch("show_snackbar", {
+          .catch(error => {
+            this.$store.dispatch('show_snackbar', {
               message: error.response?.data,
-              color: "error",
+              color: 'error',
             });
           });
       } else {
         JishoDataService.addAiApproval(def.def_id)
           .then(() => this.refreshCurrent())
-          .catch((error) => {
-            this.$store.dispatch("show_snackbar", {
+          .catch(error => {
+            this.$store.dispatch('show_snackbar', {
               message: error.response?.data,
-              color: "error",
+              color: 'error',
             });
           });
       }
@@ -230,7 +253,7 @@ export default defineComponent({
       if (!this.currentOppslag) return;
       try {
         const response = await JishoDataService.get(
-          this.currentOppslag.lemma_id,
+          this.currentOppslag.lemma_id
         );
         const oppslag = response.data;
         oppslag.definisjon.sort((a, b) => a.prioritet - b.prioritet);
@@ -240,18 +263,18 @@ export default defineComponent({
       }
     },
     handleKeydown(e) {
-      if (e.key === "ArrowLeft" && this.currentIndex > 0) this.currentIndex--;
-      if (e.key === "ArrowRight") this.next();
+      if (e.key === 'ArrowLeft' && this.currentIndex > 0) this.currentIndex--;
+      if (e.key === 'ArrowRight') this.next();
     },
   },
 
   mounted() {
     this.loadBatch();
-    window.addEventListener("keydown", this.handleKeydown);
+    window.addEventListener('keydown', this.handleKeydown);
   },
 
   beforeUnmount() {
-    window.removeEventListener("keydown", this.handleKeydown);
+    window.removeEventListener('keydown', this.handleKeydown);
   },
 });
 </script>

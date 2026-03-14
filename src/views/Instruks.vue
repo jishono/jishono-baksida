@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import InstruksBoks from "../components/InstruksBoks.vue";
+import InstruksBoks from '../components/InstruksBoks.vue';
 
 export default defineComponent({
-  name: "instruks",
+  name: 'instruks',
 
   data() {
     return {};

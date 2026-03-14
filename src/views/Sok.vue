@@ -30,7 +30,7 @@
       <v-col class="d-none d-sm-block" cols="2"></v-col>
       <v-col sm="6" cols="12" align="left">
         <div class="font-weight-bold py-2 float-left ml-3">
-          <span>{{ $t("sok.treff") }}:</span>
+          <span>{{ $t('sok.treff') }}:</span>
           <v-progress-circular
             v-if="isLoading"
             class="ml-2"
@@ -86,12 +86,12 @@
             <v-expansion-panel-text v-if="currentOppslag">
               <div class="text-body-1">
                 <span class="font-weight-bold">
-                  {{ $t("ord.lemma_id") }}:
+                  {{ $t('ord.lemma_id') }}:
                 </span>
                 {{ currentOppslag.lemma_id }} <br />
-                <span class="font-weight-bold"> {{ $t("ord.ledd") }}: </span>
+                <span class="font-weight-bold"> {{ $t('ord.ledd') }}: </span>
                 {{ currentOppslag.ledd }} <br />
-                <span class="font-weight-bold"> {{ $t("ord.uttale") }}: </span>
+                <span class="font-weight-bold"> {{ $t('ord.uttale') }}: </span>
                 <span
                   v-for="ut in currentOppslag.uttale"
                   v-bind:key="ut.transkripsjon"
@@ -100,7 +100,7 @@
                 </span>
                 <br />
                 <span class="font-weight-bold">
-                  {{ $t("ord.definisjoner") }}: </span
+                  {{ $t('ord.definisjoner') }}: </span
                 ><br />
                 <div
                   v-for="definisjon in currentOppslag.definisjon"
@@ -122,7 +122,7 @@
                       color="primary"
                       @click="openBoyningsDialog"
                     >
-                      {{ $t("knapper.vis_boyning") }}
+                      {{ $t('knapper.vis_boyning') }}
                     </v-btn>
                   </div>
                   <v-btn
@@ -131,14 +131,14 @@
                     size="small"
                     color="accent"
                     :to="'/endre/' + currentOppslag.lemma_id"
-                    >{{ $t("knapper.endre") }}</v-btn
+                    >{{ $t('knapper.endre') }}</v-btn
                   >
                   <v-btn
                     class="ml-2"
                     size="small"
                     color="green"
                     :to="'/oppslag/' + currentOppslag.lemma_id"
-                    >{{ $t("knapper.foreslå") }}</v-btn
+                    >{{ $t('knapper.foreslå') }}</v-btn
                   >
                 </v-card-actions>
               </div>
@@ -151,12 +151,12 @@
             :to="'/nytt_oppslag/' + this.q"
             style="text-transform: none"
           >
-            <span> {{ $t("knapper.new_word") }}: '{{ q }}' </span>
+            <span> {{ $t('knapper.new_word') }}: '{{ q }}' </span>
           </v-btn>
         </div>
       </v-col>
       <v-col cols="3" class="d-none d-sm-block pl-4" align="left">
-        <h4>{{ $t("sok.filter") }}</h4>
+        <h4>{{ $t('sok.filter') }}</h4>
         <v-checkbox
           class="pa-0 ma-0"
           density="compact"
@@ -239,7 +239,7 @@
           @change="sokOppslag()"
         >
         </v-checkbox>
-        <h5 class="mt-3">{{ $t("ord.ordklasse") }}</h5>
+        <h5 class="mt-3">{{ $t('ord.ordklasse') }}</h5>
         <div
           class="custom-control custom-checkbox"
           v-for="(value, ordklasse) in pos"
@@ -261,15 +261,15 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import _ from "lodash";
-import Boyningstabell from "../components/Boyningstabell.vue";
-import helpers from "../mixins/helpers";
-import JishoDataService from "../services/JishoDataService";
+import _ from 'lodash';
+import Boyningstabell from '../components/Boyningstabell.vue';
+import helpers from '../mixins/helpers';
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
-  name: "Sok",
+  name: 'Sok',
 
   components: {
     Boyningstabell,
@@ -286,7 +286,7 @@ export default defineComponent({
       currentIndex: -1,
       tabellSynlig: false,
       isLoading: false,
-      q: "",
+      q: '',
       treff: null,
       side: 0,
       treffPerSide: 20,
@@ -328,11 +328,11 @@ export default defineComponent({
   watch: {
     q: _.debounce(function () {
       this.showNewWordButton = false;
-      if (this.q != "" && this.q != "%" && this.q.length > 0) {
-        window.history.replaceState({}, document.title, "/sok/" + this.q);
+      if (this.q != '' && this.q != '%' && this.q.length > 0) {
+        window.history.replaceState({}, document.title, '/sok/' + this.q);
         this.sokOppslag();
       } else {
-        this.$router.replace("/sok/", () => {});
+        this.$router.replace('/sok/', () => {});
       }
     }, 200),
   },
@@ -344,10 +344,10 @@ export default defineComponent({
         this.currentOppslag = null;
       } else {
         JishoDataService.get(oppslag.lemma_id)
-          .then((response) => {
+          .then(response => {
             this.currentOppslag = response.data;
           })
-          .catch((e) => {
+          .catch(e => {
             console.log(e);
           });
         this.currentIndex = index;
@@ -357,9 +357,9 @@ export default defineComponent({
       this.isLoading = true;
       this.showExpansion = false;
       try {
-        let string = "";
-        Object.keys(this.pos).forEach((ordklasse) => {
-          string += "&" + ordklasse + "=" + this.pos[ordklasse];
+        let string = '';
+        Object.keys(this.pos).forEach(ordklasse => {
+          string += '&' + ordklasse + '=' + this.pos[ordklasse];
         });
         const response = await JishoDataService.findByOppslag(
           this.q,
@@ -372,7 +372,7 @@ export default defineComponent({
           this.kun_skjult,
           this.meduten.medai,
           this.meduten.utenai,
-          string,
+          string
         );
         this.oppslagsliste = response.data;
         this.isLoading = false;
@@ -381,27 +381,25 @@ export default defineComponent({
         this.treff = this.oppslagsliste.length;
         this.side = 0;
         if (
-          !this.oppslagsliste
-            .map((result) => result.oppslag)
-            .includes(this.q) &&
-          this.q != ""
+          !this.oppslagsliste.map(result => result.oppslag).includes(this.q) &&
+          this.q != ''
         ) {
           this.showNewWordButton = true;
         }
       } catch (error) {
-        this.$store.dispatch("show_snackbar", {
+        this.$store.dispatch('show_snackbar', {
           message: error.response.data,
-          color: "error",
+          color: 'error',
         });
         console.log(error);
       }
     },
     changePage(retning) {
-      if (retning === "ned") {
+      if (retning === 'ned') {
         if (this.side > 0) {
           this.side -= 1;
         }
-      } else if (retning === "opp") {
+      } else if (retning === 'opp') {
         if (
           this.side < Math.ceil(this.treff / this.side) &&
           this.side * this.treffPerSide + this.treffPerSide < this.treff
@@ -436,12 +434,12 @@ export default defineComponent({
           ? current + this.treffPerSide
           : this.treff;
 
-      return lower + " - " + upper;
+      return lower + ' - ' + upper;
     },
   },
 
   mounted() {
-    this.q = this.$route.params.query || "";
+    this.q = this.$route.params.query || '';
     if (!this.$store.getters.isAdmin) {
       this.meduten.utendef = true;
     }

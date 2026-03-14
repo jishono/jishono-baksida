@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import Navbar from "./components/Navbar.vue";
-import Snackbar from "./components/Snackbar.vue";
-import JishoDataService from "./services/JishoDataService";
+import Navbar from './components/Navbar.vue';
+import Snackbar from './components/Snackbar.vue';
+import JishoDataService from './services/JishoDataService';
 
 export default defineComponent({
-  name: "app",
+  name: 'app',
 
   components: {
     Navbar,
@@ -49,11 +49,11 @@ export default defineComponent({
     },
     updateUnseenWallposts() {
       if (this.$store.getters.isLoggedIn) {
-        this.$store.dispatch("refresh_usette_innlegg");
+        this.$store.dispatch('refresh_usette_innlegg');
       }
       this.PollerWallPosts = setInterval(() => {
         if (this.$store.getters.isLoggedIn) {
-          this.$store.dispatch("refresh_usette_innlegg");
+          this.$store.dispatch('refresh_usette_innlegg');
         }
       }, 120000);
     },

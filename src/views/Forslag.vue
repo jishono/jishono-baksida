@@ -15,16 +15,17 @@
     <div class="d-flex flex-column flex-sm-row align-center mb-2">
       <v-tabs v-model="tab">
         <v-tab>
-          {{ $t("forslag.alle") }}
+          {{ $t('forslag.alle') }}
         </v-tab>
         <v-tab>
-          {{ $t("forslag.mine") }}
+          {{ $t('forslag.mine') }}
         </v-tab>
-        <v-tab @click="getAiForslag">
-          AI
-        </v-tab>
+        <v-tab @click="getAiForslag"> AI </v-tab>
       </v-tabs>
-      <div v-if="tab !== 2" class="d-flex align-center mt-3 mt-sm-0 ml-sm-auto flex-shrink-0">
+      <div
+        v-if="tab !== 2"
+        class="d-flex align-center mt-3 mt-sm-0 ml-sm-auto flex-shrink-0"
+      >
         <v-chip
           class="mx-1"
           size="small"
@@ -32,9 +33,13 @@
           :variant="!filtrer_har_kommentarer ? 'outlined' : 'flat'"
           @click="filtrer_har_kommentarer = !filtrer_har_kommentarer"
         >
-          <v-icon size="small" v-if="filtrer_har_kommentarer" start>mdi-checkbox-marked-circle</v-icon>
-          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
-          {{ $t("forslag.har_kommentarer") }}
+          <v-icon size="small" v-if="filtrer_har_kommentarer" start
+            >mdi-checkbox-marked-circle</v-icon
+          >
+          <v-icon size="small" v-else start
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          {{ $t('forslag.har_kommentarer') }}
         </v-chip>
         <v-chip
           class="mx-1"
@@ -43,9 +48,13 @@
           :variant="!filtrer_uleste ? 'outlined' : 'flat'"
           @click="filtrer_uleste = filtrer_uleste ? false : true"
         >
-          <v-icon size="small" v-if="filtrer_uleste" start>mdi-checkbox-marked-circle</v-icon>
-          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
-          {{ $t("forslag.uleste_kommentarer") }}
+          <v-icon size="small" v-if="filtrer_uleste" start
+            >mdi-checkbox-marked-circle</v-icon
+          >
+          <v-icon size="small" v-else start
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          {{ $t('forslag.uleste_kommentarer') }}
         </v-chip>
         <v-chip
           class="mx-1"
@@ -54,11 +63,14 @@
           :variant="!filtrer_ikke_stemt ? 'outlined' : 'flat'"
           @click="filtrer_ikke_stemt = filtrer_ikke_stemt ? false : true"
         >
-          <v-icon size="small" v-if="filtrer_ikke_stemt" start>mdi-checkbox-marked-circle</v-icon>
-          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
-          {{ $t("forslag.ikke_stemt") }}
+          <v-icon size="small" v-if="filtrer_ikke_stemt" start
+            >mdi-checkbox-marked-circle</v-icon
+          >
+          <v-icon size="small" v-else start
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          {{ $t('forslag.ikke_stemt') }}
         </v-chip>
-
       </div>
     </div>
 
@@ -90,7 +102,9 @@
             class="ml-1"
             style="text-decoration: none; line-height: 1"
           >
-            <v-icon size="14" color="grey" class="wrench-icon">mdi-wrench</v-icon>
+            <v-icon size="14" color="grey" class="wrench-icon"
+              >mdi-wrench</v-icon
+            >
           </router-link>
         </div>
       </template>
@@ -106,15 +120,38 @@
           :key="'def-' + i"
           class="text-green-darken-2 py-1 d-flex align-center"
         >
-          <span><span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}</span>
-          <v-tooltip v-if="d.source === 'AI'" :text="$t('forslag.kilde_ai')" location="top">
+          <span
+            ><span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span
+            >{{ d.definisjon || d }}</span
+          >
+          <v-tooltip
+            v-if="d.source === 'AI'"
+            :text="$t('forslag.kilde_ai')"
+            location="top"
+          >
             <template v-slot:activator="{ props: sourceProps }">
-              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="blue">mdi-robot-outline</v-icon>
+              <v-icon
+                v-bind="sourceProps"
+                size="16"
+                class="ml-4 source-icon"
+                color="blue"
+                >mdi-robot-outline</v-icon
+              >
             </template>
           </v-tooltip>
-          <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
+          <v-tooltip
+            v-else-if="d.source === 'WIKI'"
+            :text="$t('forslag.kilde_wiki')"
+            location="top"
+          >
             <template v-slot:activator="{ props: sourceProps }">
-              <v-icon v-bind="sourceProps" size="16" class="ml-4 source-icon" color="black">mdi-wikipedia</v-icon>
+              <v-icon
+                v-bind="sourceProps"
+                size="16"
+                class="ml-4 source-icon"
+                color="black"
+                >mdi-wikipedia</v-icon
+              >
             </template>
           </v-tooltip>
         </div>
@@ -123,13 +160,21 @@
           :key="f.forslag_id"
           class="text-error py-1 d-flex align-center"
         >
-          <span class="text-caption font-weight-bold mr-1">{{ f.prioritet }}.</span>
-          <v-icon v-if="f.replaces_def_id" size="14" class="mr-1 flex-shrink-0" color="error">mdi-swap-horizontal</v-icon>
+          <span class="text-caption font-weight-bold mr-1"
+            >{{ f.prioritet }}.</span
+          >
+          <v-icon
+            v-if="f.replaces_def_id"
+            size="14"
+            class="mr-1 flex-shrink-0"
+            color="error"
+            >mdi-swap-horizontal</v-icon
+          >
           <span v-html="addFurigana(f.forslag_definisjon)"></span>
           <span
             class="text-caption text-medium-emphasis ml-1"
             v-if="f.endret == true"
-            >({{ $t("veggen.endret") }})</span
+            >({{ $t('veggen.endret') }})</span
           >
         </div>
       </template>
@@ -166,7 +211,9 @@
           <v-card-item>
             <template v-slot:prepend>
               <div class="d-flex align-center mr-2">
-                <span class="text-caption text-medium-emphasis">{{ item.lemma_id }}</span>
+                <span class="text-caption text-medium-emphasis">{{
+                  item.lemma_id
+                }}</span>
                 <router-link
                   v-if="$store.getters.isAdmin"
                   :to="{ path: 'endre/' + item.lemma_id }"
@@ -174,12 +221,18 @@
                   class="ml-1"
                   style="text-decoration: none; line-height: 1"
                 >
-                  <v-icon size="14" color="grey" class="wrench-icon">mdi-wrench</v-icon>
+                  <v-icon size="14" color="grey" class="wrench-icon"
+                    >mdi-wrench</v-icon
+                  >
                 </router-link>
               </div>
             </template>
-            <v-card-title class="pa-0 text-body-1 font-weight-bold">{{ item.oppslag }}</v-card-title>
-            <v-card-subtitle class="pa-0">{{ ordklasseNavn(item.boy_tabell) }}</v-card-subtitle>
+            <v-card-title class="pa-0 text-body-1 font-weight-bold">{{
+              item.oppslag
+            }}</v-card-title>
+            <v-card-subtitle class="pa-0">{{
+              ordklasseNavn(item.boy_tabell)
+            }}</v-card-subtitle>
             <template v-slot:append>
               <v-chip
                 variant="flat"
@@ -200,16 +253,38 @@
               class="text-green-darken-2 py-1 d-flex align-center"
             >
               <span>
-                <span class="text-caption font-weight-bold mr-1">{{ i + 1 }}.</span>{{ d.definisjon || d }}
+                <span class="text-caption font-weight-bold mr-1"
+                  >{{ i + 1 }}.</span
+                >{{ d.definisjon || d }}
               </span>
-              <v-tooltip v-if="d.source === 'AI'" :text="$t('forslag.kilde_ai')" location="top">
+              <v-tooltip
+                v-if="d.source === 'AI'"
+                :text="$t('forslag.kilde_ai')"
+                location="top"
+              >
                 <template v-slot:activator="{ props: sourceProps }">
-                  <v-icon v-bind="sourceProps" size="16" class="ml-2 source-icon" color="blue">mdi-robot-outline</v-icon>
+                  <v-icon
+                    v-bind="sourceProps"
+                    size="16"
+                    class="ml-2 source-icon"
+                    color="blue"
+                    >mdi-robot-outline</v-icon
+                  >
                 </template>
               </v-tooltip>
-              <v-tooltip v-else-if="d.source === 'WIKI'" :text="$t('forslag.kilde_wiki')" location="top">
+              <v-tooltip
+                v-else-if="d.source === 'WIKI'"
+                :text="$t('forslag.kilde_wiki')"
+                location="top"
+              >
                 <template v-slot:activator="{ props: sourceProps }">
-                  <v-icon v-bind="sourceProps" size="16" class="ml-2 source-icon" color="black">mdi-wikipedia</v-icon>
+                  <v-icon
+                    v-bind="sourceProps"
+                    size="16"
+                    class="ml-2 source-icon"
+                    color="black"
+                    >mdi-wikipedia</v-icon
+                  >
                 </template>
               </v-tooltip>
             </div>
@@ -218,13 +293,21 @@
               :key="f.forslag_id"
               class="text-error py-1 d-flex align-center"
             >
-              <span class="text-caption font-weight-bold mr-1">{{ f.prioritet }}.</span>
-              <v-icon v-if="f.replaces_def_id" size="14" class="mr-1 flex-shrink-0" color="error">mdi-swap-horizontal</v-icon>
+              <span class="text-caption font-weight-bold mr-1"
+                >{{ f.prioritet }}.</span
+              >
+              <v-icon
+                v-if="f.replaces_def_id"
+                size="14"
+                class="mr-1 flex-shrink-0"
+                color="error"
+                >mdi-swap-horizontal</v-icon
+              >
               <span v-html="addFurigana(f.forslag_definisjon)"></span>
               <span
                 class="text-caption text-medium-emphasis ml-1"
                 v-if="f.endret == true"
-                >({{ $t("veggen.endret") }})</span
+                >({{ $t('veggen.endret') }})</span
               >
             </div>
           </v-card-text>
@@ -259,14 +342,14 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import helpers from "../mixins/helpers";
-import JishoDataService from "../services/JishoDataService";
-import Oppslag from "./Oppslag.vue";
+import helpers from '../mixins/helpers';
+import JishoDataService from '../services/JishoDataService';
+import Oppslag from './Oppslag.vue';
 
 export default defineComponent({
-  name: "Forslag",
+  name: 'Forslag',
   mixins: [helpers],
 
   data() {
@@ -276,60 +359,60 @@ export default defineComponent({
       kommentar_dialog: false,
       current_lemma_id: null,
       forslag: [],
-      search: "",
+      search: '',
       filtrer_uleste: false,
       filtrer_ikke_stemt: false,
       filtrer_har_kommentarer: false,
       alle_headers: [
         {
-          title: this.$t("ord.lemma_id"),
-          align: "start",
-          key: "lemma_id",
-          width: "1%",
+          title: this.$t('ord.lemma_id'),
+          align: 'start',
+          key: 'lemma_id',
+          width: '1%',
         },
-        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
-        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        { title: this.$t('ord.oppslagsord'), key: 'oppslag', width: '1%' },
+        { title: this.$t('ord.ordklasse'), key: 'boy_tabell', width: '1%' },
         {
-          title: this.$t("forslag.forslag_definisjon"),
-          key: "definisjoner_og_forslag",
+          title: this.$t('forslag.forslag_definisjon'),
+          key: 'definisjoner_og_forslag',
           sortable: false,
-          width: "70%",
+          width: '70%',
         },
-        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+        { title: '', key: 'kommentarer', sortable: false, width: '1%' },
       ],
       mine_headers: [
         {
-          title: this.$t("ord.lemma_id"),
-          align: "start",
-          key: "lemma_id",
-          width: "1%",
+          title: this.$t('ord.lemma_id'),
+          align: 'start',
+          key: 'lemma_id',
+          width: '1%',
         },
-        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
-        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        { title: this.$t('ord.oppslagsord'), key: 'oppslag', width: '1%' },
+        { title: this.$t('ord.ordklasse'), key: 'boy_tabell', width: '1%' },
         {
-          title: this.$t("forslag.forslag_definisjon"),
-          key: "definisjoner_og_forslag",
+          title: this.$t('forslag.forslag_definisjon'),
+          key: 'definisjoner_og_forslag',
           sortable: false,
-          width: "70%",
+          width: '70%',
         },
-        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+        { title: '', key: 'kommentarer', sortable: false, width: '1%' },
       ],
       ai_headers: [
         {
-          title: this.$t("ord.lemma_id"),
-          align: "start",
-          key: "lemma_id",
-          width: "1%",
+          title: this.$t('ord.lemma_id'),
+          align: 'start',
+          key: 'lemma_id',
+          width: '1%',
         },
-        { title: this.$t("ord.oppslagsord"), key: "oppslag", width: "1%" },
-        { title: this.$t("ord.ordklasse"), key: "boy_tabell", width: "1%" },
+        { title: this.$t('ord.oppslagsord'), key: 'oppslag', width: '1%' },
+        { title: this.$t('ord.ordklasse'), key: 'boy_tabell', width: '1%' },
         {
-          title: this.$t("forslag.forslag_definisjon"),
-          key: "definisjoner_og_forslag",
+          title: this.$t('forslag.forslag_definisjon'),
+          key: 'definisjoner_og_forslag',
           sortable: false,
-          width: "70%",
+          width: '70%',
         },
-        { title: "", key: "kommentarer", sortable: false, width: "1%" },
+        { title: '', key: 'kommentarer', sortable: false, width: '1%' },
       ],
     };
   },
@@ -353,43 +436,45 @@ export default defineComponent({
       const searchLower = this.search.toLowerCase().trim();
 
       if (this.tab === 2) {
-        return this.forslag.filter((lemma) =>
-          searchLower ? lemma.oppslag.toLowerCase().includes(searchLower) : true,
+        return this.forslag.filter(lemma =>
+          searchLower ? lemma.oppslag.toLowerCase().includes(searchLower) : true
         );
       }
 
       const user_id = this.$store.getters.user_id;
 
       return this.forslag
-        .map((lemma) => {
+        .map(lemma => {
           let fs = lemma.forslag ?? [];
           if (this.tab === 1) {
-            fs = fs.filter((f) => f.user_id == user_id);
+            fs = fs.filter(f => f.user_id == user_id);
           }
           if (this.filtrer_uleste) {
-            fs = fs.filter((f) => f.sett == 0);
+            fs = fs.filter(f => f.sett == 0);
           }
           if (this.filtrer_ikke_stemt) {
-            fs = fs.filter((f) => f.minstemme == null && f.user_id != user_id);
+            fs = fs.filter(f => f.minstemme == null && f.user_id != user_id);
           }
           if (searchLower) {
             const matchesOppslag = lemma.oppslag
               .toLowerCase()
               .includes(searchLower);
             if (!matchesOppslag) {
-              fs = fs.filter((f) =>
-                f.forslag_definisjon.toLowerCase().includes(searchLower),
+              fs = fs.filter(f =>
+                f.forslag_definisjon.toLowerCase().includes(searchLower)
               );
             }
           }
           const siste_opprettet = fs.reduce(
             (max, f) => (f.opprettet > max ? f.opprettet : max),
-            "",
+            ''
           );
           return { ...lemma, forslag: fs, siste_opprettet };
         })
-        .filter((lemma) => lemma.forslag?.length > 0)
-        .filter((lemma) => !this.filtrer_har_kommentarer || lemma.antall_kommentarer > 0);
+        .filter(lemma => lemma.forslag?.length > 0)
+        .filter(
+          lemma => !this.filtrer_har_kommentarer || lemma.antall_kommentarer > 0
+        );
     },
 
     currentHeaders() {
@@ -406,13 +491,13 @@ export default defineComponent({
   methods: {
     refresh() {
       JishoDataService.getAllForslag(0)
-        .then((result) => {
+        .then(result => {
           this.forslag = result.data;
         })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
             message: error.response.data,
-            color: "error",
+            color: 'error',
           });
           console.log(error);
         });
@@ -437,13 +522,13 @@ export default defineComponent({
     },
     getAiForslag() {
       JishoDataService.getAiForslag()
-        .then((result) => {
+        .then(result => {
           this.forslag = result.data;
         })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
             message: error.response.data,
-            color: "error",
+            color: 'error',
           });
           console.log(error);
         });
@@ -460,11 +545,15 @@ export default defineComponent({
 .wrench-icon:hover {
   color: rgb(var(--v-theme-primary)) !important;
   transform: scale(1.3);
-  transition: color 0.15s, transform 0.15s;
+  transition:
+    color 0.15s,
+    transform 0.15s;
 }
 
 .kommentar-chip {
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
 }
 .kommentar-chip:hover {
   transform: scale(1.15);

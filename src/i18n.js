@@ -4,10 +4,11 @@ import no from './locales/no.json';
 
 export default createI18n({
   legacy: false,
-  locale: localStorage.getItem('locale') || import.meta.env.VITE_I18N_LOCALE || 'no',
+  locale:
+    localStorage.getItem('locale') || import.meta.env.VITE_I18N_LOCALE || 'no',
   fallbackLocale: import.meta.env.VITE_I18N_FALLBACK_LOCALE || 'no',
   messages: {
     no,
-    ja
-  }
-})
+    ja,
+  },
+});

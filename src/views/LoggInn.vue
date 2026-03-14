@@ -1,7 +1,7 @@
 <template>
   <v-card max-width="400px" class="mt-10 mx-auto">
     <v-card-title class="font-weight-bold">
-      {{ $t("navbar.logg_inn") }}
+      {{ $t('navbar.logg_inn') }}
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid">
@@ -26,37 +26,40 @@
         />
       </v-form>
     </v-card-text>
-    <v-alert v-if="error_message" density="compact" variant="outlined" type="error">
+    <v-alert
+      v-if="error_message"
+      density="compact"
+      variant="outlined"
+      type="error"
+    >
       {{ this.error_message }}
     </v-alert>
     <v-card-actions class="justify-center pb-6">
       <v-btn color="primary" @click="login" :disabled="!valid">
-        {{ $t("navbar.logg_inn") }}</v-btn
+        {{ $t('navbar.logg_inn') }}</v-btn
       >
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import JishoDataService from "../services/JishoDataService";
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
-  name: "logg-inn",
+  name: 'logg-inn',
 
   data() {
     return {
-      message: "",
+      message: '',
       valid: false,
       showPassword: false,
-      username: "",
-      username_rules: [
-        (v) => !!v || this.$t("bruker.logg_inn.error_brukernavn"),
-      ],
-      password: "",
-      password_rules: [(v) => !!v || this.$t("bruker.logg_inn.error_passord")],
-      error_message: "",
+      username: '',
+      username_rules: [v => !!v || this.$t('bruker.logg_inn.error_brukernavn')],
+      password: '',
+      password_rules: [v => !!v || this.$t('bruker.logg_inn.error_passord')],
+      error_message: '',
     };
   },
 
@@ -66,9 +69,9 @@ export default defineComponent({
         try {
           const username = this.username;
           const password = this.password;
-          await this.$store.dispatch("login", { username, password });
+          await this.$store.dispatch('login', { username, password });
           await JishoDataService.updateLastSeen(this.$store.getters.user_id);
-          this.$router.push("/");
+          this.$router.push('/');
         } catch (error) {
           console.log(error.response.data);
           this.error_message = error.response.data[this.$i18n.locale];

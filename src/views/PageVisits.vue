@@ -16,27 +16,27 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import JishoDataService from "../services/JishoDataService";
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
-  name: "visits",
+  name: 'visits',
 
   data() {
     return {
       visits: [],
       headers: [
-        { title: "Dato", key: "dato", width: "1%", align: "start" },
-        { title: "Sidevisninger", key: "antall", width: "10%" },
-        { title: "Unike besøkende", key: "unique_visitors", width: "10%" },
+        { title: 'Dato', key: 'dato', width: '1%', align: 'start' },
+        { title: 'Sidevisninger', key: 'antall', width: '10%' },
+        { title: 'Unike besøkende', key: 'unique_visitors', width: '10%' },
       ],
     };
   },
 
   methods: {
     getPageVisits() {
-      JishoDataService.getPageVisits().then((response) => {
+      JishoDataService.getPageVisits().then(response => {
         this.visits = response.data;
       });
     },

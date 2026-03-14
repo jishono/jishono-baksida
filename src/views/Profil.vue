@@ -2,15 +2,9 @@
   <v-container class="pa-0">
     <v-row no-gutters>
       <v-col>
-        <v-dialog
-          v-model="dialog"
-          width="500"
-        >
+        <v-dialog v-model="dialog" width="500">
           <v-card>
-
-            <v-card-title>
-              Bekreft
-            </v-card-title>
+            <v-card-title> Bekreft </v-card-title>
 
             <v-card-text>
               <v-text-field
@@ -18,7 +12,10 @@
                 :label="$t('bruker.profil.gammelt_passord')"
                 v-model="passord.gammelt"
                 :rules="oldPasswordRules"
-                @keyup.enter="dialog = false; sjekkSkjema()"
+                @keyup.enter="
+                  dialog = false;
+                  sjekkSkjema();
+                "
                 variant="outlined"
                 autofocus
               />
@@ -28,7 +25,10 @@
               <v-spacer></v-spacer>
               <v-btn
                 color="primary"
-                @click="dialog = false; sjekkSkjema()"
+                @click="
+                  dialog = false;
+                  sjekkSkjema();
+                "
               >
                 Godkjenn
               </v-btn>
@@ -38,19 +38,12 @@
 
         <v-row no-gutters>
           <v-col>
-            <v-card
-              max-width='600px'
-              class="mx-auto"
-              v-if="brukerdata"
-            >
+            <v-card max-width="600px" class="mx-auto" v-if="brukerdata">
               <v-card-text>
                 <h2 class="mb-3">
                   {{ $t('navbar.profil') }}
                 </h2>
-                <v-form
-                  ref="form"
-                  v-model="valid_profile"
-                >
+                <v-form ref="form" v-model="valid_profile">
                   <v-text-field
                     :label="$t('bruker.brukernavn')"
                     v-model="brukerdata.brukernavn"
@@ -68,12 +61,12 @@
                     v-model="brukerdata.locale"
                     :label="$t('bruker.profil.visningsspråk')"
                     :items="sprakvalg"
-                    item-value='value'
+                    item-value="value"
                     item-title="text"
                     variant="outlined"
                   ></v-select>
                   <h2 class="mb-3">
-                    {{ $t('bruker.profil.endre_passord')}}
+                    {{ $t('bruker.profil.endre_passord') }}
                   </h2>
                   <v-text-field
                     type="password"
@@ -89,9 +82,9 @@
                   />
                 </v-form>
                 <h2 class="mb-3">
-                  {{ $t('bruker.profil.oppdateringer')}}
+                  {{ $t('bruker.profil.oppdateringer') }}
                 </h2>
-                <span>  {{ $t('bruker.profil.aktivitetsoppsummering')}}</span>
+                <span> {{ $t('bruker.profil.aktivitetsoppsummering') }}</span>
                 <v-row class="ml-1">
                   <v-radio-group
                     v-model="brukerdata.oppdateringer.opp_periode"
@@ -116,13 +109,12 @@
                   </v-radio-group>
                 </v-row>
 
-                <span> {{ $t('bruker.profil.hendelser')}}</span>
+                <span> {{ $t('bruker.profil.hendelser') }}</span>
                 <v-checkbox
                   hide-details
                   :label="$t('bruker.profil.kommenterer_forslag')"
                   v-model="brukerdata.oppdateringer.opp_kommentar_eget"
                 >
-
                 </v-checkbox>
                 <v-checkbox
                   hide-details
@@ -143,34 +135,32 @@
             </v-card>
           </v-col>
         </v-row>
-
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 
-import JishoDataService from '../services/JishoDataService'
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
   name: 'profil',
 
-  data () {
+  data() {
     return {
       dialog: false,
       valid_profile: false,
       brukerdata: null,
       sprakvalg: [
         { value: 'no', text: 'Norsk' },
-        { value: 'ja', text: '日本語' }
+        { value: 'ja', text: '日本語' },
       ],
       passord: {
         gammelt: '',
         nytt: '',
-        nyttBekreft: ''
+        nyttBekreft: '',
       },
       oldPasswordRules: [
         v => !!v || 'Du må skrive passordet ditt for å gjøre endringer',
@@ -184,7 +174,9 @@ export default defineComponent({
       epostRules: [
         v => !!v || 'Du må skrive e-posten din',
 
-        v => (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) || 'Adressen må være gyldig',
+        v =>
+          (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) ||
+          'Adressen må være gyldig',
       ],
       search: '',
       headers: [
@@ -192,86 +184,100 @@ export default defineComponent({
           text: 'Oppslagsord',
           align: 'start',
           value: 'oppslag',
-          width: '15%'
+          width: '15%',
         },
         { text: 'Ordklasse', value: 'boy_tabell', width: '10%' },
-        { text: 'Forslag til definisjon', value: 'forslag_definisjon', width: '30%' },
+        {
+          text: 'Forslag til definisjon',
+          value: 'forslag_definisjon',
+          width: '30%',
+        },
         { text: 'Stemmer', value: 'stemmer', width: '20%' },
         { text: 'Status', value: 'status', width: '15%' },
         { text: 'Dato', value: 'opprettet', width: '15%' },
       ],
-    }
+    };
   },
 
   methods: {
-    fjernForslag (item) {
+    fjernForslag(item) {
       JishoDataService.fjernForslag(item.forslag_id)
-        .then((response) => {
-          this.setSnackbar(response.data, 'success')
-          this.refresh()
+        .then(response => {
+          this.setSnackbar(response.data, 'success');
+          this.refresh();
         })
         .catch(error => {
           if (error.response.status === 400) {
-            this.$store.dispatch('show_snackbar', { message: error.response.data, color: 'error' })
+            this.$store.dispatch('show_snackbar', {
+              message: error.response.data,
+              color: 'error',
+            });
           }
-        })
+        });
     },
-    sjekkSkjema () {
+    sjekkSkjema() {
       if (this.passord.nytt != '') {
         if (this.passord.nytt === this.passord.nyttBekreft) {
-          this.oppdaterBrukerdata()
+          this.oppdaterBrukerdata();
         } else {
-          this.$store.dispatch('show_snackbar', { message: 'Passordene må være like', color: 'error' })
+          this.$store.dispatch('show_snackbar', {
+            message: 'Passordene må være like',
+            color: 'error',
+          });
         }
       } else {
-        console.log(this.passord.nytt)
-        this.oppdaterBrukerdata()
+        console.log(this.passord.nytt);
+        this.oppdaterBrukerdata();
       }
     },
-    oppdaterBrukerdata () {
-      const user_id = this.$store.getters.user_id
+    oppdaterBrukerdata() {
+      const user_id = this.$store.getters.user_id;
       JishoDataService.updateBrukerdata(user_id, {
         epost: this.brukerdata.epost,
         gammelt_passord: this.passord.gammelt,
         nytt_passord: this.passord.nytt,
         locale: this.brukerdata.locale,
-        oppdateringer: this.brukerdata.oppdateringer
+        oppdateringer: this.brukerdata.oppdateringer,
       })
-        .then((response) => {
-          this.getBrukerdata()
-          const message = response.data
-          this.$store.dispatch('show_snackbar', { message: message, color: 'success' })
-          this.$store.dispatch('set_locale', this.brukerdata.locale)
-          this.$refs.form.reset()
-          this.passord.nytt = ''
-          this.passord.nyttBekreft = ''
-          this.passord.gammelt = ''
+        .then(response => {
+          this.getBrukerdata();
+          const message = response.data;
+          this.$store.dispatch('show_snackbar', {
+            message: message,
+            color: 'success',
+          });
+          this.$store.dispatch('set_locale', this.brukerdata.locale);
+          this.$refs.form.reset();
+          this.passord.nytt = '';
+          this.passord.nyttBekreft = '';
+          this.passord.gammelt = '';
         })
         .catch(error => {
-          console.log(error)
-          const message = error.response.data
-          this.$store.dispatch('show_snackbar', { message: message, color: 'error' })
-          this.passord.gammelt = ''
-        })
-
+          console.log(error);
+          const message = error.response.data;
+          this.$store.dispatch('show_snackbar', {
+            message: message,
+            color: 'error',
+          });
+          this.passord.gammelt = '';
+        });
     },
-    getBrukerdata () {
-      const user_id = this.$store.getters.user_id
+    getBrukerdata() {
+      const user_id = this.$store.getters.user_id;
       JishoDataService.getBruker(user_id)
         .then(res => {
-          this.brukerdata = res.data
+          this.brukerdata = res.data;
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     },
   },
 
-  computed: {
-  },
+  computed: {},
 
-  mounted () {
-    this.getBrukerdata()
+  mounted() {
+    this.getBrukerdata();
   },
 });
 </script>

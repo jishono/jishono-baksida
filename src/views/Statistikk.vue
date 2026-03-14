@@ -4,23 +4,20 @@
       <v-col lg="9" cols="12">
         <v-card class="ma-2">
           <v-card-title>
-            {{ $t("statistikk.diverse") }}
+            {{ $t('statistikk.diverse') }}
           </v-card-title>
           <v-card-text v-if="oppslag_info_sorted">
             <v-table density="compact">
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">{{ $t("statistikk.type") }}</th>
-                    <th class="text-left">{{ $t("statistikk.antall") }}</th>
+                    <th class="text-left">{{ $t('statistikk.type') }}</th>
+                    <th class="text-left">{{ $t('statistikk.antall') }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="item in oppslag_info_sorted"
-                    :key="item.tittel"
-                  >
-                    <td>{{ $t("statistikk." + item.tittel) }}</td>
+                  <tr v-for="item in oppslag_info_sorted" :key="item.tittel">
+                    <td>{{ $t('statistikk.' + item.tittel) }}</td>
                     <td>{{ item.antall }}</td>
                   </tr>
                 </tbody>
@@ -32,7 +29,7 @@
           </v-card-text>
         </v-card>
         <v-card class="ma-2" height="450">
-          <v-card-title> {{ $t("statistikk.siste_30") }}</v-card-title>
+          <v-card-title> {{ $t('statistikk.siste_30') }}</v-card-title>
           <line-chart
             v-if="nye_oversettelser && nye_forslag && antall_kommentarer"
             v-bind:nye_oversettelser="nye_oversettelser"
@@ -48,16 +45,16 @@
       <v-col lg="3" cols="12">
         <v-card class="ma-2">
           <v-card-title>
-            {{ $t("statistikk.brukere") }}
+            {{ $t('statistikk.brukere') }}
           </v-card-title>
           <v-card-text v-if="brukeroversettelser">
             <v-table density="compact">
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">{{ $t("bruker.brukernavn") }}</th>
+                    <th class="text-left">{{ $t('bruker.brukernavn') }}</th>
                     <th class="text-left">
-                      {{ $t("statistikk.oversettelser") }}
+                      {{ $t('statistikk.oversettelser') }}
                     </th>
                   </tr>
                 </thead>
@@ -83,13 +80,13 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import LineChart from "../components/LineChart.vue";
-import JishoDataService from "../services/JishoDataService";
+import LineChart from '../components/LineChart.vue';
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
-  name: "statistikk",
+  name: 'statistikk',
 
   data() {
     return {
@@ -109,7 +106,7 @@ export default defineComponent({
     oppslag_info_sorted() {
       if (!this.oppslag_info) return null;
       return [...this.oppslag_info].sort((a, b) =>
-        a.tittel === "ord_med" ? -1 : b.tittel === "ord_med" ? 1 : 0
+        a.tittel === 'ord_med' ? -1 : b.tittel === 'ord_med' ? 1 : 0
       );
     },
   },
@@ -118,25 +115,44 @@ export default defineComponent({
 
   mounted() {
     JishoDataService.getBrukeroversettelser()
-      .then((response) => { this.brukeroversettelser = response.data; })
-      .catch((error) => { console.log(error); });
+      .then(response => {
+        this.brukeroversettelser = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     JishoDataService.getOppslagInfo()
-      .then((response) => { this.oppslag_info = response.data; })
-      .catch((error) => { console.log(error); });
+      .then(response => {
+        this.oppslag_info = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     JishoDataService.getNyeOversettelser()
-      .then((response) => { this.nye_oversettelser = response.data; })
-      .catch((error) => { console.log(error); });
+      .then(response => {
+        this.nye_oversettelser = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     JishoDataService.getNyeForslag()
-      .then((response) => { this.nye_forslag = response.data; })
-      .catch((error) => { console.log(error); });
+      .then(response => {
+        this.nye_forslag = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     JishoDataService.getAntallKommentarer()
-      .then((response) => { this.antall_kommentarer = response.data; })
-      .catch((error) => { console.log(error); });
-
+      .then(response => {
+        this.antall_kommentarer = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
 });
 </script>

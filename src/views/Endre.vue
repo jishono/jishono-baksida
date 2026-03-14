@@ -38,7 +38,7 @@
           @click="boyningsDialog = true"
           class="mx-1"
         >
-          {{ $t("knapper.vis_boyning") }}
+          {{ $t('knapper.vis_boyning') }}
         </v-btn>
         <v-btn
           color="primary"
@@ -48,13 +48,13 @@
           Nytt forslag
         </v-btn>
         <v-btn color="green" @click="updateOppslag" class="mx-1">
-          {{ $t("knapper.oppdater") }}
+          {{ $t('knapper.oppdater') }}
         </v-btn>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="6" sm="6">
-        <h1>{{ $t("navbar.endre") }}</h1>
+        <h1>{{ $t('navbar.endre') }}</h1>
         <v-card>
           <v-card-title class="pb-3"> </v-card-title>
           <v-card-text>
@@ -99,7 +99,7 @@
               >
                 <v-text-field v-model="ut.transkripsjon" variant="outlined">
                   <template v-slot:label>
-                    {{ $t("ord.uttale") }} {{ index_ut + 1 }}
+                    {{ $t('ord.uttale') }} {{ index_ut + 1 }}
                   </template>
                   <template v-slot:append>
                     <div
@@ -129,7 +129,7 @@
                   variant="outlined"
                 >
                   <template v-slot:label>
-                    {{ $t("ord.definisjon") }} {{ index + 1 }}
+                    {{ $t('ord.definisjon') }} {{ index + 1 }}
                   </template>
                   <template v-slot:append>
                     <div v-if="index == currentOppslag.definisjon.length - 1">
@@ -148,7 +148,7 @@
         </v-card>
       </v-col>
       <v-col md="6" sm="6" cols="12">
-        <h1>{{ $t("kommentar.kommentarer") }}</h1>
+        <h1>{{ $t('kommentar.kommentarer') }}</h1>
         <v-textarea
           variant="outlined"
           :label="$t('kommentar.ny_kommentar')"
@@ -165,7 +165,7 @@
                   <span class="font-weight-black"> {{ kom.brukernavn }} </span>
                 </v-col>
                 <v-col align="end">
-                  {{ new Date(kom.opprettet).toLocaleString("da-DK") }}
+                  {{ new Date(kom.opprettet).toLocaleString('da-DK') }}
                 </v-col>
               </v-card-title>
               <v-card-text class="pa-3">
@@ -184,16 +184,16 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import VueMarkdown from "vue-markdown-render";
-import { full as markdownItEmoji } from "markdown-it-emoji";
-import Boyningstabell from "../components/Boyningstabell.vue";
-import JishoDataService from "../services/JishoDataService";
-import helpers from "../mixins/helpers";
+import VueMarkdown from 'vue-markdown-render';
+import { full as markdownItEmoji } from 'markdown-it-emoji';
+import Boyningstabell from '../components/Boyningstabell.vue';
+import JishoDataService from '../services/JishoDataService';
+import helpers from '../mixins/helpers';
 
 export default defineComponent({
-  name: "Endre",
+  name: 'Endre',
 
   mixins: [helpers],
 
@@ -205,7 +205,7 @@ export default defineComponent({
   data() {
     return {
       currentOppslag: null,
-      ny_kommentar: "",
+      ny_kommentar: '',
       deleteData: {
         def: [],
         uttale: [],
@@ -218,7 +218,7 @@ export default defineComponent({
   methods: {
     refreshOppslag() {
       JishoDataService.get(this.$route.params.id)
-        .then((response) => {
+        .then(response => {
           this.currentOppslag = response.data;
           if (this.currentOppslag.uttale.length == 0) {
             this.addUttale();
@@ -227,34 +227,34 @@ export default defineComponent({
             this.addDef();
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
     },
 
     updateOppslag() {
       this.checkEmpty();
-      if (this.nyKommentar != "") {
-        this.currentOppslag["ny_kommentar"] = this.ny_kommentar;
+      if (this.nyKommentar != '') {
+        this.currentOppslag['ny_kommentar'] = this.ny_kommentar;
       }
       JishoDataService.update(this.currentOppslag.lemma_id, {
         oppslag: this.currentOppslag,
         deldata: this.deleteData,
       })
-        .then((response) => {
-          this.ny_kommentar = "";
+        .then(response => {
+          this.ny_kommentar = '';
           this.deleteData.def = [];
           this.deleteData.uttale = [];
           this.refreshOppslag();
-          this.$store.dispatch("show_snackbar", {
+          this.$store.dispatch('show_snackbar', {
             message: response.data,
-            color: "success",
+            color: 'success',
           });
         })
-        .catch((error) => {
-          this.$store.dispatch("show_snackbar", {
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
             message: error.response.data,
-            color: "error",
+            color: 'error',
           });
           console.log(error);
         });
@@ -264,14 +264,14 @@ export default defineComponent({
         def_id: null,
         lemma_id: this.currentOppslag.lemma_id,
         prioritet: null,
-        definisjon: "",
+        definisjon: '',
       });
     },
     addUttale() {
       this.currentOppslag.uttale.push({
         uttale_id: null,
         lemma_id: this.currentOppslag.lemma_id,
-        transkripsjon: "",
+        transkripsjon: '',
       });
     },
     removeDef() {
@@ -291,7 +291,7 @@ export default defineComponent({
         if (
           this.currentOppslag.definisjon[
             this.currentOppslag.definisjon.length - 1
-          ].definisjon == ""
+          ].definisjon == ''
         ) {
           this.currentOppslag.definisjon.pop();
         }
@@ -299,7 +299,7 @@ export default defineComponent({
       if (this.currentOppslag.uttale.length > 0) {
         if (
           this.currentOppslag.uttale[this.currentOppslag.uttale.length - 1]
-            .transkripsjon == ""
+            .transkripsjon == ''
         ) {
           this.currentOppslag.uttale.pop();
         }

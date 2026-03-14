@@ -1,86 +1,99 @@
-import api from "../api";
+import api from '../api';
 
 class JishoDataService {
-
-  getAll () {
+  getAll() {
     return api.get(`/jisho`);
   }
 
-  get (id) {
+  get(id) {
     return api.get(`/oppslag/${id}`);
   }
 
-  get_boyning (id) {
+  get_boyning(id) {
     return api.get(`/boyning/${id}`);
   }
 
-  get_kommentarer (id) {
+  get_kommentarer(id) {
     return api.get(`/kommentarer/${id}`);
   }
 
-  create (data) {
+  create(data) {
     return api.post(`/jisho`, data);
   }
 
-  update (id, data) {
+  update(id, data) {
     return api.put(`/update/${id}`, data);
   }
 
-  addForslag (id, data) {
+  addForslag(id, data) {
     return api.post(`/oppslag/${id}/nytt_forslag`, data);
   }
-  stemForslag (id, data) {
+  stemForslag(id, data) {
     return api.post(`/forslag/${id}/stem`, data);
   }
-  godkjennForslag (id, data) {
+  godkjennForslag(id, data) {
     return api.post(`/forslag/${id}/godkjenn`, data);
   }
-  redigerForslag (id, data) {
+  redigerForslag(id, data) {
     return api.post(`/forslag/${id}/rediger`, data);
   }
-  fjernForslag (id) {
+  fjernForslag(id) {
     return api.post(`/forslag/${id}/fjern`);
   }
-  avvisForslag (id) {
+  avvisForslag(id) {
     return api.post(`/forslag/${id}/avvis`);
   }
 
-  deleteDefUttale (data) {
+  deleteDefUttale(data) {
     return api.post(`/jisho/del`, data);
   }
 
-  login (data) {
+  login(data) {
     return api.post(`/logg_inn`, data);
   }
-  registrer (data) {
+  registrer(data) {
     return api.post(`/registrer`, data);
   }
 
-  findByOppslag (q, meddef, utendef, medut, utenut, kunwiki, utenwiki, kun_skjult, medai, utenai, string) {
-    return api.get(`/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}&kunwiki=${kunwiki}&utenwiki=${utenwiki}&kun_skjult=${kun_skjult}&med_ai=${medai}&uten_ai=${utenai}${string}`);
+  findByOppslag(
+    q,
+    meddef,
+    utendef,
+    medut,
+    utenut,
+    kunwiki,
+    utenwiki,
+    kun_skjult,
+    medai,
+    utenai,
+    string
+  ) {
+    return api.get(
+      `/search_baksida?q=${q}&meddef=${meddef}&utendef=${utendef}&medut=${medut}&utenut=${utenut}&kunwiki=${kunwiki}&utenwiki=${utenwiki}&kun_skjult=${kun_skjult}&med_ai=${medai}&uten_ai=${utenai}${string}`
+    );
   }
-  getAllForslag (status) {
+  getAllForslag(status) {
     return api.get(`/forslag?status=${status}`);
   }
-  getMyForslag (user_id) {
+  getMyForslag(user_id) {
     return api.get(`/forslag/user/${user_id}`);
   }
-  getAiForslag () {
+  getAiForslag() {
     return api.get(`/oppslag/ai`);
   }
-  getRandomAiTranslations () {
+  getRandomAiTranslations() {
     return api.get(`/random-ai-translations`);
   }
-  hentEnkeltForslag (id) {
+  hentEnkeltForslag(id) {
     return api.get(`/forslag/${id}`);
   }
-  getForslagKommentarer (id) {
+  getForslagKommentarer(id) {
     return api.get(`/oppslag/${id}/kommentarer`);
   }
-  postForslagKommentar (id, data) {
+  postForslagKommentar(id, data) {
     return api.post(`/oppslag/${id}/kommentarer`, data);
   }
-  postWordSuggestion (data) {
+  postWordSuggestion(data) {
     return api.post(`/words/suggestions/new`, data);
   }
   getWordSuggestion(id) {
@@ -95,68 +108,68 @@ class JishoDataService {
   rejectWordSuggestion(id) {
     return api.post(`/words/suggestions/${id}/reject`);
   }
-  getAnbefalinger () {
+  getAnbefalinger() {
     return api.get(`/anbefalinger`);
   }
-  getRequests () {
+  getRequests() {
     return api.get(`/requests`);
   }
-  getBrukeroversettelser () {
+  getBrukeroversettelser() {
     return api.get(`/statistikk/brukeroversettelser`);
   }
-  getOppslagInfo () {
+  getOppslagInfo() {
     return api.get(`/statistikk/oppslag`);
   }
-  getNyeOversettelser () {
+  getNyeOversettelser() {
     return api.get(`/statistikk/nye-oversettelser`);
   }
-  getNyeForslag () {
+  getNyeForslag() {
     return api.get(`/statistikk/nye-forslag`);
   }
-  getAntallKommentarer () {
+  getAntallKommentarer() {
     return api.get(`/statistikk/kommentarer`);
   }
-  getTranslatedByDay () {
+  getTranslatedByDay() {
     return api.get(`/statistikk/oversatt-per-dag`);
   }
   getBruker(id) {
-    return api.get(`/bruker/${id}`)
+    return api.get(`/bruker/${id}`);
   }
   getBrukerforslag(id) {
-    return api.get(`/bruker/${id}/forslag`)
+    return api.get(`/bruker/${id}/forslag`);
   }
   updateBrukerdata(id, data) {
-    return api.post(`/bruker/${id}/oppdater`, data)
+    return api.post(`/bruker/${id}/oppdater`, data);
   }
   hentVegginnlegg(id) {
-    return api.get(id ? `/veggen/innlegg/${id}` : `/veggen/innlegg`)
+    return api.get(id ? `/veggen/innlegg/${id}` : `/veggen/innlegg`);
   }
   postVegginnlegg(data) {
-    return api.post(`/veggen/nytt_innlegg`, data)
+    return api.post(`/veggen/nytt_innlegg`, data);
   }
   endreVegginnlegg(id, data) {
-    return api.post(`/veggen/innlegg/${id}/endre`, data)
+    return api.post(`/veggen/innlegg/${id}/endre`, data);
   }
   deleteVegginnlegg(id) {
-    return api.post(`/veggen/innlegg/${id}/delete`)
+    return api.post(`/veggen/innlegg/${id}/delete`);
   }
   hentUsetteVeggeninnlegg() {
-    return api.get(`/veggen/usette_innlegg/`)
+    return api.get(`/veggen/usette_innlegg/`);
   }
   updateLastSeen(id) {
-    return api.post(`/bruker/${id}/sist_sett`)
+    return api.post(`/bruker/${id}/sist_sett`);
   }
   getAllUsers() {
-    return api.get(`/brukere`)
+    return api.get(`/brukere`);
   }
   getPageVisits() {
-    return api.get(`/pagevisits`)
+    return api.get(`/pagevisits`);
   }
   addAiApproval(def_id) {
-    return api.post(`/definisjon/${def_id}/ai-approval`)
+    return api.post(`/definisjon/${def_id}/ai-approval`);
   }
   removeAiApproval(def_id) {
-    return api.delete(`/definisjon/${def_id}/ai-approval`)
+    return api.delete(`/definisjon/${def_id}/ai-approval`);
   }
 }
 

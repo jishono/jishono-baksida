@@ -10,18 +10,22 @@
         offset-y="16"
         class="d-lg-none ml-n3"
       >
-        <v-app-bar-nav-icon class="ml-3" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      </v-badge>
-      <router-link to="/" class="v-toolbar__title d-none d-lg-flex align-center">
-        <img
+        <v-app-bar-nav-icon
           class="ml-3"
-          :style="{ cursor: 'pointer' }"
-          :src="jishoLogo"
-        />
+          @click.stop="drawer = !drawer"
+        ></v-app-bar-nav-icon>
+      </v-badge>
+      <router-link
+        to="/"
+        class="v-toolbar__title d-none d-lg-flex align-center"
+      >
+        <img class="ml-3" :style="{ cursor: 'pointer' }" :src="jishoLogo" />
       </router-link>
-      <span class="d-lg-none text-white font-weight-bold text-h6 ml-2" v-if="$route.meta.title">{{
-        $t("navbar." + $route.meta.title)
-      }}</span>
+      <span
+        class="d-lg-none text-white font-weight-bold text-h6 ml-2"
+        v-if="$route.meta.title"
+        >{{ $t('navbar.' + $route.meta.title) }}</span
+      >
       <v-spacer></v-spacer>
       <router-link
         to="/"
@@ -55,20 +59,17 @@
             <v-icon start size="24"> {{ item.icon }}</v-icon>
           </v-badge>
           <span v-if="$i18n.locale == 'no'">{{
-            $t("navbar." + item.title)
+            $t('navbar.' + item.title)
           }}</span>
           <span v-if="$i18n.locale == 'ja'" class="nav-button-jap">{{
-            $t("navbar." + item.title)
+            $t('navbar.' + item.title)
           }}</span>
         </v-btn>
       </div>
       <div class="d-none d-sm-block">
         <v-btn icon size="small" @click="skiftLocale()">
-          <img
-            style="max-height: 25px; max-width: 25px;"
-            :src="jaNoLogo"
-          ></img>
-          </v-btn>
+          <img style="max-height: 25px; max-width: 25px" :src="jaNoLogo" />
+        </v-btn>
       </div>
       <v-menu v-if="$store.getters.isAdmin">
         <template v-slot:activator="{ props }">
@@ -104,7 +105,9 @@
         >
           <template v-slot:prepend>
             <v-badge
-              :model-value="item.title == 'veggen' && $store.getters.usette_innlegg > 0"
+              :model-value="
+                item.title == 'veggen' && $store.getters.usette_innlegg > 0
+              "
               dot
               color="red-lighten-1"
               offset-x="10"
@@ -114,7 +117,7 @@
             </v-badge>
           </template>
           <v-list-item-title>{{
-            $t("navbar." + item.title)
+            $t('navbar.' + item.title)
           }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="skiftLocale()">
@@ -125,7 +128,7 @@
               style="max-height: 20px; max-width: 20px"
             />
           </template>
-          <v-list-item-title> {{ $t("navbar.sprak") }} </v-list-item-title>
+          <v-list-item-title> {{ $t('navbar.sprak') }} </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -133,16 +136,16 @@
 </template>
 
 <script setup>
-import jaNoLogo from "../assets/jano.png";
-import jishoLogo from "../assets/jisho_logo_baksida_35.png";
-import jishoLogoSmall from "../assets/jisho_logo_baksida_30.png";
+import jaNoLogo from '../assets/jano.png';
+import jishoLogoSmall from '../assets/jisho_logo_baksida_30.png';
+import jishoLogo from '../assets/jisho_logo_baksida_35.png';
 </script>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "Navbar",
+  name: 'Navbar',
 
   data() {
     return {
@@ -151,98 +154,98 @@ export default defineComponent({
       usette_innlegg: 0,
       nav_items: [
         {
-          title: "forslag",
-          icon: "mdi-account-group",
-          route: "/forslag",
+          title: 'forslag',
+          icon: 'mdi-account-group',
+          route: '/forslag',
           loggedIn: true,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "oversett",
-          icon: "mdi-translate",
-          route: "/oversett",
+          title: 'oversett',
+          icon: 'mdi-translate',
+          route: '/oversett',
           loggedIn: true,
           loggedOut: false,
           adminOnly: false,
         },
         {
-          title: "sok",
-          icon: "mdi-magnify",
-          route: "/sok",
+          title: 'sok',
+          icon: 'mdi-magnify',
+          route: '/sok',
           loggedIn: true,
           loggedOut: false,
           adminOnly: false,
         },
         {
-          title: "ai_approval",
-          icon: "mdi-robot-outline",
-          route: "/ai-approval",
+          title: 'ai_approval',
+          icon: 'mdi-robot-outline',
+          route: '/ai-approval',
           loggedIn: true,
           loggedOut: false,
           adminOnly: false,
         },
         {
-          title: "statistikk",
-          icon: "mdi-chart-bar",
-          route: "/statistikk",
+          title: 'statistikk',
+          icon: 'mdi-chart-bar',
+          route: '/statistikk',
           loggedIn: true,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "veggen",
-          icon: "mdi-comment-text-multiple",
-          route: "/veggen",
+          title: 'veggen',
+          icon: 'mdi-comment-text-multiple',
+          route: '/veggen',
           loggedIn: true,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "instruks",
-          icon: "mdi-help-circle",
-          route: "/instruks",
+          title: 'instruks',
+          icon: 'mdi-help-circle',
+          route: '/instruks',
           loggedIn: true,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "om",
-          icon: "mdi-information",
-          route: "/om",
+          title: 'om',
+          icon: 'mdi-information',
+          route: '/om',
           loggedIn: true,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "profil",
-          icon: "mdi-account-circle",
-          route: "/profil",
+          title: 'profil',
+          icon: 'mdi-account-circle',
+          route: '/profil',
           loggedIn: true,
           loggedOut: false,
           adminOnly: false,
         },
         {
-          title: "logg_ut",
-          icon: "mdi-logout",
-          action: "logout",
-          route: "/logginn",
+          title: 'logg_ut',
+          icon: 'mdi-logout',
+          action: 'logout',
+          route: '/logginn',
           loggedIn: true,
           loggedOut: false,
           adminOnly: false,
         },
         {
-          title: "registrer",
-          icon: "mdi-account-plus",
-          route: "/registrer",
+          title: 'registrer',
+          icon: 'mdi-account-plus',
+          route: '/registrer',
           loggedIn: false,
           loggedOut: true,
           adminOnly: false,
         },
         {
-          title: "logg_inn",
-          icon: "mdi-login",
-          route: "/logginn",
+          title: 'logg_inn',
+          icon: 'mdi-login',
+          route: '/logginn',
           loggedIn: false,
           loggedOut: true,
           adminOnly: false,
@@ -253,29 +256,29 @@ export default defineComponent({
 
   methods: {
     skiftLocale() {
-      this.$i18n.locale = this.$i18n.locale == "no" ? "ja" : "no";
+      this.$i18n.locale = this.$i18n.locale == 'no' ? 'ja' : 'no';
     },
     handleFunctionCall(function_name) {
       this[function_name]();
     },
     activeMenuItems() {
       if (this.$store.getters.isAdmin) {
-        return this.nav_items.filter((item) => {
+        return this.nav_items.filter(item => {
           return item.loggedIn;
         });
       }
       if (this.$store.getters.isLoggedIn) {
-        return this.nav_items.filter((item) => {
+        return this.nav_items.filter(item => {
           return item.loggedIn && !item.adminOnly;
         });
       } else {
-        return this.nav_items.filter((item) => {
+        return this.nav_items.filter(item => {
           return item.loggedOut;
         });
       }
     },
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch('logout');
     },
   },
 

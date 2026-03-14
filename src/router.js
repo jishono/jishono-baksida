@@ -1,209 +1,208 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { nextTick } from "vue";
-import i18n from "./i18n";
-import store from "./store";
-import Sok from "./views/Sok.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import { nextTick } from 'vue';
+import i18n from './i18n';
+import store from './store';
+import Sok from './views/Sok.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/sok",
+      path: '/sok',
       meta: {
         requiresAuth: true,
-        title: 'sok'
+        title: 'sok',
       },
-      component: Sok
+      component: Sok,
     },
     {
-      path: "/sok/:query",
+      path: '/sok/:query',
       meta: {
         requiresAuth: true,
-        title: 'sok'
+        title: 'sok',
       },
-      component: Sok
+      component: Sok,
     },
     {
-      path: "/endre/:id",
+      path: '/endre/:id',
       meta: {
         requiresAuth: true,
-        title: 'endre'
+        title: 'endre',
       },
-      component: () => import("./views/Endre.vue")
+      component: () => import('./views/Endre.vue'),
     },
     {
-      path: "/logginn",
+      path: '/logginn',
       meta: {
         guest: true,
-        title: 'logg_inn'
+        title: 'logg_inn',
       },
-      component: () => import("./views/LoggInn.vue")
+      component: () => import('./views/LoggInn.vue'),
     },
     {
-      path: "/registrer",
+      path: '/registrer',
       meta: {
         guest: true,
-        title: 'registrer'
+        title: 'registrer',
       },
-      component: () => import("./views/Registrer.vue")
+      component: () => import('./views/Registrer.vue'),
     },
     {
-      path: "/oversett",
+      path: '/oversett',
       meta: {
         requiresAuth: true,
-        title: 'oversett'
+        title: 'oversett',
       },
-      component: () => import("./views/Oversett.vue")
+      component: () => import('./views/Oversett.vue'),
     },
     {
-      path: "/forslag",
-      alias: "/",
+      path: '/forslag',
+      alias: '/',
       meta: {
         requiresAuth: false,
-        title: 'forslag'
+        title: 'forslag',
       },
-      component: () => import("./views/Forslag.vue")
+      component: () => import('./views/Forslag.vue'),
     },
     {
-      path: "/oppslag/:id",
+      path: '/oppslag/:id',
       meta: {
         requiresAuth: true,
-        title: 'nytt_forslag'
+        title: 'nytt_forslag',
       },
-      component: () => import("./views/Oppslag.vue")
+      component: () => import('./views/Oppslag.vue'),
     },
     {
-      path: "/statistikk",
+      path: '/statistikk',
       meta: {
         requiresAuth: false,
-        title: 'statistikk'
+        title: 'statistikk',
       },
-      component: () => import("./views/Statistikk.vue")
+      component: () => import('./views/Statistikk.vue'),
     },
     {
-      path: "/instruks",
+      path: '/instruks',
       meta: {
         requiresAuth: false,
-        title: 'instruks'
+        title: 'instruks',
       },
-      component: () => import("./views/Instruks.vue")
+      component: () => import('./views/Instruks.vue'),
     },
     {
-      path: "/om",
+      path: '/om',
       meta: {
         requiresAuth: false,
-        title: 'om'
+        title: 'om',
       },
-      component: () => import("./views/Om.vue")
+      component: () => import('./views/Om.vue'),
     },
     {
-      path: "/profil",
+      path: '/profil',
       meta: {
         requiresAuth: true,
-        title: 'profil'
+        title: 'profil',
       },
-      component: () => import("./views/Profil.vue")
+      component: () => import('./views/Profil.vue'),
     },
     {
-      path: "/veggen",
+      path: '/veggen',
       meta: {
         requiresAuth: false,
-        title: 'veggen'
+        title: 'veggen',
       },
-      component: () => import("./views/Veggen.vue")
+      component: () => import('./views/Veggen.vue'),
     },
     {
-      path: "/veggen/:id",
+      path: '/veggen/:id',
       meta: {
         requiresAuth: true,
-        title: 'veggen'
+        title: 'veggen',
       },
-      component: () => import("./views/Veggen.vue")
+      component: () => import('./views/Veggen.vue'),
     },
     {
-      path: "/nytt_oppslag/:oppslag",
+      path: '/nytt_oppslag/:oppslag',
       meta: {
         requiresAuth: true,
-        title: 'new_word'
+        title: 'new_word',
       },
-      component: () => import("./views/NyttOppslag.vue")
+      component: () => import('./views/NyttOppslag.vue'),
     },
     {
-      path: "/nytt_oppslag/id/:id",
+      path: '/nytt_oppslag/id/:id',
       meta: {
         requiresAuth: true,
-        title: 'new_word'
+        title: 'new_word',
       },
-      component: () => import("./views/NyttOppslag.vue")
+      component: () => import('./views/NyttOppslag.vue'),
     },
     {
-      path: "/oppslag_forslag",
+      path: '/oppslag_forslag',
       meta: {
         requiresAuth: true,
-        title: 'word_suggestion_list'
+        title: 'word_suggestion_list',
       },
-      component: () => import("./views/WordSuggestionList.vue")
+      component: () => import('./views/WordSuggestionList.vue'),
     },
     {
-      path: "/ai-approval",
+      path: '/ai-approval',
       meta: {
         requiresAuth: true,
-        title: 'ai_approval'
+        title: 'ai_approval',
       },
-      component: () => import("./views/AiApproval.vue")
+      component: () => import('./views/AiApproval.vue'),
     },
     {
-      path: "/admin/users",
+      path: '/admin/users',
       meta: {
         requiresAuth: true,
-        title: 'users'
+        title: 'users',
       },
-      component: () => import("./views/Users.vue")
+      component: () => import('./views/Users.vue'),
     },
     {
-      path: "/admin/visits",
+      path: '/admin/visits',
       meta: {
         requiresAuth: true,
-        title: 'visits'
+        title: 'visits',
       },
-      component: () => import("./views/PageVisits.vue")
+      component: () => import('./views/PageVisits.vue'),
     },
     {
-      path: "/:pathMatch(.*)*",
-      redirect: '/'
+      path: '/:pathMatch(.*)*',
+      redirect: '/',
     },
-  ]
-
-})
+  ],
+});
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLoggedIn) {
       next({
         path: '/logginn',
-        params: { nextUrl: to.fullPath }
-      })
+        params: { nextUrl: to.fullPath },
+      });
     } else {
-      next()
+      next();
     }
   } else if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem('jwt') == null) {
-      next()
-    }
-    else {
-      next({ name: 'oversikt' })
+      next();
+    } else {
+      next({ name: 'oversikt' });
     }
   } else {
-    next()
-  }
-})
-
-router.afterEach((to) => {
-  if (to.meta && to.meta.title) {
-    nextTick(() => {
-      document.title = i18n.global.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
-    })
+    next();
   }
 });
 
-export default router
+router.afterEach(to => {
+  if (to.meta && to.meta.title) {
+    nextTick(() => {
+      document.title =
+        i18n.global.t('navbar.' + to.meta.title) + ' | jisho.no - Baksida';
+    });
+  }
+});
+
+export default router;

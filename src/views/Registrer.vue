@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    max-width="600px"
-    class="mt-10 mx-auto"
-  >
+  <v-card max-width="600px" class="mt-10 mx-auto">
     <v-card-title class="font-weight-bold">
       {{ $t('bruker.registrering.registrer_deg') }}
     </v-card-title>
@@ -10,10 +7,7 @@
       {{ $t('bruker.registrering.registrer_undertittel') }}
     </v-card-subtitle>
     <v-card-text>
-      <v-form
-        ref="form"
-        v-model="valid"
-      >
+      <v-form ref="form" v-model="valid">
         <v-text-field
           :label="$t('bruker.brukernavn')"
           v-model="username"
@@ -66,20 +60,11 @@
             ></span>
           </template>
         </v-checkbox>
-
       </v-form>
-      <v-alert
-        v-if="error_message"
-        outlined
-        type="error"
-      >
-        {{ this.error_message}}
+      <v-alert v-if="error_message" outlined type="error">
+        {{ this.error_message }}
       </v-alert>
-      <v-alert
-        v-if="success_message"
-        outlined
-        type="success"
-      >
+      <v-alert v-if="success_message" outlined type="success">
         {{ this.success_message }}
       </v-alert>
     </v-card-text>
@@ -89,7 +74,9 @@
         color="primary"
         @click="register"
         :disabled="!valid || !checkbox"
-      > {{ $t('bruker.registrering.registrer_knapp') }}</v-btn>
+      >
+        {{ $t('bruker.registrering.registrer_knapp') }}</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -97,12 +84,12 @@
 <script>
 import { defineComponent } from 'vue';
 
-import JishoDataService from '../services/JishoDataService'
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
   name: 'Registrer',
 
-  data () {
+  data() {
     return {
       valid: false,
       checkbox: false,
@@ -111,31 +98,38 @@ export default defineComponent({
       email: '',
       email_rules: [
         v => !!v || this.$t('bruker.registrering.error_epost'),
-        v => (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) || this.$t('bruker.registrering.error_epost_gyldig'),
+        v =>
+          (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) ||
+          this.$t('bruker.registrering.error_epost_gyldig'),
       ],
       username: '',
       username_rules: [
         v => !!v || this.$t('bruker.registrering.error_brukernavn'),
-        v => (v && v.length > 5 && v.length < 13) || this.$t('bruker.registrering.error_brukernavn_lengde'),
-        v => (v && /^[a-zæøå]+$/.test(v)) || this.$t('bruker.registrering.error_brukernavn_gyldig'),
+        v =>
+          (v && v.length > 5 && v.length < 13) ||
+          this.$t('bruker.registrering.error_brukernavn_lengde'),
+        v =>
+          (v && /^[a-zæøå]+$/.test(v)) ||
+          this.$t('bruker.registrering.error_brukernavn_gyldig'),
       ],
 
       password: '',
       password_rules: [
-        v => (v && v.length > 5) || this.$t('bruker.registrering.error_passord')
+        v =>
+          (v && v.length > 5) || this.$t('bruker.registrering.error_passord'),
       ],
       password_confirm: '',
       password_confirm_rules: [
         v => !!v || this.$t('bruker.registrering.error_bekreft_passord'),
-        v => (v && v == this.password) || this.$t('bruker.registrering.error_bekreft_ulikt')
+        v =>
+          (v && v == this.password) ||
+          this.$t('bruker.registrering.error_bekreft_ulikt'),
       ],
       check: '',
-      check_rules: [
-        v => (!!v) || this.$t('bruker.registrering.error_sjekk'),
-      ],
+      check_rules: [v => !!v || this.$t('bruker.registrering.error_sjekk')],
       error_message: '',
       success_message: '',
-    }
+    };
   },
 
   methods: {
@@ -145,26 +139,25 @@ export default defineComponent({
           email: this.email,
           username: this.username,
           password: this.password,
-          check: this.check
-        }
-        this.error_message = ''
+          check: this.check,
+        };
+        this.error_message = '';
         JishoDataService.registrer(user_data)
-          .then((response) => {
-            this.success_message = response.data[this.$i18n.locale]
+          .then(response => {
+            this.success_message = response.data[this.$i18n.locale];
             setTimeout(() => {
-              this.$router.push('logginn')
-            }, 2000)
+              this.$router.push('logginn');
+            }, 2000);
           })
           .catch(error => {
-            console.log(error)
-            this.error_message = error.response.data[this.$i18n.locale]
-          })
+            console.log(error);
+            this.error_message = error.response.data[this.$i18n.locale];
+          });
       }
     },
-    clear () {
-      this.$refs.form.reset()
-    }
-
+    clear() {
+      this.$refs.form.reset();
+    },
   },
 });
 </script>

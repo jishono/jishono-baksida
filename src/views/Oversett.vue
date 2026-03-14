@@ -4,7 +4,7 @@
       <v-col cols="12" class="pa-0">
         <v-card max-width="600px" class="mx-auto">
           <v-card-title class="d-flex align-center">
-            {{ $t("oversett.anbefalinger") }}
+            {{ $t('oversett.anbefalinger') }}
             <v-spacer></v-spacer>
             <v-btn
               class="d-none d-sm-flex"
@@ -13,7 +13,7 @@
               @click="getAnbefalinger"
             >
               <v-icon size="small" start>mdi-reload</v-icon>
-              {{ $t("oversett.hent_flere") }}
+              {{ $t('oversett.hent_flere') }}
             </v-btn>
             <v-btn
               class="d-sm-none"
@@ -26,16 +26,16 @@
             </v-btn>
           </v-card-title>
           <v-card-subtitle>
-            {{ $t("oversett.anbefalinger_title") }}
+            {{ $t('oversett.anbefalinger_title') }}
           </v-card-subtitle>
           <v-card-text align="left">
             <v-table fixed-header density="compact">
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">{{ $t("ord.oppslagsord") }}</th>
-                    <th class="text-left">{{ $t("ord.ordklasse") }}</th>
-                    <th class="text-left">{{ $t("oversett.oversett") }}</th>
+                    <th class="text-left">{{ $t('ord.oppslagsord') }}</th>
+                    <th class="text-left">{{ $t('ord.ordklasse') }}</th>
+                    <th class="text-left">{{ $t('oversett.oversett') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,9 @@
                     <td>{{ ordklasseNavn(item.boy_tabell) }}</td>
                     <td>
                       <router-link :to="'/oppslag/' + item.lemma_id">
-                        <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
+                        <v-icon color="green-lighten-1" size="small">
+                          mdi-translate
+                        </v-icon>
                       </router-link>
                       <router-link
                         v-if="$store.getters.isAdmin"
@@ -66,19 +68,19 @@
       <v-col cols="12" class="pa-0">
         <v-card max-width="600px" class="mx-auto">
           <v-card-title>
-            {{ $t("oversett.requests") }}
+            {{ $t('oversett.requests') }}
           </v-card-title>
           <v-card-subtitle>
-            {{ $t("oversett.requests_title") }}
+            {{ $t('oversett.requests_title') }}
           </v-card-subtitle>
           <v-card-text align="left">
             <v-table fixed-header density="compact">
               <template v-slot:default>
                 <thead>
                   <tr>
-                    <th class="text-left">{{ $t("ord.oppslagsord") }}</th>
-                    <th class="text-left">{{ $t("ord.ordklasse") }}</th>
-                    <th class="text-left">{{ $t("oversett.oversett") }}</th>
+                    <th class="text-left">{{ $t('ord.oppslagsord') }}</th>
+                    <th class="text-left">{{ $t('ord.ordklasse') }}</th>
+                    <th class="text-left">{{ $t('oversett.oversett') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -87,7 +89,9 @@
                     <td>{{ ordklasseNavn(item.boy_tabell) }}</td>
                     <td>
                       <router-link :to="'/oppslag/' + item.lemma_id">
-                        <v-icon color="green-lighten-1" size="small"> mdi-translate </v-icon>
+                        <v-icon color="green-lighten-1" size="small">
+                          mdi-translate
+                        </v-icon>
                       </router-link>
                       <router-link
                         v-if="$store.getters.isAdmin"
@@ -109,10 +113,10 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import JishoDataService from "../services/JishoDataService";
-import helpers from "../mixins/helpers";
+import JishoDataService from '../services/JishoDataService';
+import helpers from '../mixins/helpers';
 
 export default defineComponent({
   mixins: [helpers],
@@ -128,27 +132,27 @@ export default defineComponent({
   methods: {
     getAnbefalinger() {
       JishoDataService.getAnbefalinger()
-        .then((response) => {
+        .then(response => {
           this.anbefalinger = response.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
-          this.$store.dispatch("show_snackbar", {
+          this.$store.dispatch('show_snackbar', {
             message: error.response.data,
-            color: "error",
+            color: 'error',
           });
         });
     },
     getRequests() {
       JishoDataService.getRequests()
-        .then((response) => {
+        .then(response => {
           this.requests = response.data;
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
-          this.$store.dispatch("show_snackbar", {
+          this.$store.dispatch('show_snackbar', {
             message: error.response.data,
-            color: "error",
+            color: 'error',
           });
         });
     },
