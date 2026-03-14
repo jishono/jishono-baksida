@@ -29,6 +29,17 @@
           class="mx-1"
           size="small"
           color="primary"
+          :variant="!filtrer_har_kommentarer ? 'outlined' : 'flat'"
+          @click="filtrer_har_kommentarer = !filtrer_har_kommentarer"
+        >
+          <v-icon size="small" v-if="filtrer_har_kommentarer" start>mdi-checkbox-marked-circle</v-icon>
+          <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
+          {{ $t("forslag.har_kommentarer") }}
+        </v-chip>
+        <v-chip
+          class="mx-1"
+          size="small"
+          color="primary"
           :variant="!filtrer_uleste ? 'outlined' : 'flat'"
           @click="filtrer_uleste = filtrer_uleste ? false : true"
         >
@@ -47,6 +58,7 @@
           <v-icon size="small" v-else start>mdi-checkbox-blank-circle-outline</v-icon>
           {{ $t("forslag.ikke_stemt") }}
         </v-chip>
+
       </div>
     </div>
 
@@ -249,9 +261,9 @@
 <script>
 import { defineComponent } from "vue";
 
-import Oppslag from "./Oppslag.vue";
 import helpers from "../mixins/helpers";
 import JishoDataService from "../services/JishoDataService";
+import Oppslag from "./Oppslag.vue";
 
 export default defineComponent({
   name: "Forslag",
@@ -267,6 +279,7 @@ export default defineComponent({
       search: "",
       filtrer_uleste: false,
       filtrer_ikke_stemt: false,
+      filtrer_har_kommentarer: false,
       alle_headers: [
         {
           title: this.$t("ord.lemma_id"),
@@ -375,7 +388,8 @@ export default defineComponent({
           );
           return { ...lemma, forslag: fs, siste_opprettet };
         })
-        .filter((lemma) => lemma.forslag?.length > 0);
+        .filter((lemma) => lemma.forslag?.length > 0)
+        .filter((lemma) => !this.filtrer_har_kommentarer || lemma.antall_kommentarer > 0);
     },
 
     currentHeaders() {
