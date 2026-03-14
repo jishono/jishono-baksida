@@ -70,7 +70,7 @@
                 </v-col>
                 <v-col>
                   <v-checkbox
-                    v-model="currentOppslag.skjult"
+                    v-model="currentOppslag.is_hidden"
                     class="ml-4 mt-3"
                     label="Skjult"
                   ></v-checkbox>

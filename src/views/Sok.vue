@@ -70,7 +70,10 @@
             v-for="(oppslag, index) in slicedResults"
             :key="index"
           >
-            <v-expansion-panel-title v-slot="{ open }" @click="setActiveOppslag(oppslag, index)">
+            <v-expansion-panel-title
+              v-slot="{ open }"
+              @click="setActiveOppslag(oppslag, index)"
+            >
               <div v-if="open" class="d-flex justify-space-between w-100">
                 <div class="title font-weight-black">{{ oppslag.oppslag }}</div>
                 <div>{{ ordklasseNavn(oppslag.boy_tabell) }}</div>
@@ -262,8 +265,8 @@ import { defineComponent } from "vue";
 
 import _ from "lodash";
 import Boyningstabell from "../components/Boyningstabell.vue";
-import JishoDataService from "../services/JishoDataService";
 import helpers from "../mixins/helpers";
+import JishoDataService from "../services/JishoDataService";
 
 export default defineComponent({
   name: "Sok",
