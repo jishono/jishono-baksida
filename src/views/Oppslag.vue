@@ -521,44 +521,7 @@
         <div class="mt-4 mb-2">
           <span class="text-h6">{{ $t('kommentar.kommentarer') }}</span>
         </div>
-        <v-textarea
-          variant="outlined"
-          :label="$t('kommentar.ny_kommentar')"
-          v-model="ny_kommentar"
-          rows="4"
-        ></v-textarea>
-        <div class="d-flex justify-end">
-          <v-btn color="green" size="small" @click="postKommentar">
-            {{ $t('kommentar.post_kommentar') }}
-          </v-btn>
-        </div>
-        <div v-if="kommentarer.length" class="mt-8">
-          <div v-for="kom in kommentarer" :key="kom.lemma_kommentar_id">
-            <v-card class="mb-4">
-              <v-card-title
-                class="headline bg-orange-lighten-3 text-body-2 pa-3 d-flex align-center"
-              >
-                <v-avatar :color="randomFarge(kom.brukernavn)" size="32">
-                  <span class="text-white">{{
-                    initialer(kom.brukernavn)
-                  }}</span>
-                </v-avatar>
-                <span class="font-weight-black ml-2">{{ kom.brukernavn }}</span>
-                <v-spacer></v-spacer>
-                <span class="text-medium-emphasis">{{
-                  new Date(kom.opprettet).toLocaleString('da-DK')
-                }}</span>
-              </v-card-title>
-              <v-card-text class="pa-3">
-                <vue-markdown
-                  class="linjeskift"
-                  :source="kom.kommentar"
-                  :plugins="[markdownItEmoji]"
-                ></vue-markdown>
-              </v-card-text>
-            </v-card>
-          </div>
-        </div>
+        <OppslagComments :lemmaId="currentOppslag.lemma_id" />
       </v-card-text>
     </v-card>
   </div>
@@ -567,9 +530,8 @@
 <script>
 import { defineComponent } from 'vue';
 
-import { full as markdownItEmoji } from 'markdown-it-emoji';
-import VueMarkdown from 'vue-markdown-render';
 import Boyningstabell from '../components/Boyningstabell.vue';
+import OppslagComments from '../components/OppslagComments.vue';
 import InstruksBoks from '../components/InstruksBoks.vue';
 import helpers from '../mixins/helpers';
 import JishoDataService from '../services/JishoDataService';
@@ -610,9 +572,6 @@ export default defineComponent({
       nye_forslag: [{ definisjon: '', prioritet: null }],
       boyningsDialog: false,
       instruksDialog: false,
-      ny_kommentar: '',
-      kommentarer: [],
-      markdownItEmoji,
       editing_forslag_id: null,
       redigert_forslag: '',
       erstatter_def: null,
@@ -621,8 +580,8 @@ export default defineComponent({
 
   components: {
     Boyningstabell,
+    OppslagComments,
     InstruksBoks,
-    VueMarkdown,
   },
 
   methods: {
@@ -638,46 +597,10 @@ export default defineComponent({
               (a, b) => a.prioritet - b.prioritet
             );
           }
-          this.hentKommentarer();
         })
         .catch(e => {
           console.log(e);
         });
-    },
-    hentKommentarer() {
-      JishoDataService.getForslagKommentarer(this.currentOppslag.lemma_id)
-        .then(response => {
-          this.kommentarer = response.data;
-        })
-        .catch(error => {
-          this.$store.dispatch('show_snackbar', {
-            message: error.response.data,
-            color: 'error',
-          });
-        });
-    },
-    postKommentar() {
-      if (this.ny_kommentar !== '') {
-        JishoDataService.postForslagKommentar(this.currentOppslag.lemma_id, {
-          ny_kommentar: this.ny_kommentar,
-        })
-          .then(response => {
-            this.$store.dispatch('show_snackbar', {
-              message: response.data,
-              color: 'success',
-            });
-            this.ny_kommentar = '';
-            this.hentKommentarer();
-          })
-          .catch(error => {
-            this.$store.dispatch('show_snackbar', {
-              message: error.response.data,
-              color: 'error',
-            });
-            this.ny_kommentar = '';
-            this.hentKommentarer();
-          });
-      }
     },
     nyForslagIndex(j) {
       const pending = (this.currentOppslag.forslag ?? []).filter(

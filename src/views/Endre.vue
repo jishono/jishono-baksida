@@ -149,35 +149,7 @@
       </v-col>
       <v-col md="6" sm="6" cols="12">
         <h1>{{ $t('kommentar.kommentarer') }}</h1>
-        <v-textarea
-          variant="outlined"
-          :label="$t('kommentar.ny_kommentar')"
-          v-model="ny_kommentar"
-        ></v-textarea>
-        <div v-if="currentOppslag.kommentarer">
-          <div
-            v-for="kom in currentOppslag.kommentarer"
-            v-bind:key="kom.kom_id"
-          >
-            <v-card class="mb-4">
-              <v-card-title class="headline bg-grey-lighten-3 text-body-2 pa-0">
-                <v-col cols="5">
-                  <span class="font-weight-black"> {{ kom.brukernavn }} </span>
-                </v-col>
-                <v-col align="end">
-                  {{ new Date(kom.opprettet).toLocaleString('da-DK') }}
-                </v-col>
-              </v-card-title>
-              <v-card-text class="pa-3">
-                <vue-markdown
-                  class="linjeskift"
-                  :source="kom.kommentar"
-                  :plugins="[markdownItEmoji]"
-                ></vue-markdown>
-              </v-card-text>
-            </v-card>
-          </div>
-        </div>
+        <OppslagComments :lemmaId="currentOppslag.lemma_id" />
       </v-col>
     </v-row>
   </v-container>
@@ -186,11 +158,10 @@
 <script>
 import { defineComponent } from 'vue';
 
-import VueMarkdown from 'vue-markdown-render';
-import { full as markdownItEmoji } from 'markdown-it-emoji';
 import Boyningstabell from '../components/Boyningstabell.vue';
-import JishoDataService from '../services/JishoDataService';
+import OppslagComments from '../components/OppslagComments.vue';
 import helpers from '../mixins/helpers';
+import JishoDataService from '../services/JishoDataService';
 
 export default defineComponent({
   name: 'Endre',
@@ -199,19 +170,17 @@ export default defineComponent({
 
   components: {
     Boyningstabell,
-    VueMarkdown,
+    OppslagComments,
   },
 
   data() {
     return {
       currentOppslag: null,
-      ny_kommentar: '',
       deleteData: {
         def: [],
         uttale: [],
       },
       boyningsDialog: false,
-      markdownItEmoji,
     };
   },
 
@@ -234,15 +203,11 @@ export default defineComponent({
 
     updateOppslag() {
       this.checkEmpty();
-      if (this.nyKommentar != '') {
-        this.currentOppslag['ny_kommentar'] = this.ny_kommentar;
-      }
       JishoDataService.update(this.currentOppslag.lemma_id, {
         oppslag: this.currentOppslag,
         deldata: this.deleteData,
       })
         .then(response => {
-          this.ny_kommentar = '';
           this.deleteData.def = [];
           this.deleteData.uttale = [];
           this.refreshOppslag();
