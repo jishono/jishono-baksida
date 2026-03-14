@@ -24,6 +24,18 @@
           {{ ordklasseNavn(currentOppslag.boy_tabell) }} · #{{
             currentOppslag.lemma_id
           }}
+          <router-link
+            :to="'/endre/' + currentOppslag.lemma_id"
+            style="text-decoration: none; padding-left: 4px"
+          >
+            <v-tooltip :text="$t('knapper.endre')" location="top">
+              <template v-slot:activator="{ props }">
+                <v-icon v-bind="props" size="16" color="grey"
+                  >mdi-wrench</v-icon
+                >
+              </template>
+            </v-tooltip>
+          </router-link>
         </div>
         <div class="d-flex flex-wrap mt-2" style="gap: 4px">
           <v-btn
