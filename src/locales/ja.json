@@ -249,7 +249,10 @@
     "next": "次へ",
     "open": "提案",
     "empty": "承認待ちのAI定義はありません",
-    "progress": "{total}件中{current}件目"
+    "progress": "{total}件中{current}件目",
+    "has_approval": "承認あり",
+    "description": "AIが翻訳した見出し語を承認・修正する",
+    "threshold_info": "2件以上の承認がある翻訳はjisho.noで「人間が承認済み」と表示されます"
   },
   "instruks": {
     "tittel": "翻訳の手引き",

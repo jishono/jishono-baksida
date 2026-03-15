@@ -7,6 +7,38 @@
     >
       <Oppslag :lemma_id="oppslagDialogId" @close="oppslagDialog = false" />
     </v-dialog>
+    <div class="mx-auto mt-4" style="max-width: 500px; width: 100%">
+      <div class="d-flex align-center justify-space-between mb-2">
+        <v-tooltip location="top" max-width="300">
+          <template v-slot:default>
+            <div>{{ $t('ai_approval.description') }}</div>
+            <div class="mt-1">{{ $t('ai_approval.threshold_info') }}</div>
+          </template>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              v-bind="props"
+              size="28"
+              class="text-medium-emphasis"
+              style="cursor: pointer"
+              >mdi-information-outline</v-icon
+            >
+          </template>
+        </v-tooltip>
+        <v-btn
+          :variant="filterHasApprovals ? 'flat' : 'outlined'"
+          :color="filterHasApprovals ? 'primary' : undefined"
+          size="small"
+          @click="toggleFilter()"
+        >
+          <v-icon start>{{
+            filterHasApprovals
+              ? 'mdi-checkbox-marked'
+              : 'mdi-checkbox-blank-outline'
+          }}</v-icon>
+          {{ $t('ai_approval.has_approval') }}
+        </v-btn>
+      </div>
+    </div>
     <div
       v-if="batch.length === 0 && !loading"
       class="text-center mt-10 text-medium-emphasis"
@@ -15,7 +47,7 @@
     </div>
     <v-card
       v-else-if="currentOppslag"
-      class="mx-auto mt-4 d-flex flex-column"
+      class="mx-auto d-flex flex-column"
       style="max-width: 500px; width: 100%; height: 520px"
     >
       <v-card-title class="pb-0">
@@ -183,6 +215,7 @@ export default defineComponent({
       oppslagDialog: false,
       oppslagDialogId: null,
       instruksDialog: false,
+      filterHasApprovals: false,
     };
   },
 
@@ -203,10 +236,18 @@ export default defineComponent({
       this.oppslagDialogId = lemma_id;
       this.oppslagDialog = true;
     },
+    toggleFilter() {
+      this.filterHasApprovals = !this.filterHasApprovals;
+      this.batch = [];
+      this.currentIndex = 0;
+      this.loadBatch();
+    },
     async loadBatch() {
       this.loading = true;
       try {
-        const response = await JishoDataService.getRandomAiTranslations();
+        const response = await JishoDataService.getRandomAiTranslations({
+          ...(this.filterHasApprovals ? { has_approvals: true } : {}),
+        });
         const newItems = response.data.map(o => {
           o.definisjon.sort((a, b) => a.prioritet - b.prioritet);
           return o;

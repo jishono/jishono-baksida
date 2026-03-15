@@ -81,8 +81,11 @@ class JishoDataService {
   getAiForslag() {
     return api.get(`/oppslag/ai`);
   }
-  getRandomAiTranslations() {
-    return api.get(`/random-ai-translations`);
+  getRandomAiTranslations(params = {}) {
+    const query = new URLSearchParams();
+    if (params.has_approvals !== undefined) query.set('has_approvals', params.has_approvals);
+    const qs = query.toString();
+    return api.get(`/random-ai-translations${qs ? '?' + qs : ''}`);
   }
   hentEnkeltForslag(id) {
     return api.get(`/forslag/${id}`);

@@ -244,12 +244,15 @@
     }
   },
   "ai_approval": {
-    "title": "Godkjenn AI-definisjoner",
+    "title": "Evaluer AI-oversettelser",
     "previous": "Forrige",
     "next": "Neste",
     "open": "Endre",
-    "empty": "Ingen AI-definisjoner å godkjenne",
-    "progress": "{current} av {total}"
+    "empty": "Ingen flere AI-definisjoner å godkjenne",
+    "progress": "{current} av {total}",
+    "has_approval": "Har godkjenninger",
+    "description": "Godkjenn og foreslå endringer til oppslag oversatt av AI",
+    "threshold_info": "Oversettelser med minst 2 godkjenninger vil bli markert som \"godkjent av et menneske\" på jisho.no"
   },
   "instruks": {
     "tittel": "Instruks for oversetting",
