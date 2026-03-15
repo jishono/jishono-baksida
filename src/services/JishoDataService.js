@@ -174,6 +174,18 @@ class JishoDataService {
   removeAiApproval(def_id) {
     return api.delete(`/definisjon/${def_id}/ai-approval`);
   }
+  reorderDefinisjoner(data) {
+    return api.post(`/definisjon/reorder`, data);
+  }
+  updateDefinisjon(def_id, data) {
+    return api.patch(`/definisjon/${def_id}`, data);
+  }
+  deleteDefinisjon(def_id) {
+    return api.delete(`/definisjon/${def_id}`);
+  }
+  addDefinisjon(lemma_id, data) {
+    return api.post(`/oppslag/${lemma_id}/definisjon`, data);
+  }
 }
 
 export default new JishoDataService();

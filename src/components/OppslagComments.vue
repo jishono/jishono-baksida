@@ -7,7 +7,8 @@
       rows="4"
     ></v-textarea>
     <div class="d-flex justify-end">
-      <v-btn color="green" size="small" @click="postKommentar">
+      <v-btn color="primary" @click="postKommentar" :disabled="!ny_kommentar">
+        <v-icon start>mdi-send</v-icon>
         {{ $t('kommentar.post_kommentar') }}
       </v-btn>
     </div>
