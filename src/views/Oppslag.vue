@@ -461,6 +461,7 @@
               counter
               maxlength="100"
               variant="outlined"
+              clearable
             >
               <template v-slot:label>
                 {{ maruSuji(erstatter_def._index + 1) }}
@@ -490,6 +491,7 @@
               counter
               maxlength="100"
               variant="outlined"
+              clearable
             >
               <template v-slot:label>
                 {{
