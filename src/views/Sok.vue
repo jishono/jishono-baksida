@@ -333,7 +333,7 @@ export default defineComponent({
         return;
       }
       this.showNewWordButton = false;
-      if (this.q != '' && this.q != '%' && this.q.length > 0) {
+      if (this.q != '%') {
         this.sokOppslag();
       } else {
         this.syncUrl();
