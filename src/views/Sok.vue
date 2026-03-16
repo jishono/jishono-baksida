@@ -291,6 +291,7 @@ export default defineComponent({
       side: 0,
       treffPerSide: 20,
       boyningsDialog: false,
+      restoring: false,
       kun_skjult: false,
       meduten: {
         meddef: false,
@@ -327,17 +328,39 @@ export default defineComponent({
 
   watch: {
     q: _.debounce(function () {
+      if (this.restoring) {
+        this.restoring = false;
+        return;
+      }
       this.showNewWordButton = false;
       if (this.q != '' && this.q != '%' && this.q.length > 0) {
-        window.history.replaceState({}, document.title, '/sok/' + this.q);
         this.sokOppslag();
       } else {
-        this.$router.replace('/sok/', () => {});
+        this.syncUrl();
       }
     }, 200),
   },
 
   methods: {
+    buildQuery() {
+      const query = {};
+      for (const [key, val] of Object.entries(this.meduten)) {
+        if (val) query[key] = 'true';
+      }
+      for (const [key, val] of Object.entries(this.pos)) {
+        if (val) query[key] = 'true';
+      }
+      if (this.kun_skjult) query.kun_skjult = 'true';
+      if (this.side > 0) query.side = String(this.side);
+      if (this.currentIndex >= 0) query.panel = String(this.currentIndex);
+      return query;
+    },
+    syncUrl() {
+      const path = this.q ? '/sok/' + this.q : '/sok/';
+      const params = new URLSearchParams(this.buildQuery()).toString();
+      const url = params ? path + '?' + params : path;
+      window.history.replaceState({ ...history.state, current: url }, '', url);
+    },
     setActiveOppslag(oppslag, index) {
       if (this.currentIndex == index) {
         this.currentIndex = -1;
@@ -352,8 +375,9 @@ export default defineComponent({
           });
         this.currentIndex = index;
       }
+      this.syncUrl();
     },
-    async sokOppslag() {
+    async sokOppslag({ bevarSide = false, bevarPanel = -1 } = {}) {
       this.isLoading = true;
       this.showExpansion = false;
       try {
@@ -379,12 +403,18 @@ export default defineComponent({
         this.currentIndex = -1;
         this.currentOppslag = null;
         this.treff = this.oppslagsliste.length;
-        this.side = 0;
+        if (!bevarSide) this.side = 0;
         if (
           !this.oppslagsliste.map(result => result.oppslag).includes(this.q) &&
           this.q != ''
         ) {
           this.showNewWordButton = true;
+        }
+        if (bevarPanel >= 0 && bevarPanel < this.oppslagsliste.length) {
+          this.setActiveOppslag(this.oppslagsliste[bevarPanel], bevarPanel);
+          this.showExpansion = bevarPanel;
+        } else {
+          this.syncUrl();
         }
       } catch (error) {
         this.$store.dispatch('show_snackbar', {
@@ -410,6 +440,7 @@ export default defineComponent({
       this.currentIndex = -1;
       this.currentOppslag = null;
       this.showExpansion = false;
+      this.syncUrl();
     },
     openBoyningsDialog() {
       if (
@@ -439,11 +470,34 @@ export default defineComponent({
   },
 
   mounted() {
-    this.q = this.$route.params.query || '';
-    if (!this.$store.getters.isAdmin) {
+    const query = Object.fromEntries(new URLSearchParams(window.location.search));
+    const hasQueryParams = Object.keys(query).length > 0;
+
+    // Restore filters from URL query params
+    for (const key of Object.keys(this.meduten)) {
+      if (query[key] === 'true') this.meduten[key] = true;
+    }
+    for (const key of Object.keys(this.pos)) {
+      if (query[key] === 'true') this.pos[key] = true;
+    }
+    if (query.kun_skjult === 'true') this.kun_skjult = true;
+    if (query.side) this.side = parseInt(query.side, 10) || 0;
+    const panel = query.panel != null ? parseInt(query.panel, 10) : -1;
+
+    if (!this.$store.getters.isAdmin && !hasQueryParams) {
       this.meduten.utendef = true;
     }
+
+    const routeQuery = this.$route.params.query || '';
+    if (routeQuery) {
+      this.restoring = true;
+      this.q = routeQuery;
+      this.sokOppslag({ bevarSide: hasQueryParams, bevarPanel: panel });
+    } else if (hasQueryParams) {
+      this.sokOppslag({ bevarSide: true, bevarPanel: panel });
+    }
   },
+
 });
 </script>
 
