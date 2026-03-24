@@ -317,6 +317,7 @@ export default defineComponent({
         subjunksjon: false,
         subst: false,
         symbol: false,
+        uttrykk: false,
         verb: false,
       },
     };
