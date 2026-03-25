@@ -47,6 +47,15 @@
         >
           Nytt forslag
         </v-btn>
+        <v-btn
+          v-if="!currentOppslag.definisjon || currentOppslag.definisjon.length === 0"
+          color="primary"
+          variant="outlined"
+          class="mx-1"
+          @click="requestTranslation"
+        >
+          Ønsk ❤️
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -116,7 +125,11 @@
               </div>
             </v-form>
             <div class="mt-6 d-flex justify-end">
-              <v-btn color="primary" @click="updateOppslag" :disabled="!oppslagChanged">
+              <v-btn
+                color="primary"
+                @click="updateOppslag"
+                :disabled="!oppslagChanged"
+              >
                 <v-icon start>mdi-check</v-icon>
                 {{ $t('knapper.oppdater') }}
               </v-btn>
@@ -142,7 +155,10 @@
               <span class="flex-grow-1" style="font-size: 1.05rem">{{
                 def.definisjon
               }}</span>
-              <div class="d-flex align-center flex-shrink-0 ml-2" style="gap: 4px">
+              <div
+                class="d-flex align-center flex-shrink-0 ml-2"
+                style="gap: 4px"
+              >
                 <v-tooltip :text="$t('knapper.endre')" location="top">
                   <template v-slot:activator="{ props }">
                     <v-btn
@@ -176,11 +192,19 @@
               </div>
             </div>
             <div class="mt-6 d-flex justify-space-between">
-              <v-btn color="primary" variant="outlined" @click="openReorderDialog">
+              <v-btn
+                color="primary"
+                variant="outlined"
+                @click="openReorderDialog"
+              >
                 <v-icon start>mdi-sort</v-icon>
                 Rekkefølge
               </v-btn>
-              <v-btn color="primary" variant="outlined" @click="addDefDialog = true">
+              <v-btn
+                color="primary"
+                variant="outlined"
+                @click="addDefDialog = true"
+              >
                 <v-icon start>mdi-plus</v-icon>
                 Definisjon
               </v-btn>
@@ -285,8 +309,12 @@
             @dragend="onDragEnd"
             :class="{ 'reorder-dragging': dragIndex === index }"
           >
-            <v-icon class="mr-3 text-medium-emphasis" style="cursor: grab">mdi-drag</v-icon>
-            <span class="text-medium-emphasis font-weight-bold mr-3">{{ index + 1 }}.</span>
+            <v-icon class="mr-3 text-medium-emphasis" style="cursor: grab"
+              >mdi-drag</v-icon
+            >
+            <span class="text-medium-emphasis font-weight-bold mr-3"
+              >{{ index + 1 }}.</span
+            >
             <span class="flex-grow-1">{{ def.definisjon }}</span>
           </div>
         </v-card-text>
@@ -366,11 +394,13 @@ export default defineComponent({
           if (this.currentOppslag.uttale.length == 0) {
             this.addUttale();
           }
-          this.originalOppslag = JSON.parse(JSON.stringify({
-            is_hidden: this.currentOppslag.is_hidden,
-            ledd: this.currentOppslag.ledd,
-            uttale: this.currentOppslag.uttale,
-          }));
+          this.originalOppslag = JSON.parse(
+            JSON.stringify({
+              is_hidden: this.currentOppslag.is_hidden,
+              ledd: this.currentOppslag.ledd,
+              uttale: this.currentOppslag.uttale,
+            })
+          );
         })
         .catch(e => {
           console.log(e);
@@ -502,11 +532,28 @@ export default defineComponent({
         });
     },
 
+    requestTranslation() {
+      JishoDataService.requestTranslation({
+        request: this.currentOppslag.oppslag,
+      })
+        .then(response => {
+          this.$store.dispatch('show_snackbar', {
+            message: response.data,
+            color: 'success',
+          });
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
+            message: error.response.data,
+            color: 'error',
+          });
+        });
+    },
+
     confirmAddDef() {
       JishoDataService.addDefinisjon(this.currentOppslag.lemma_id, {
         definisjon: this.newDefText,
-        prioritet:
-          (this.currentOppslag.definisjon?.length ?? 0) + 1,
+        prioritet: (this.currentOppslag.definisjon?.length ?? 0) + 1,
       })
         .then(response => {
           this.$store.dispatch('show_snackbar', {
@@ -538,7 +585,9 @@ export default defineComponent({
   background: #fff;
   cursor: grab;
   user-select: none;
-  transition: background-color 0.1s, opacity 0.1s;
+  transition:
+    background-color 0.1s,
+    opacity 0.1s;
 }
 .reorder-item:hover {
   background-color: rgba(0, 0, 0, 0.04);

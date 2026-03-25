@@ -186,6 +186,9 @@ class JishoDataService {
   addDefinisjon(lemma_id, data) {
     return api.post(`/oppslag/${lemma_id}/definisjon`, data);
   }
+  requestTranslation(data) {
+    return api.post(`/request-translation/`, data);
+  }
 }
 
 export default new JishoDataService();

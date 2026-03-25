@@ -140,6 +140,16 @@
                     :to="'/oppslag/' + currentOppslag.lemma_id"
                     >{{ $t('knapper.foreslå') }}</v-btn
                   >
+                  <v-btn
+                    v-if="!currentOppslag.definisjon || currentOppslag.definisjon.length === 0"
+                    class="ml-2"
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    @click="requestTranslation"
+                  >
+                    Ønsk ❤️
+                  </v-btn>
                 </v-card-actions>
               </div>
             </v-expansion-panel-text>
@@ -442,6 +452,23 @@ export default defineComponent({
       this.currentOppslag = null;
       this.showExpansion = false;
       this.syncUrl();
+    },
+    requestTranslation() {
+      JishoDataService.requestTranslation({
+        request: this.currentOppslag.oppslag,
+      })
+        .then(response => {
+          this.$store.dispatch('show_snackbar', {
+            message: response.data,
+            color: 'success',
+          });
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
+            message: error.response.data,
+            color: 'error',
+          });
+        });
     },
     openBoyningsDialog() {
       if (
