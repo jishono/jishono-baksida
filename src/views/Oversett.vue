@@ -55,6 +55,16 @@
                       >
                         <v-icon color="red" size="small"> mdi-pencil </v-icon>
                       </router-link>
+                      <v-icon
+                        v-if="$store.getters.isAdmin"
+                        color="pink"
+                        size="small"
+                        class="ml-1"
+                        style="cursor: pointer"
+                        @click="requestTranslation(item)"
+                      >
+                        mdi-heart
+                      </v-icon>
                     </td>
                   </tr>
                 </tbody>
@@ -137,6 +147,21 @@ export default defineComponent({
         })
         .catch(error => {
           console.log(error);
+          this.$store.dispatch('show_snackbar', {
+            message: error.response.data,
+            color: 'error',
+          });
+        });
+    },
+    requestTranslation(item) {
+      JishoDataService.requestTranslation({ request: item.oppslag })
+        .then(response => {
+          this.$store.dispatch('show_snackbar', {
+            message: response.data,
+            color: 'success',
+          });
+        })
+        .catch(error => {
           this.$store.dispatch('show_snackbar', {
             message: error.response.data,
             color: 'error',

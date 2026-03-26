@@ -80,7 +80,24 @@
               </div>
               <div v-else class="d-flex justify-space-between w-100">
                 <span class="font-weight-bold">{{ oppslag.oppslag }}</span>
-                <span>{{ ordklasseNavn(oppslag.boy_tabell) }}</span>
+                <span class="d-flex align-center gap-1">
+                  <span>{{ ordklasseNavn(oppslag.boy_tabell) }}</span>
+                  <template v-if="$store.getters.isAdmin">
+                    <router-link :to="'/oppslag/' + oppslag.lemma_id" class="ml-2" @click.stop>
+                      <v-icon color="green-lighten-1" size="small">mdi-translate</v-icon>
+                    </router-link>
+                    <router-link :to="'/endre/' + oppslag.lemma_id" class="ml-1" @click.stop>
+                      <v-icon color="red" size="small">mdi-pencil</v-icon>
+                    </router-link>
+                    <v-icon
+                      color="pink"
+                      size="small"
+                      class="ml-1"
+                      style="cursor: pointer"
+                      @click.stop="requestTranslationFor(oppslag)"
+                    >mdi-heart</v-icon>
+                  </template>
+                </span>
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text v-if="currentOppslag">
@@ -452,6 +469,21 @@ export default defineComponent({
       this.currentOppslag = null;
       this.showExpansion = false;
       this.syncUrl();
+    },
+    requestTranslationFor(oppslag) {
+      JishoDataService.requestTranslation({ request: oppslag.oppslag })
+        .then(response => {
+          this.$store.dispatch('show_snackbar', {
+            message: response.data,
+            color: 'success',
+          });
+        })
+        .catch(error => {
+          this.$store.dispatch('show_snackbar', {
+            message: error.response.data,
+            color: 'error',
+          });
+        });
     },
     requestTranslation() {
       JishoDataService.requestTranslation({
